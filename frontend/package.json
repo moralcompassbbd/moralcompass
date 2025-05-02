@@ -1,0 +1,13 @@
+{
+  "name": "moral-compass-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
