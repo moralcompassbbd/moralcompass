@@ -1,7 +1,6 @@
+const root = document.getElementById('app-root');
 
-const rootElement = document.getElementById('app-root');
-
-if (!rootElement)
+if (!root)
     throw new Error('no root element');
 
 const pageTemplateElements = document.querySelectorAll('.page-template');
@@ -12,8 +11,9 @@ pageTemplateElements.forEach(page => {
     pageTemplates.set(page.id, page.innerHTML);
 });
 
-const navigatePage = (page: string) => {
-    rootElement.innerHTML = pageTemplates.get(`page-${page}`) || '404 Page Not Found';
+const navigatePage = (page: string, context?: object) => {
+    const content = pageTemplates.get(`page-${page}`) || '404 Page Not Found';
+    root.innerHTML = content;
 };
 
 navigatePage('main');
