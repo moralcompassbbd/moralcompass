@@ -8,7 +8,6 @@ const logger = pino();
 const app = express();
 const port = process.env.PORT || 3000;
 
-
 app.get('/', async (_, res) => {
     res.send(renderIndex({}));
 });

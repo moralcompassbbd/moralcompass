@@ -1,10 +1,10 @@
 {
-  "name": "moral-compass-backend",
+  "name": "moral-compass-server",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts | npx pino-pretty"
+    "dev": "nodemon src/app.ts | pino-pretty"
   },
   "author": "",
   "license": "ISC",
