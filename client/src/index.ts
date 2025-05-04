@@ -11,7 +11,8 @@ pageTemplateElements.forEach(page => {
     pageTemplates.set(page.id, page.innerHTML);
 });
 
-const navigatePage = (page: string, context?: object) => {
+const navigatePage = (page: string, pageProps?: object) => {
+    globalThis.pageProps = pageProps;
     const content = pageTemplates.get(`page-${page}`) || '404 Page Not Found';
     root.innerHTML = content;
 };
