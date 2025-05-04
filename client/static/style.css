@@ -19,4 +19,43 @@ main {
     flex: 1;
     justify-content: center;
     align-items: center;
+    background-color: #99D292;
+}
+
+main > section {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+.google-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 1rem;
+    justify-content: center;
+}
+  
+.google-btn img {
+    height: 20px;
+    width: 20px;
+}
+  
+.google-btn:hover {
+    background-color: #f1f1f1;
 }
