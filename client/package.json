@@ -2,7 +2,7 @@
   "name": "moral-compass-client",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc"
+    "build": "webpack -c webpack.config.ts"
   },
   "author": "",
   "license": "ISC",
