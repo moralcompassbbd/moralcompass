@@ -1,4 +1,5 @@
 import { ApiError } from "../error";
+import { logger } from "../logger";
 import pool from "./pool";
 import { User } from 'common/models';
 
@@ -14,7 +15,8 @@ export default {
                 email: row.email,
                 name: row.name,
             };
-        } catch {
+        } catch (error) {
+            logger.error(error);
             throw new ApiError();
         }
     },

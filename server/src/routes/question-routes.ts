@@ -19,7 +19,7 @@ export function registerQuestionRoutes(app: Express) {
             
             if (!Number.isInteger(questionId)) {
                 throw new ApiError({
-                    errorCode: 'invalid_parameter',
+                    errorCode: 'invalid_route_parameter',
                     detail: 'Question ID is not an integer.',
                     data: undefined,
                 });

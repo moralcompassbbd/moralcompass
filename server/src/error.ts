@@ -32,9 +32,11 @@ export function mapError(error: unknown): [ApiErrorResponse, number] {
 
 export function mapApiError(error: ApiErrorResponse): [ApiErrorResponse, number] {
     switch (error.errorCode) {
-        case 'invalid_parameter':
+        case 'invalid_route_parameter':
         case 'not_found':
             return [error, 404];
+        case 'invalid_body':
+            return [error, 400];
         default:
             return [error, 500];
     }

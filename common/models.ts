@@ -1,5 +1,5 @@
 
-export type ApiErrorCode = 'unknown_server_error' | 'invalid_parameter' | 'not_found';
+export type ApiErrorCode = 'unknown_server_error' | 'invalid_route_parameter' | 'not_found' | 'invalid_body';
 
 export type ApiErrorType<C extends ApiErrorCode, T = undefined> = {
     errorCode: C,
@@ -9,8 +9,9 @@ export type ApiErrorType<C extends ApiErrorCode, T = undefined> = {
 
 export type ApiErrorResponse =
     ApiErrorType<'unknown_server_error'> |
-    ApiErrorType<'invalid_parameter'> | 
-    ApiErrorType<'not_found'>;
+    ApiErrorType<'invalid_route_parameter'> |
+    ApiErrorType<'not_found'> |
+    ApiErrorType<'invalid_body'>;
 
 export type User = {
     userId: number,

@@ -1,4 +1,5 @@
 import { ApiError } from "../error";
+import { logger } from "../logger";
 import choiceRepository from "./choice-repository";
 import pool from "./pool";
 import { Question } from 'common/models';
@@ -8,7 +9,8 @@ export default {
         let result;
         try {
             result = await pool.query('SELECT question_id, question_text FROM questions');
-        } catch {
+        } catch (error) {
+            logger.error(error);
             throw new ApiError();
         }
         
@@ -30,7 +32,8 @@ export default {
         let result;
         try {
             result = await pool.query('SELECT question_id, question_text FROM questions WHERE question_id = $1', [question_id]);
-        } catch {
+        } catch (error) {
+            logger.error(error);
             throw new ApiError();
         }
 
