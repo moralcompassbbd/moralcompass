@@ -14,4 +14,20 @@
     <template class="page-template" id="page-quiz">{{> quiz }}</template>
     <div id="app-root" style="display: contents"></div>
 </body>
+<script>
+  function handleCredentialResponse(response) {
+    fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: response.credential })
+    })
+    .then(res => res.json())
+    .then((data) => {
+        alert(`Hello ${data.user.name}`);
+        localStorage.setItem("user", data.user);
+        localStorage.setItem("jwt", data.jwt);
+    })
+    .catch(error => alert(error));
+  }
+</script>
 </html>

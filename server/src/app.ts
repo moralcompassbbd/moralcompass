@@ -7,6 +7,9 @@ const logger = pino();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const CLIENT_ID = process.env.CLIENT_ID || "534038687097-4ueh2o1b0d87ad38fpkgn3hi8mjeboga.apps.googleusercontent.com";
+
+app.use(express.json());
 
 app.get('/', async (_, res) => {
     res.send(renderIndex({}));
@@ -18,10 +21,10 @@ app.post('/auth/login', async (req, res) => {
         const response = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`);
         const data = await response.json();
     
-        if (data.aud !== process.env.CLIENT_ID || "") {
+        if (data.aud !== CLIENT_ID) {
             res.status(401).send({ error: 'Token audience mismatch' });
         } else{
-            res.status(200).send({ user: data });
+            res.status(200).send({ jwt: token, user: data });
         }
     } catch(error){
         res.status(500).send({ error });
