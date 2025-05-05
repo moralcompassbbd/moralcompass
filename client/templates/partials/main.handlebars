@@ -8,13 +8,43 @@
       personal values.
     </p>
     <p>Please sign in to continue.</p>
+    <p class="error"></p>
 
     <form id="google-signin-form">
-      <button class="google-btn">
-        <img src="/static/google-logo.svg" alt="" aria-hidden="true" />
-        Sign in with Google
+      <aside id="g_id_onload"
+          data-client_id="{{googleClientId}}"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false">
+      </aside>
+
+      <button class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left">
       </button>
     </form>
   </section>
   
+  <script>
+    function handleCredentialResponse(response) {
+      fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: response.credential })
+      })
+      .then(res => res.json())
+      .then((data) => {
+        if (data.status === 'ok') {
+          localStorage.setItem("jwt", jwt);
+        } else {
+          alert("Authentication failed");
+        }
+      });
+    }
+  </script>
 </main>
