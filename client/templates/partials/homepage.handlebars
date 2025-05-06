@@ -1,16 +1,6 @@
-<script>
-    const btn = document.getElementById('homepage-begin-quiz-btn');
-    if (btn) {
-        btn.addEventListener('click', () => {
-            console.log('Begin quiz clicked!');
-            navigatePage('quiz');
-        });
-    }
-</script>
-
 <main>
-    <section id="homepage">
+    <article id="homepage">
         <h1>Home Page</h1>
-        <button id="homepage-begin-quiz-btn" >Begin Quiz!</button>
-    </section>
+        <button id="homepage-begin-quiz-btn" onclick="beginQuiz()">Begin Quiz!</button>
+    </article>
 </main>

@@ -6,8 +6,11 @@ body {
     display: flex;
     margin: 0;
     min-height: 100%;
-    background-color: #eeeef5;
     font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --colour-muted-white: #eeeef5;
+    --colour-primary: #19476d;
+    --colour-secondary: #3a6d94;
+    background-color: var(--colour-secondary);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,23 +22,26 @@ main {
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: #99D292;
 }
 
-main > section {
+main > article {
     background: white;
     padding: 2rem 3rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
+    max-width: 32rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-  
+
+img {
+    width: 100%;
+}
+
 .google-btn {
     display: flex;
     align-items: center;
