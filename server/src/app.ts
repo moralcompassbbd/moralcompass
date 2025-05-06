@@ -15,11 +15,30 @@ app.get('/', async (_, res) => {
     res.send(renderIndex({}));
 });
 
+interface GoogleUser{
+    iss: string,
+    azp: string,
+    aud: string,
+    sub: string,
+    email: string,
+    email_verified: string,
+    nbf: string,
+    name: string,
+    picture: string,
+    given_name: string,
+    iat: string,
+    exp: string,
+    jti: string,
+    alg: string,
+    kid: string,
+    typ: string
+}
+
 app.post('/auth/login', async (req, res) => {
     try{
         const token = req.body.token;
         const response = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`);
-        const data = await response.json();
+        const data: GoogleUser = await response.json();
     
         if (data.aud !== CLIENT_ID) {
             res.status(401).send({ error: 'Token audience mismatch' });
