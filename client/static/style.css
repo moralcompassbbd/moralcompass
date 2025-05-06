@@ -93,7 +93,7 @@ img {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.2s ease;
-    margin-top: 1rem;
+    margin-top: 0.1rem;
     justify-content: center;
 }
   
