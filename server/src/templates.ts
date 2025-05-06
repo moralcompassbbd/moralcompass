@@ -1,8 +1,6 @@
 import Handlebars from 'handlebars';
 import fs from 'node:fs';
-import pino from 'pino';
-
-const logger = pino();
+import { logger } from './logger';
 
 const TEMPLATE_DIR = '../client/templates';
 const PARTIAL_DIR = `${TEMPLATE_DIR}/partials`;

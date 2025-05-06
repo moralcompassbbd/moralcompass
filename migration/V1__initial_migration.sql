@@ -29,9 +29,10 @@ CREATE TABLE choices (
 );
 
 CREATE TABLE answers (
+    answer_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id),
     choice_id INT NOT NULL REFERENCES choices(choice_id),
-    PRIMARY KEY (user_id, choice_id)
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 INSERT INTO roles (role_name) VALUES ('question_manager');
