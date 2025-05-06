@@ -4,3 +4,5 @@ function clickGoogleButton(event: MouseEvent) {
     console.log('Form submitted!');
     navigatePage('homepage');
 }
+
+globalThis.clickGoogleButton = clickGoogleButton;

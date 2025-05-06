@@ -19,7 +19,9 @@ registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
 app.use('/static', express.static('../client/static'));
-app.use('/dist', express.static('../client/dist'));
+app.use('/dist', express.static('../client/dist', {
+    extensions: ['js']
+}));
 
 // 404
 app.all('*route', (_req, res) => {
