@@ -56,7 +56,8 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3rem;
+        flex-direction: column;
+        gap: 0.5rem;
 
         > section {
             display: flex;
@@ -67,9 +68,15 @@ main {
     }
 }
 
+
+.main-page img {
+    max-width: 25rem;
+}
+
+
 @media screen and (max-width: 46rem) {
     .main-page img {
-        max-width: 16rem;
+        max-width: 10rem;
     }
 
     .main-page article {
