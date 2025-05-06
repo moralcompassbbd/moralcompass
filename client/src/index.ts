@@ -15,42 +15,21 @@ const navigatePage = (page: string, pageProps?: object) => {
     globalThis.pageProps = pageProps;
     const content = pageTemplates.get(`page-${page}`) || '404 Page Not Found';
     root.innerHTML = content;
-    bindPageEvents(page); 
+
+    // run scripts on page change
+    document.querySelectorAll('#app-root script').forEach(async script => {
+        if (script instanceof HTMLScriptElement) {
+            if (script.src) {
+                try {
+                    const response = await fetch(script.src);
+                    const text = await response.text();
+                    eval(text);
+                } catch {}
+            } else {
+                eval(script.innerText);
+            }
+        }
+    });
 };
 
-const bindPageEvents = (page: string) => {
-    if (page === 'main') {
-        const form = document.getElementById('google-signin-form');
-        if (form) {
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                console.log('Form submitted!');
-                navigatePage('homepage');
-            });
-        }
-    }
-
-    if (page === 'homepage') {
-        const btn = document.getElementById('homepage-begin-quiz-btn');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                console.log('Begin quiz clicked!');
-                navigatePage('quiz');
-            });
-        }
-    }
-
-    if (page === 'quiz') {
-        const quitBtn = document.getElementById('quiz-quit-btn');
-        if (quitBtn) {
-            quitBtn.addEventListener('click', () => {
-                console.log('Quit quiz clicked!');
-                navigatePage('homepage');
-            });
-        }
-    }
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    navigatePage('main');
-});
+navigatePage('main');

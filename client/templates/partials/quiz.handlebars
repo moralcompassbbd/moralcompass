@@ -1,7 +1,15 @@
+<script>
+    const quitBtn = document.getElementById('quiz-quit-btn');
+    if (quitBtn) {
+        quitBtn.addEventListener('click', () => {
+            console.log('Quit quiz clicked!');
+            navigatePage('homepage');
+        });
+    }
+</script>
+
 <main>
-
-  <section>
-    <button id="quiz-quit-btn">Quit</button>
-  </section>
-
+    <section>
+        <button id="quiz-quit-btn">Quit</button>
+    </section>
 </main>

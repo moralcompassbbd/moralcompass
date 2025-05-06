@@ -1,20 +1,28 @@
+<script>
+    const form = document.getElementById('google-signin-form');
+    if (form) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            console.log('Form submitted!');
+            navigatePage('homepage');
+        });
+    }
+</script>
+
 <main>
-
-  <section aria-labelledby="sign-in-heading">
-    <h1 id="sign-in-heading">🧭 Welcome to Moral Compass</h1>
-    <p>
-      Moral Compass is a web app that challenges users to make ethical decisions
-      through interactive morality quizzes, encouraging reflection on their
-      personal values.
-    </p>
-    <p>Please sign in to continue.</p>
-
-    <form id="google-signin-form">
-      <button class="google-btn">
-        <img src="/static/google-logo.svg" alt="" aria-hidden="true" />
-        Sign in with Google
-      </button>
-    </form>
-  </section>
-  
+    <section aria-labelledby="sign-in-heading">
+        <h1 id="sign-in-heading">🧭 Welcome to Moral Compass</h1>
+        <p>
+            Moral Compass is a web app that challenges users to make ethical decisions
+            through interactive morality quizzes, encouraging reflection on their
+            personal values.
+        </p>
+        <p>Please sign in to continue.</p>
+        <form id="google-signin-form">
+            <button class="google-btn">
+                <img src="/static/google-logo.svg" alt="" aria-hidden="true"/>
+                Sign in with Google
+            </button>
+        </form>
+    </section>
 </main>
