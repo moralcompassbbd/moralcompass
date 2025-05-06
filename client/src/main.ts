@@ -1,6 +1,5 @@
 
-function clickGoogleButton(event: MouseEvent) {
-    event.preventDefault();
+function clickGoogleButton() {
     console.log('Form submitted!');
     navigatePage('homepage');
 }
