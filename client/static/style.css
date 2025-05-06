@@ -98,8 +98,8 @@ img {
 }
   
 .google-btn img {
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
 }
   
 .google-btn:hover {
