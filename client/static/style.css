@@ -203,7 +203,7 @@ progress[value]::-webkit-progress-value {
     justify-content: center;
     align-items: center;
 }
-  
+  /* TODO: MAKE RESPONSIVE */
 .list {
     flex: 0 0 35rem;
     list-style: none;
@@ -214,40 +214,40 @@ progress[value]::-webkit-progress-value {
 }
   
 
-  .list__item:hover > .label {
+.list__item:hover > .label {
     color: var(--colour-primary);
-  }
+}
   
-  .list__item:hover > .label::before {
+.list__item:hover > .label::before {
     border: 0.5rem solid var(--colour-primary);
     margin-right: 2rem;
-  }
-  
-  .radio-btn {
+}
+
+.radio-btn {
     opacity: 0;
     visibility: hidden;
-  }
-  
-  .radio-btn:checked + .label {
+}
+
+.radio-btn:checked + .label {
     color: var(--colour-primary);
-  }
-  
-  .radio-btn:checked + .label::before {
+}
+
+.radio-btn:checked + .label::before {
     margin-right: 2rem;
     border: 0.5rem solid var(--colour-primary);
     background: var(--colour-primary);
-  }
-  
-  .label {
+}
+
+.label {
     display: flex;
     align-items: center;
     padding: 0.75rem 0;
     font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.25s linear;
-  }
-  
-  .label::before {
+}
+
+.label::before {
     display: inline-block;
     content: "";
     height: 1.125rem;
@@ -256,5 +256,5 @@ progress[value]::-webkit-progress-value {
     border: 0.5rem solid var(--colour-primary);
     border-radius: 50%;
     transition: all 0.25s linear;
-  }
+}
 
