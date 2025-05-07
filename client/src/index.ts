@@ -28,7 +28,7 @@ declare global {
 globalThis.SPA = spaClient;
 
 window.onerror = (message, source, lineno, colno, error) => {
-    console.error(`${source}:${lineno}:${colno} - uncaught error: ${message}`, error);
+    console.error(`${source}.js:${lineno}:${colno} - uncaught error: ${message}`, error);
     spaClient.navigatePage('error');
     return true;
 };
