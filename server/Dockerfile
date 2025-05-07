@@ -2,9 +2,11 @@ FROM node:20
 
 WORKDIR /app
 
-COPY ../common ./common
-COPY ../client ./client
-COPY . .
+COPY common ./common
+COPY client ./client
+COPY server ./server
+
+WORKDIR /app/server
 
 RUN npm install
 RUN npm run build
