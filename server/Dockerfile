@@ -1,0 +1,14 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY ../common ./common
+COPY ../client ./client
+COPY . .
+
+RUN npm install
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]

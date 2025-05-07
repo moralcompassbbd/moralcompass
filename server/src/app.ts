@@ -16,6 +16,10 @@ app.get('/', async (_, res) => {
     res.send(renderIndex({}));
 });
 
+app.get('/health', (_, res) => {
+    res.status(200).send('OK');
+});
+
 registerAuthRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
