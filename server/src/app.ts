@@ -5,6 +5,7 @@ import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
 import { logger } from './logger';
+import { registerAuthRoutes } from './routes/auth-route';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.get('/', async (_, res) => {
     res.send(renderIndex({}));
 });
 
+registerAuthRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 

@@ -6,6 +6,7 @@
     <title>Moral Compass</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="/dist/index.js" defer type="module"></script>
+    <script src="https://accounts.google.com/gsi/client" defer async></script>
 </head>
 <body>
     <template class="page-template" data-page="main">{{> main }}</template>
@@ -14,4 +15,20 @@
     <template class="page-template" data-page="error">{{> error }}</template>
     <div id="app-root" style="display: contents"></div>
 </body>
+<script>
+  function handleCredentialResponse(response) {
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: response.credential })
+    })
+    .then(res => res.json())
+    .then((data) => {
+        alert(`Hello ${data.user.name}`);
+        localStorage.setItem("user", data.user);
+        localStorage.setItem("jwt", data.jwt);
+    })
+    .catch(error => alert(error));
+  }
+</script>
 </html>

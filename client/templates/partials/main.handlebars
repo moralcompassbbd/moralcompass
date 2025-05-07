@@ -9,7 +9,16 @@
                 personal values.
             </p>
             <p>Please sign in to continue.</p>
-            <button class="google-btn" onclick="SPA.handlers.clickGoogleButton()">
+
+            <aside id="g_id_onload"
+                data-client_id="534038687097-4ueh2o1b0d87ad38fpkgn3hi8mjeboga.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-callback="handleCredentialResponse"
+                data-auto_prompt="false">
+            </aside>
+
+            <button class="google-btn g_id_signin">
                 <img src="/static/google-logo.svg" alt="" aria-hidden="true"/>
                 Sign in with Google
             </button>
