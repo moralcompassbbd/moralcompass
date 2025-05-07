@@ -1,5 +1,5 @@
 
-function beginQuiz() {
+export function beginQuiz() {
     console.log('Begin quiz clicked!');
-    navigatePage('quiz');
+    SPA.navigatePage('quiz');
 }

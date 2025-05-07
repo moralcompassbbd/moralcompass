@@ -19,7 +19,19 @@ registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
 app.use('/static', express.static('../client/static'));
-app.use('/dist', express.static('../client/dist'));
+app.use('/dist', express.static('../client/dist', {
+    extensions: ['js']
+}));
+
+// 404
+app.all('*route', (_req, res) => {
+    const error: ApiErrorResponse = {
+        errorCode: 'not_found',
+        detail: 'Resource not found.',
+        data: undefined,
+    };
+    res.status(404).json(error);
+})
 
 // 404
 app.all('*route', (_req, res) => {

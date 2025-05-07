@@ -1,5 +1,5 @@
 
-function clickGoogleButton() {
+export function clickGoogleButton() {
     console.log('Form submitted!');
-    navigatePage('homepage');
+    SPA.navigatePage('homepage');
 }

@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moral Compass</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/dist/index.js" defer></script>
-    <script src="/dist/main.js" defer></script>
-    <script src="/dist/homepage.js" defer></script>
+    <script src="/dist/index.js" defer type="module"></script>
 </head>
 <body>
-    <template class="page-template" id="page-main">{{> main }}</template>
-    <template class="page-template" id="page-homepage">{{> homepage }}</template>
-    <template class="page-template" id="page-quiz">{{> quiz }}</template>
+    <template class="page-template" data-page="main">{{> main }}</template>
+    <template class="page-template" data-page="homepage">{{> homepage }}</template>
+    <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()">{{> quiz }}</template>
+    <template class="page-template" data-page="error">{{> error }}</template>
     <div id="app-root" style="display: contents"></div>
 </body>
 </html>
