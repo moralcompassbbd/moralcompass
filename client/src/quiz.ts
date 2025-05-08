@@ -53,7 +53,7 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
                 renderQuestionContainer(questions, choiceModel.choices, currentQuestionIndex, userAnswers);
                 
             } else {
-                SPA.navigatePage("homepage");
+                SPA.navigatePage("results");
                 console.log("Quiz completed!");
             }
             },

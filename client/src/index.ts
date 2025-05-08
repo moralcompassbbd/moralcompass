@@ -2,6 +2,7 @@ import { SpaClient } from './spa-client';
 import { beginQuiz } from './homepage';
 import { clickGoogleButton } from './main';
 import { initQuiz } from './quiz';
+import { initResults } from './results';
 
 const rootElement = document.getElementById('app-root');
 if (!rootElement)
@@ -13,12 +14,14 @@ type Handlers = {
     beginQuiz: () => void,
     clickGoogleButton: () => void,
     initQuiz: () => void,
+    initResults: () => void
 };
 
 const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateElements, {
     beginQuiz: beginQuiz,
     clickGoogleButton: clickGoogleButton,
     initQuiz: initQuiz,
+    initResults: initResults
 }, 'main');
 
 declare global {

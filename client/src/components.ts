@@ -34,3 +34,29 @@ export function createQuestionContainer(
     article.appendChild(questionTextElement);
     return article;
 }
+
+
+export function createDetail({
+  summaryText = '',
+  content = '',
+  open = false,
+  className = ''
+} = {}) {
+  const details = document.createElement('details');
+  if (open) details.setAttribute('open', '');
+  if (className) details.className = className;
+
+  const summary = document.createElement('summary');
+  summary.textContent = summaryText;
+  details.appendChild(summary);
+
+  const paragraph = document.createElement('p');
+  paragraph.innerHTML = content
+    .split('\n')
+    .map(line => line.trim() ? line : '&nbsp;') // preserve empty lines
+    .map(line => `${line}<br>`)
+    .join('');
+  details.appendChild(paragraph);
+
+  return details;
+}

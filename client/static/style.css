@@ -42,7 +42,6 @@ h3 {
 
 h4, h5, h6 {
     font-size: 1.2rem;
-    font-weight: 600;
     text-transform: uppercase;
     color: #FFF;
 }
@@ -156,7 +155,14 @@ main {
 .controls-wrapper {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
+    width: 100%; 
+}
+  
+.controls-wrapper h1 {
+    margin: 0;
+    white-space: nowrap;
+    flex-grow: 1;
 }
   
 #quiz-progress {
@@ -265,10 +271,27 @@ progress[value]::-webkit-progress-value {
     gap: 0.5rem;
 }
 
+.quizpage_main img {
+    max-width: 10rem;
+}
+
 .mainpage_heading {
     font-size: 2rem;
     font-weight: 600;
     text-transform: uppercase;
+}
+
+.resultspage_heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#results-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 0.2rem; 
+      
 }
 
 @media screen and (max-width: 46rem) {
@@ -293,4 +316,48 @@ progress[value]::-webkit-progress-value {
         padding: 0.25rem 0.75rem;
     }
 }
+
+
+details {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 1rem auto;
+    background-color: #fafafa;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-family: system-ui, sans-serif;
+    transition: background-color 0.3s ease;
+  }
+  
+  details[open] {
+    background-color: #fff;
+  }
+  
+  summary {
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    position: relative;
+  }
+  
+  summary::marker {
+    display: none;
+  }
+  
+  summary::before {
+    content: '▸';
+    display: inline-block;
+    color: rebeccapurple;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+  
+  details[open] summary::before {
+    transform: rotate(90deg);
+  }
 
