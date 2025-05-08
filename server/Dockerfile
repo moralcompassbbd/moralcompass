@@ -6,10 +6,11 @@ COPY common ./common
 COPY client ./client
 COPY server ./server
 
-WORKDIR /app/server
+WORKDIR /app/client
+RUN npm install && npm run build
 
-RUN npm install
-RUN npm run build
+WORKDIR /app/server
+RUN npm install && npm run build
 
 EXPOSE 3000
 

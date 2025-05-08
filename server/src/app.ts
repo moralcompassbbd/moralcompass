@@ -23,20 +23,10 @@ app.get('/health', (_, res) => {
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-app.use('/static', express.static(path.join(__dirname, '../client/static')));
-app.use('/dist', express.static(path.join(__dirname, '../client/dist'), {
+app.use('/static', express.static(path.resolve(__dirname, '../../client/static')));
+app.use('/dist', express.static(path.resolve(__dirname, '../../client/dist'), {
     extensions: ['js']
 }));
-
-// 404
-app.all('*route', (_req, res) => {
-    const error: ApiErrorResponse = {
-        errorCode: 'not_found',
-        detail: 'Resource not found.',
-        data: undefined,
-    };
-    res.status(404).json(error);
-})
 
 // 404
 app.all('*route', (_req, res) => {
