@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "moralcompass" {
   container_definitions = jsonencode([
     {
       name      = "moralcompass"
-      image     = "${aws_ecr_repository.moralcompass.repository_url}:latest"
+      image     = "${var.aws_account_id}.dkr.ecr.af-south-1.amazonaws.com/moralcompass:latest"
       essential = true
       portMappings = [
         {
@@ -62,7 +62,7 @@ resource "aws_lb_target_group" "mc_app_alb_target_group" {
 
 resource "aws_lb_listener" "http_listener" {
   load_balancer_arn = aws_lb.mc_app_alb.arn
-  port              = "3000"
+  port              = "80"
   protocol          = "HTTP"
 
   default_action {
@@ -85,6 +85,22 @@ data "aws_iam_policy_document" "ecs_task_assume_role_policy" {
     }
   }
 }
+resource "aws_iam_role" "ecs_task_execution_iam_role" {
+  name = "ecs-task-execution-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
   role       = aws_iam_role.ecs_task_execution_role.name
@@ -101,6 +117,7 @@ resource "aws_ecs_service" "moralcompass" {
   network_configuration {
     subnets         = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
     security_groups = [aws_security_group.server_sg.id]
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -109,5 +126,20 @@ resource "aws_ecs_service" "moralcompass" {
     container_port   = 3000
   }
 
-  depends_on = [aws_iam_role_policy_attachment.ecs_task_execution_role_policy]
+  depends_on = [aws_lb.mc_app_alb]
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_ecr" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.ecs_task_execution_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_s3" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  role       = aws_iam_role.ecs_task_execution_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_ssm" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+  role       = aws_iam_role.ecs_task_execution_role.name
 }

@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
+import path from 'path';
 import { renderIndex } from './templates';
 import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
@@ -22,8 +23,8 @@ app.get('/health', (_, res) => {
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-app.use('/static', express.static('../client/static'));
-app.use('/dist', express.static('../client/dist', {
+app.use('/static', express.static(path.join(__dirname, '../client/static')));
+app.use('/dist', express.static(path.join(__dirname, '../client/dist'), {
     extensions: ['js']
 }));
 
