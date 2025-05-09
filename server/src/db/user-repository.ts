@@ -4,17 +4,34 @@ import pool from "./pool";
 import { User } from 'common/models';
 
 export default {
-    async getOrInsert(googleId: string, name: string, email: string): Promise<User> {
+    async retrieveOrInsertUser(googleId: string, name: string, email: string): Promise<User> {
         try {
-            const result = await pool.query('INSERT INTO users (google_id, user_name, email) VALUES ($1, $2, $3) ON CONDLICT DO UPDATE user_id = user_id RETURNING user_id, google_id, user_name, email', [googleId, name, email]);
-            const row = result.rows[0];
+            const userSelection = await pool.query(`
+                WITH insertedUser AS (
+                    INSERT INTO users (google_id, user_name, email)
+                    VALUES ($1, $2, $3)
+                    ON CONFLICT (google_id) DO NOTHING
+                    RETURNING 
+                        user_id, google_id, user_name, email
+                )
+                SELECT 
+                    user_id AS "userId", 
+                    google_id AS "googleId", 
+                    user_name AS "name", 
+                    email
+                FROM insertedUser
+                UNION
+                SELECT 
+                    user_id AS "userId", 
+                    google_id AS "googleId", 
+                    user_name AS "name", 
+                    email
+                FROM users
+                WHERE google_id = $1
+                LIMIT 1;
+            `, [googleId, name, email]);
 
-            return {
-                userId: row.user_id,
-                googleId: row.google_id,
-                email: row.email,
-                name: row.name,
-            };
+            return userSelection.rows[0];
         } catch (error) {
             logger.error(error);
             throw new ApiError();
