@@ -2,10 +2,9 @@ FROM node:20
 
 WORKDIR /app
 
-COPY common/package*.json ./common/
-COPY client/package*.json ./client/
-COPY server/package*.json ./server/
-
+COPY common/package*.json common/tsconfig.json ./common/
+COPY client/package*.json client/tsconfig.json ./client/
+COPY server/package*.json server/tsconfig.json ./server/
 
 COPY common ./common
 COPY client ./client
