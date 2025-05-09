@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "moralcompass" {
   container_definitions = jsonencode([
     {
       name      = "moralcompass"
-      image     = "${var.aws_account_id}.dkr.ecr.af-south-1.amazonaws.com/moralcompass:latest"
+      image     = "${aws_ecr_repository.moralcompass.repository_url}:latest"
       essential = true
       portMappings = [
         {
@@ -55,7 +55,7 @@ resource "aws_lb_target_group" "mc_app_alb_target_group" {
     port                = "3000"
     protocol            = "HTTP"
     timeout             = 5
-    unhealthy_threshold = 2
+    unhealthy_threshold = 10  
     healthy_threshold   = 2
   }
 }
@@ -113,6 +113,7 @@ resource "aws_ecs_service" "moralcompass" {
   task_definition = aws_ecs_task_definition.moralcompass.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+  health_check_grace_period_seconds = 60
 
   network_configuration {
     subnets         = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
@@ -126,7 +127,7 @@ resource "aws_ecs_service" "moralcompass" {
     container_port   = 3000
   }
 
-  depends_on = [aws_lb.mc_app_alb]
+  depends_on = [aws_lb_listener.http_listener]
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_ecr" {
