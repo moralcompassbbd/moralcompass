@@ -2,13 +2,14 @@
   "name": "moral-compass-client",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc"
+    "build": "vite build"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "common": "file:../common",
     "typescript": "^5.8.3",
-    "common": "file:../common"
+    "vite": "^6.3.5"
   }
 }
