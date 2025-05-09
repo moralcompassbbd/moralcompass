@@ -23,13 +23,6 @@ app.get('/health', (_, res) => {
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-const clientRoot = path.join(__dirname, '../../client');
-app.use('/static', express.static(path.join(clientRoot, 'static')));
-app.use('/dist', express.static(path.join(clientRoot, 'dist'), {
-    extensions: ['js']
-}));
-
-
 const clientDistRoot = path.join(__dirname, 'client');
 app.use('/static', express.static(path.join(clientDistRoot, 'static')));
 app.use('/dist', express.static(path.join(clientDistRoot, 'dist'), {
