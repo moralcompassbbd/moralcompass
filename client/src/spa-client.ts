@@ -1,5 +1,5 @@
 
-type pagePropType = { [key: string]: string } | string;
+type pagePropType = { [key: string]: string };
 
 export class SpaClient<T> {
     currentPage: string;
