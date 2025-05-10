@@ -4,7 +4,9 @@ import { renderIndex } from './templates';
 import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
+import { registerChoiceRoutes } from './routes/choice-routes';
 import { logger } from './logger';
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,22 +22,13 @@ app.get('/health', (_, res) => {
 });
 
 registerQuestionRoutes(app);
+registerChoiceRoutes(app);
 registerAnswerRoutes(app);
 
 app.use('/static', express.static('../client/static'));
 app.use('/dist', express.static('../client/dist', {
     extensions: ['js']
 }));
-
-// 404
-app.all('*route', (_req, res) => {
-    const error: ApiErrorResponse = {
-        errorCode: 'not_found',
-        detail: 'Resource not found.',
-        data: undefined,
-    };
-    res.status(404).json(error);
-})
 
 // 404
 app.all('*route', (_req, res) => {

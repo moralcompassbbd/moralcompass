@@ -32,6 +32,12 @@ export type Choice = {
     text: string,
 };
 
+export type ChoiceGetRequest = {
+    questionId: number,
+    text: string,
+    choices: Choice[]
+};
+
 export type Answer = {
     answerId: number,
     userId: number,
@@ -42,4 +48,13 @@ export type Answer = {
 export type AnswerPostRequest = {
     userId: number,
     choiceId: number,
+};
+
+export type ButtonOptions = {
+    text: string;
+    onClick: (e: MouseEvent) => void;
+    className?: string;
+    backgroundColor?: string;
+    textColor?: string;
+    type?: "button" | "submit" | "reset";
 };
