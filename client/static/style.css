@@ -361,3 +361,17 @@ details {
     transform: rotate(90deg);
   }
 
+
+.text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;     
+}
+
+#g_id_signin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;     
+}

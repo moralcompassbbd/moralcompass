@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { Question, ChoiceGetRequest, Choice } from "common/models";
+import { Question, Choice } from "common/models";
 import { createButton, createQuestionContainer } from "./components";
 
 const renderQuestionContainer = (questions: Question[], choices: Choice[], currentQuestionIndex: number, userAnswers: any) => {
@@ -122,7 +122,7 @@ const renderProgressBar = (progressBar: HTMLProgressElement, currentQuestionInde
 export const initQuiz = async () => {
     let userAnswers = {};
     let questions: Question[] = [];
-    let choiceModel: ChoiceGetRequest;
+    let choiceModel: Question;
     let currentQuestionIndex = 0;
     questions = await api.getQuestions();
     choiceModel = await api.getChoicesByQuestionId(questions[currentQuestionIndex].questionId);
