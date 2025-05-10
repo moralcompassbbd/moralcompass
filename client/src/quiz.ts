@@ -73,7 +73,6 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
     }
 }
 
-
 const renderChoices = (choices: Choice[], userAnswers: any) => {
     const container = document.createElement("div");
     container.className = "container";
