@@ -1,4 +1,3 @@
-import Handlebars from 'handlebars';
 import fs from 'node:fs';
 
 const TEMPLATE_DIR = '../client/templates';
