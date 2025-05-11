@@ -1,8 +1,8 @@
 import { api } from "./api";
-import { Question, ChoiceGetRequest, Choice } from "common/models";
+import { Question, Choice } from "common/models";
 import { createButton, createQuestionContainer } from "./components";
 
-const renderQuestionContainer = (questions: Question[], choices: Choice[], currentQuestionIndex: number, userAnswers: any) => {
+const renderQuestionContainer = (questions: Question[], currentQuestionIndex: number, userAnswers: any) => {
     const questionContainer = document.getElementById("question-container");
     const progressBar = document.getElementById("quiz-progress") as HTMLProgressElement;
 
@@ -14,7 +14,7 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
         const questionElement = createQuestionContainer(questionText);
         
         //render choices
-        const choicesElement = renderChoices(choices, userAnswers);
+        const choicesElement = renderChoices(questions[currentQuestionIndex].choices, userAnswers);
 
         // Previous button
         const prevButton = createButton({
@@ -24,8 +24,8 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 renderProgressBar(progressBar, currentQuestionIndex, questions.length);
-                const choiceModel = await api.getChoicesByQuestionId(questions[currentQuestionIndex].questionId)
-                renderQuestionContainer(questions, choiceModel.choices, currentQuestionIndex, userAnswers);
+                const choices = questions[currentQuestionIndex].choices
+                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
             }
             },
         });
@@ -48,9 +48,8 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
                 
                 currentQuestionIndex++;
                 renderProgressBar(progressBar, currentQuestionIndex, questions.length);
-                const choiceModel = await api.getChoicesByQuestionId(questions[currentQuestionIndex].questionId)
-                
-                renderQuestionContainer(questions, choiceModel.choices, currentQuestionIndex, userAnswers);
+                const choices = questions[currentQuestionIndex].choices
+                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
                 
             } else {
                 SPA.navigatePage("results");
@@ -72,7 +71,6 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
         questionContainer.appendChild(buttonGroup);
     }
 }
-
 
 const renderChoices = (choices: Choice[], userAnswers: any) => {
     const container = document.createElement("div");
@@ -122,13 +120,11 @@ const renderProgressBar = (progressBar: HTMLProgressElement, currentQuestionInde
 export const initQuiz = async () => {
     let userAnswers = {};
     let questions: Question[] = [];
-    let choiceModel: ChoiceGetRequest;
     let currentQuestionIndex = 0;
     questions = await api.getQuestions();
-    choiceModel = await api.getChoicesByQuestionId(questions[currentQuestionIndex].questionId);
 
     // Render the first question
-    renderQuestionContainer(questions, choiceModel.choices, currentQuestionIndex, userAnswers);
+    renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
 }
 
 
