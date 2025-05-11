@@ -1,5 +1,4 @@
 import { ApiError } from "../error";
-import { logger } from "../logger";
 import pool from "./pool";
 import { User } from 'common/models';
 
@@ -33,7 +32,7 @@ export default {
 
             return userSelection.rows[0];
         } catch (error) {
-            logger.error(error);
+            console.error(error);
             throw new ApiError();
         }
     }
