@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="unsafe-none">
+   {{!-- <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp"> --}}
     <title>Moral Compass</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/moral-compass.png" type="image/x-icon">
+    <script src="https://accounts.google.com/gsi/client" defer></script>
     <script src="/dist/index.js" defer type="module"></script>
+
 </head>
 <body>
     <template class="page-template" data-page="main">{{> main }}</template>
-    <template class="page-template" data-page="homepage">{{> homepage }}</template>
+    <template class="page-template" data-page="homepage" data-onmount="SPA.handlers.initHomePage()">{{> homepage }}</template>
     <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()">{{> quiz }}</template>
     <template class="page-template" data-page="results" data-onmount="SPA.handlers.initResults()">{{> results }}</template>
     <template class="page-template" data-page="error">{{> error }}</template>

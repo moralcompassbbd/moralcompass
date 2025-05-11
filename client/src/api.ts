@@ -1,4 +1,4 @@
-import { Choice, ChoiceGetRequest, Question } from "common/models";
+import { Question } from "common/models";
 
 export const api = {
     getQuestions: async () => {
@@ -8,13 +8,5 @@ export const api = {
         } else {
             throw new Error();
         }
-    },
-    getChoicesByQuestionId: async (questionId: number) => {
-        const resp = await fetch(`/questions/${questionId}`);
-        if (resp.ok) {
-            return await resp.json() as ChoiceGetRequest;
-        } else {
-            throw new Error();
-        }
-    },
+    }
 };

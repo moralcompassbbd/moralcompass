@@ -1,9 +1,15 @@
 <main>
     <article id="homepage">
         <section>
-            <h1>Home Page</h1>
-            <button class="btn btn-primary" onclick="SPA.handlers.beginQuiz()">Begin Quiz!</button>
-            <button class="btn btn-primary" onclick="SPA.navigatePage('results')">results shortcut!</button>
+            <header class="navigation-controls">
+            <section class="controls-wrapper">
+                  <h1 id="welcome-heading"></h1>
+                <button class="btn btn-quit" onclick="SPA.navigatePage('main')"> ⚙️ Logout </button>
+            </section>
+            </header>
+            {{> homepage_card}}
+            {{!-- <button class="btn btn-primary" onclick="SPA.handlers.beginQuiz()">Begin Quiz!</button>
+            <button class="btn btn-primary" onclick="SPA.navigatePage('results')">results shortcut!</button> --}}
         </section>
     </article>
 </main>
