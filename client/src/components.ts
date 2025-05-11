@@ -29,7 +29,7 @@ export function createQuestionContainer(
 ): HTMLElement {
     const article = document.createElement("section");
 
-    const questionTextElement = document.createElement("h3");
+    const questionTextElement = document.createElement("h1");
     questionTextElement.textContent = questionText;
     article.appendChild(questionTextElement);
     return article;
