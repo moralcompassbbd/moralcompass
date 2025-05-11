@@ -1,23 +1,43 @@
-import Handlebars from 'handlebars';
 import fs from 'node:fs';
-import { logger } from './logger';
 
 const TEMPLATE_DIR = '../client/templates';
 const PARTIAL_DIR = `${TEMPLATE_DIR}/partials`;
 
+const registeredTemplates: {[key: string]: string} = {};
+
 fs.readdirSync(PARTIAL_DIR).forEach(path => {
-    const TEMPLATE_EXT = '.handlebars';
+    const TEMPLATE_EXT = '.html';
 
     if (!path.endsWith(TEMPLATE_EXT)) return;
     const partialName = path.substring(0, path.length - TEMPLATE_EXT.length);
     
     try {
         const file = fs.readFileSync(`${PARTIAL_DIR}/${path}`).toString();
-        Handlebars.registerPartial(partialName, file);
-        logger.info(`Registered partial '${partialName}'`);
-    } catch (err) {
-        logger.error(`Failed to register partial '${partialName}': ${err}`);
-    }
+        registeredTemplates[partialName] = file;
+    } catch {}
 });
 
-export const renderIndex = Handlebars.compile<{}>(fs.readFileSync(`${TEMPLATE_DIR}/index.handlebars`).toString());
+const indexFile = fs.readFileSync(`${TEMPLATE_DIR}/index.html`).toString();
+
+function applyIncludes(file: string, templates: {[key: string]: string}): string {
+    let out = file;
+
+    const ssrIncludeRegex = /<!--\s+SSR_INCLUDE\s+(\w+)\s+-->/g;
+
+    // cut off includes if more than 32 layers deep, prevents infinite recursion
+    for (let i = 0; i < 32; i++) {
+        const matches = [...out.matchAll(ssrIncludeRegex)];
+        matches.forEach(match => {
+            const includeString = match[0];
+            const templateName = match[1];
+            out = out.replaceAll(includeString, templates[templateName]);
+        });
+
+        if (matches.length == 0)
+            break;
+    }
+
+    return out;
+}
+
+export const indexPage = applyIncludes(indexFile, registeredTemplates);

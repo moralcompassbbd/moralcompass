@@ -1,5 +1,4 @@
 import { ApiError } from "../error";
-import { logger } from "../logger";
 import pool from "./pool";
 import { Choice } from 'common/models';
 
@@ -9,7 +8,7 @@ export default {
         try {
             result = await pool.query('SELECT choice_id, question_id, choice_text FROM choices WHERE question_id = $1', [questionId]);
         } catch (error) {
-            logger.error(error);
+            console.error(error);
             throw new ApiError();
         }
 
