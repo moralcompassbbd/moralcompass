@@ -4,7 +4,6 @@ import { renderIndex } from './templates';
 import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
-import { registerChoiceRoutes } from './routes/choice-routes';
 import { logger } from './logger';
 
 
@@ -22,7 +21,6 @@ app.get('/health', (_, res) => {
 });
 
 registerQuestionRoutes(app);
-registerChoiceRoutes(app);
 registerAnswerRoutes(app);
 
 app.use('/static', express.static('../client/static'));
