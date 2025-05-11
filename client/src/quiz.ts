@@ -2,7 +2,7 @@ import { api } from "./api";
 import { Question, Choice } from "common/models";
 import { createButton, createQuestionContainer } from "./components";
 
-const renderQuestionContainer = (questions: Question[], choices: Choice[], currentQuestionIndex: number, userAnswers: any) => {
+const renderQuestionContainer = (questions: Question[], currentQuestionIndex: number, userAnswers: any) => {
     const questionContainer = document.getElementById("question-container");
     const progressBar = document.getElementById("quiz-progress") as HTMLProgressElement;
 
@@ -25,7 +25,7 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
                 currentQuestionIndex--;
                 renderProgressBar(progressBar, currentQuestionIndex, questions.length);
                 const choices = questions[currentQuestionIndex].choices
-                renderQuestionContainer(questions, choices, currentQuestionIndex, userAnswers);
+                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
             }
             },
         });
@@ -49,7 +49,7 @@ const renderQuestionContainer = (questions: Question[], choices: Choice[], curre
                 currentQuestionIndex++;
                 renderProgressBar(progressBar, currentQuestionIndex, questions.length);
                 const choices = questions[currentQuestionIndex].choices
-                renderQuestionContainer(questions, choices, currentQuestionIndex, userAnswers);
+                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
                 
             } else {
                 SPA.navigatePage("results");
@@ -120,12 +120,11 @@ const renderProgressBar = (progressBar: HTMLProgressElement, currentQuestionInde
 export const initQuiz = async () => {
     let userAnswers = {};
     let questions: Question[] = [];
-    let choices: Choice[];
     let currentQuestionIndex = 0;
     questions = await api.getQuestions();
-    choices = questions[currentQuestionIndex].choices;
+
     // Render the first question
-    renderQuestionContainer(questions, choices, currentQuestionIndex, userAnswers);
+    renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
 }
 
 
