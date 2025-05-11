@@ -22,7 +22,7 @@ const indexFile = fs.readFileSync(`${TEMPLATE_DIR}/index.html`).toString();
 function applyIncludes(file: string, templates: {[key: string]: string}): string {
     let out = file;
 
-    const ssrIncludeRegex = /<!--\s+SSR_INCLUDE\s+(\w+)\s+-->/g;
+    const ssrIncludeRegex = /<!--\s*SSR_INCLUDE\s+(\w+)\s*-->/g;
 
     // cut off includes if more than 32 layers deep, prevents infinite recursion
     for (let i = 0; i < 32; i++) {

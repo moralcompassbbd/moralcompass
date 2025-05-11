@@ -1,9 +1,36 @@
-<main id="homepage">
-    <!-- SSR_INCLUDE site_header -->
-    <article>
-        <section>
-             <h1 id="welcome-heading"></h1>
-             <!-- SSR_INCLUDE homepage_card -->
-        </section>
-    </article>
+<!-- SSR_INCLUDE site_header -->
+<main id="home-page">
+  <article>
+    <section>
+      <h1 id="welcome-heading"></h1>
+      <section class="homepage-card">
+        <p>Choose a path to begin…</p>
+        <nav aria-label="Main menu">
+          <ul class="homepage-card-list">
+            <li class="homepage-card-item" style="background-color: #90cade;">
+                <article class="card-link" onclick="SPA.navigatePage('quiz')">
+                <img src="/static/new-dilemma-gen.png" alt="new-dilemma-img">
+                <h2>🌀 New Dilemma</h2>
+                <p>Face a new moral quiz!</p>
+                </article>
+            </li>
+            <li class="homepage-card-item" style="background-color: #eec9da;">
+                <article class="card-link" onclick="">
+                <img src="/static/user-stats-gen.png" alt="decisions-img">
+                <h2>📊 See Your Decisions</h2>
+                <p>Review past choices and outcomes</p>
+                </article>
+            </li>
+            <li class="homepage-card-item" style="background-color: #a3d7bd;">
+                <article class="card-link" onclick="">
+                <img src="/static/community-gen.png" alt="community-img">
+                <h2>🌍 What Others Chose</h2>
+                <p>Compare with community stats</p>
+                </article>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </section>
+  </article>
 </main>

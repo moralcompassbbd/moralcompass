@@ -1,4 +1,62 @@
-<main id="quiz">
-    <!-- SSR_INCLUDE site_header -->
-    <!-- SSR_INCLUDE quiz_container -->
+<!-- SSR_INCLUDE site_header -->
+<main id="quiz-page">
+    <article class="question">
+        <header>
+            <h1>{{questionText}}</h1>
+        </header>
+        <section>
+            <ul>
+                <template>
+                    <li>
+                        <label id="choice-{{choiceId}}">
+                            <input
+                                type="radio"
+                                name="choice"
+                                value="{{choiceId}}"
+                                checked
+                            />
+                            <div class="agreement"></div>
+                            <h6>
+                                {{choiceText}}
+                                <small>{{choicePopularity}}%</small>
+                            </h6>
+                        </label>
+                    </li>
+                </template>
+                <li>
+                    <label>
+                        <input
+                            type="radio"
+                            name="choice"
+                            value="{{choiceId}}"
+                            checked
+                        />
+                        <div class="agreement"></div>
+                        <h6>
+                            Yes, breaking the law is justified if it leads to good
+                            <small>40%</small>
+                        </h6>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input
+                            type="radio"
+                            name="choice"
+                            value="{{choiceId}}"
+                        />
+                        <div class="agreement"></div>
+                        <h6>
+                            No, laws must be followed regardless of the outcome
+                            <small>40%</small>
+                        </h6>
+                    </label>
+                </li>
+            </ul>
+        </section>
+        <footer>
+            <p>Most respondents agree</p>
+            <button onclick="SPA.navigatePage('quiz')">Next</button>
+        </footer>
+    </article>
 </main>

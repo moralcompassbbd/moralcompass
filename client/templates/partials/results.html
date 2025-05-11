@@ -1,73 +1,77 @@
-<main id="results">
-  <!-- SSR_INCLUDE site_header -->
-  <article class="results-container">
-    <div>
-      <div class="container">
-        <p>Is it okay to break the law if it results in a greater good?</p> 
-        <ul class="list">
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-1"
-              id="choice-101"
-              value="Choice Text 1"
-              checked
-              disabled
-            />
-            <label for="choice-101" class="label">
-              Yes, breaking the law is justified if it leads to good
-            </label>
-          </li>
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-1"
-              id="choice-102"
-              value="Choice Text 2"
-              disabled
-            />
-            <label for="choice-102" class="label">
-              No, laws must be followed regardless of the outcome
-            </label>
-          </li>
-        </ul>
-      </div>     
-    </div>
-    <div>
-      <div class="container">
-        <p>Is it okay to break the law if it results in a greater good?</p> 
-        <ul class="list">
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-2"
-              id="choice-201"
-              value="Choice Text 1"
-              checked
-              disabled
-            />
-            <label for="choice-201" class="label">
-              Yes, breaking the law is justified if it leads to good
-            </label>
-          </li>
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-2"
-              id="choice-202"
-              value="Choice Text 2"
-              disabled
-            />
-            <label for="choice-202" class="label">
-              No, laws must be followed regardless of the outcome
-            </label>
-          </li>
-        </ul>
-      </div> 
-    </div>
-  </article>
+<!-- SSR_INCLUDE site_header -->
+<main id="results-page">
+    <article>
+        <section class="question show-answer">
+            <header>
+                <h1>Is it okay to break the law if it results in a greater good?</h1>
+            </header>
+            <section>
+                <ul>
+                    <li>
+                        <label>
+                            <input
+                                type="radio"
+                                disabled
+                            />
+                            <div class="agreement"></div>
+                            <h6>
+                                Yes, breaking the law is justified if it leads to good
+                                <small>40%</small>
+                            </h6>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input
+                                type="radio"
+                                checked
+                                disabled
+                            />
+                            <div class="agreement"></div>
+                            <h6>
+                                No, laws must be followed regardless of the outcome
+                                <small>40%</small>
+                            </h6>
+                        </label>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section class="question show-answer">
+            <header>
+                <h1>Can revenge ever be morally justified?</h1>
+            </header>
+            <section>
+                <ul>
+                    <li>
+                        <label>
+                            <input
+                                type="radio"
+                                checked
+                                disabled
+                            />
+                            <div class="agreement"></div>
+                            <h6>
+                                Yes, revenge can be morally justified
+                                <small>40%</small>
+                            </h6>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input
+                                type="radio"
+                                disabled
+                            />
+                            <div class="agreement"></div>
+                            <h6>
+                                No, revenge is never ethical
+                                <small>40%</small>
+                            </h6>
+                        </label>
+                    </li>
+                </ul>
+            </section>
+        </section>
+    </article>
 </main>
