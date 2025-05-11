@@ -8,13 +8,5 @@ export const api = {
         } else {
             throw new Error();
         }
-    },
-    getChoicesByQuestionId: async (questionId: number) => {
-        const resp = await fetch(`/questions/${questionId}`);
-        if (resp.ok) {
-            return await resp.json() as Question;
-        } else {
-            throw new Error();
-        }
-    },
+    }
 };
