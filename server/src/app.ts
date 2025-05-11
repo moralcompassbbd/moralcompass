@@ -6,7 +6,6 @@ import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
 import { registerAuthRoutes } from './routes/auth-route';
 
-
 const app = express();
 const port = process.env.PORT || 3000;
 

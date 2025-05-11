@@ -12,6 +12,16 @@ export function registerQuestionRoutes(app: Express) {
             res.status(status).json(apiError);
         }
     });
+
+    app.get('/questions/next', async (req, res) => {
+        try {
+            const question = await questionRepository.getNext(1);
+            res.json(question);
+        } catch (error) {
+            const [apiError, status] = mapError(error);
+            res.status(status).json(apiError);
+        }
+    });
     
     app.get('/questions/:questionId', async (req, res) => {
         try {
