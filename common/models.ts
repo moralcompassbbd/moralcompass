@@ -30,6 +30,7 @@ export type Choice = {
     choiceId: number,
     questionId: number,
     text: string,
+    answerCount: number,
 };
 
 export type Answer = {

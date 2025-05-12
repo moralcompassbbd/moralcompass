@@ -1,77 +1,39 @@
-<!-- SSR_INCLUDE site_header -->
-<main id="results-page">
+<header>
+    <nav>
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <section class="header-buttons">
+            <!-- <button onclick="SPA.handlers.clearResults()">Clear Results</button> -->
+            <button class="exit-btn" onclick="SPA.navigatePage('quiz')">
+                <!-- SSR_INCLUDE times_icon -->
+            </button>
+        </section>
+    </nav>
+</header>
+<main id="results-page" class="loading-hidden">
     <article>
-        <section class="question show-answer">
-            <header>
-                <h1>Is it okay to break the law if it results in a greater good?</h1>
-            </header>
-            <section>
-                <ul>
-                    <li>
-                        <label>
-                            <input
-                                type="radio"
-                                disabled
-                            />
-                            <div class="agreement"></div>
-                            <h6>
-                                Yes, breaking the law is justified if it leads to good
-                                <small>40%</small>
-                            </h6>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input
-                                type="radio"
-                                checked
-                                disabled
-                            />
-                            <div class="agreement"></div>
-                            <h6>
-                                No, laws must be followed regardless of the outcome
-                                <small>40%</small>
-                            </h6>
-                        </label>
-                    </li>
-                </ul>
-            </section>
-        </section>
-        <section class="question show-answer">
-            <header>
-                <h1>Can revenge ever be morally justified?</h1>
-            </header>
-            <section>
-                <ul>
-                    <li>
-                        <label>
-                            <input
-                                type="radio"
-                                checked
-                                disabled
-                            />
-                            <div class="agreement"></div>
-                            <h6>
-                                Yes, revenge can be morally justified
-                                <small>40%</small>
-                            </h6>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input
-                                type="radio"
-                                disabled
-                            />
-                            <div class="agreement"></div>
-                            <h6>
-                                No, revenge is never ethical
-                                <small>40%</small>
-                            </h6>
-                        </label>
-                    </li>
-                </ul>
-            </section>
-        </section>
+        <ol>
+            <template id="question-template">
+                <header>
+                    <h1>{{questionText}}</h1>
+                </header>
+                <section>
+                    <ul>
+                    </ul>
+                </section>
+            </template>
+            <template id="choice-template">
+                <label>
+                    <input
+                        type="radio"
+                        disabled
+                    />
+                    <div class="agreement" style="width: {{choicePopularity}}"></div>
+                    <h6>
+                        {{choiceText}}
+                        <small>{{choicePopularity}}</small>
+                    </h6>
+                </label>
+            </template>
+        </ol>
     </article>
 </main>

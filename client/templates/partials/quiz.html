@@ -1,5 +1,15 @@
-<!-- SSR_INCLUDE site_header -->
-<main id="quiz-page">
+<header>
+  <nav>
+    <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+    <section class="header-buttons">
+      <button onclick="SPA.navigatePage('results')">Results</button>
+      <button class="exit-btn" onclick="SPA.navigatePage('main')">
+        <!-- SSR_INCLUDE times_icon -->
+      </button>
+    </section>
+  </nav>
+</header>
+<main id="quiz-page" class="loading-hidden">
     <article class="question">
         <header>
             <h1>{{questionText}}</h1>
@@ -7,56 +17,25 @@
         <section>
             <ul>
                 <template>
-                    <li>
-                        <label id="choice-{{choiceId}}">
-                            <input
-                                type="radio"
-                                name="choice"
-                                value="{{choiceId}}"
-                                checked
-                            />
-                            <div class="agreement"></div>
-                            <h6>
-                                {{choiceText}}
-                                <small>{{choicePopularity}}%</small>
-                            </h6>
-                        </label>
-                    </li>
+                    <label id="choice-{{choiceId}}">
+                        <input
+                            type="radio"
+                            name="choice"
+                            value="{{choiceId}}"
+                            onchange="SPA.handlers.quizShowNext()"
+                        />
+                        <div class="agreement"></div>
+                        <h6>
+                            {{choiceText}}
+                            <small>{{choicePopularity}}</small>
+                        </h6>
+                    </label>
                 </template>
-                <li>
-                    <label>
-                        <input
-                            type="radio"
-                            name="choice"
-                            value="{{choiceId}}"
-                            checked
-                        />
-                        <div class="agreement"></div>
-                        <h6>
-                            Yes, breaking the law is justified if it leads to good
-                            <small>40%</small>
-                        </h6>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input
-                            type="radio"
-                            name="choice"
-                            value="{{choiceId}}"
-                        />
-                        <div class="agreement"></div>
-                        <h6>
-                            No, laws must be followed regardless of the outcome
-                            <small>40%</small>
-                        </h6>
-                    </label>
-                </li>
             </ul>
         </section>
         <footer>
-            <p>Most respondents agree</p>
-            <button onclick="SPA.navigatePage('quiz')">Next</button>
+            <p></p>
+            <button onclick="SPA.handlers.quizShowAnswer()">Submit</button>
         </footer>
     </article>
 </main>

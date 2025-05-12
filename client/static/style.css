@@ -1,5 +1,6 @@
 :root {
     --colour-primary: #4A3B74;
+    --colour-bg-highlighted-soft: #ffffff0c;
     --colour-bg-highlighted: #ffffff19;
     --colour-bg-highlighted-bright: #ffffff32;
 }
@@ -75,6 +76,7 @@ main {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
         }
     }
 }
@@ -104,6 +106,7 @@ button {
 .question {
     h1 {
         font-size: 2em;
+        text-align: center;
     }
 
     ul {
@@ -128,7 +131,6 @@ button {
                 padding: 1em;
                 padding-bottom: 0.75em;
                 color: white;
-                line-height: 100%;
                 cursor: pointer;
                 transition-duration: 300ms;
 
@@ -167,6 +169,10 @@ button {
                     border-radius: 100%;
                     outline: 0.1em solid white;
                     margin-bottom: 0.15em;
+                }
+
+                &:hover {
+                    background-color: var(--colour-bg-highlighted-soft);
                 }
                 
                 &:has(> input[type="radio"]:checked) {
@@ -230,14 +236,27 @@ button {
 #results-page .question {
     font-size: 75%;
 
+    margin-bottom: 3rem;
+
     gap: 1em;
 
     header {
         align-items: start;
+        
         h1 {
             font-size: 2.25em;
+            text-align: left;
         }
     }
+
+    &::marker {
+        font-size: 1.5em;
+    }
+}
+
+.no-answers {
+    opacity: 0.5;
+    margin-bottom: 2em;
 }
 
 details {
@@ -430,4 +449,8 @@ header {
             }
         }
     }
+}
+
+.loading-hidden {
+    display: none;
 }

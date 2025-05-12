@@ -2,8 +2,8 @@
 import { SpaClient } from './spa-client';
 import { beginQuiz, initHomePage } from './homepage';
 import { handleCredentialResponse } from './main';
-import { initQuiz } from './quiz';
-import { initResults } from './results';
+import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
+import { clearResults, initResults } from './results';
 
 const rootElement = document.getElementById('app-root');
 if (!rootElement)
@@ -15,7 +15,10 @@ type Handlers = {
     beginQuiz: () => void,
     initHomePage: () => void,
     initQuiz: () => void,
+    quizShowNext: () => void,
+    quizShowAnswer: () => void,
     initResults: () => void,
+    clearResults: () => void,
     handleCredentialResponse: (response: any) => void
 };
 
@@ -23,7 +26,10 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateEl
     beginQuiz: beginQuiz,
     initHomePage: initHomePage,
     initQuiz: initQuiz,
+    quizShowNext: quizShowNext,
+    quizShowAnswer: quizShowAnswer,
     initResults: initResults,
+    clearResults: clearResults,
     handleCredentialResponse: handleCredentialResponse
 }, 'main');
 
