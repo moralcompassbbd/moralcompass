@@ -43,7 +43,6 @@ export function registerQuestionRoutes(app: Express) {
         }
     });
 
-    // Delete question endpoint
     app.delete('/questions/:questionId', async (req, res) => {
         try {
             const questionId = parseInt(req.params.questionId);
@@ -64,7 +63,6 @@ export function registerQuestionRoutes(app: Express) {
         }
     });
 
-    // Add new question endpoint
     app.post('/questions', async (req: Request<any, any, unknown>, res) => {
         try {
             if (!req.body || typeof req.body !== 'object' || !('questionText' in req.body) || !('choices' in req.body)) {
