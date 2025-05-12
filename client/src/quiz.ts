@@ -1,135 +1,127 @@
 import { api } from "./api";
-import { Question, Choice } from "common/models";
-import { createButton, createQuestionContainer } from "./components";
+import { Question } from "common/models";
 
-const renderQuestionContainer = (questions: Question[], currentQuestionIndex: number, userAnswers: any) => {
-    const questionContainer = document.getElementById("question-container");
-    const progressBar = document.getElementById("quiz-progress") as HTMLProgressElement;
+type QuestionAnswer = {
+    questionId: number,
+    answerChoiceId: number,
+};
 
-    if (questionContainer) {
-        questionContainer.innerHTML = "";
-
-        //render question   
-        const questionText = questions[currentQuestionIndex].text;
-        const questionElement = createQuestionContainer(questionText);
-        
-        //render choices
-        const choicesElement = renderChoices(questions[currentQuestionIndex].choices, userAnswers);
-
-        // Previous button
-        const prevButton = createButton({
-            text: "Previous",
-            className: "btn btn-primary",
-            onClick: async () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                renderProgressBar(progressBar, currentQuestionIndex, questions.length);
-                const choices = questions[currentQuestionIndex].choices
-                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
-            }
-            },
-        });
-
-        // Next button
-        const nextButton = createButton({
-            text: "Next",
-            className: "btn btn-primary",
-            onClick: async () => {
-            if (currentQuestionIndex < questions.length - 1) {
-                // Get the selected radio button
-                const userAnswer = (document.querySelector(`input[name="question-${questions[currentQuestionIndex].questionId}"]:checked`) as HTMLInputElement)?.value;
-                if (userAnswer) {
-                    console.log("User's answer:", userAnswer);
-                    userAnswers[questions[currentQuestionIndex].questionId] = userAnswer;
-                } else {
-                    //TODO: User did not click answer, disable next button?
-                    console.log("No answer selected");
-                }
-                
-                currentQuestionIndex++;
-                renderProgressBar(progressBar, currentQuestionIndex, questions.length);
-                const choices = questions[currentQuestionIndex].choices
-                renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
-                
-            } else {
-                SPA.navigatePage("results");
-                console.log("Quiz completed!");
-            }
-            },
-        });
-
-        const buttonGroup = document.createElement("section");
-        buttonGroup.className = "quiz-btn-group ";
-        // Only add prev button if not on the first question
-        if (currentQuestionIndex > 0) {
-            buttonGroup.appendChild(prevButton);
-        }
-        buttonGroup.appendChild(nextButton);
-
-        questionContainer.appendChild(questionElement);
-        questionContainer.appendChild(choicesElement);
-        questionContainer.appendChild(buttonGroup);
-    }
+declare global {
+    var questionAnswers: QuestionAnswer[];
 }
 
-const renderChoices = (choices: Choice[], userAnswers: any) => {
-    const container = document.createElement("div");
-    container.className = "container";
+globalThis.questionAnswers = [];
 
-    const ul = document.createElement("ul");
-    ul.className = "list";
-
-    choices.forEach((choice) => {
-        const li = document.createElement("li");
-        li.className = "list__item";
-
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.className = "radio-btn";
-        input.name = `question-${choice.questionId}`;
-        input.id = `choice-${choice.choiceId}`;
-
-        //TODO:  store the choice id as the user's choice or the actual text of the choice
-        input.value = choice.text;
-
-         // Pre-select the answer if it exists in the userAnswers object
-         if (userAnswers[choice.questionId] === choice.text.toString()) {
-            input.checked = true;
-        }
-
-        const label = document.createElement("label");
-        label.htmlFor = input.id;
-        label.className = "label";
-        label.textContent = choice.text;
-
-        li.appendChild(input);
-        li.appendChild(label);
-        ul.appendChild(li);
-    });
-
-    container.appendChild(ul);
-    return container;
-}
-
-const renderProgressBar = (progressBar: HTMLProgressElement, currentQuestionIndex: number, totalNrQuestions: number) => {
-    if (progressBar) {
-        progressBar.value = ((currentQuestionIndex) / totalNrQuestions) * 100;
-    }
-}
+let question: Question;
 
 export const initQuiz = async () => {
-    let userAnswers = {};
-    let questions: Question[] = [];
-    let currentQuestionIndex = 0;
-    questions = await api.getQuestions();
+    question = (await api.getQuestionNext())!;
 
-    // Render the first question
-    renderQuestionContainer(questions, currentQuestionIndex, userAnswers);
+    const quizPageElement = document.getElementById('quiz-page')!;
+
+    quizPageElement.innerHTML = quizPageElement.innerHTML.replace('{{questionText}}', question.text);
+
+    const choicesListElement = quizPageElement.querySelector('.question ul')!;
+    const choiceTemplateElement = choicesListElement.querySelector('template')!;
+
+    let totalPopularity = 0;
+
+    const choicePopularities: number[] = question.choices.map(choice => {
+        totalPopularity += choice.answerCount;
+        return choice.answerCount;
+    });
+
+    for (const [index, choice] of question.choices.entries()) {
+        const choiceElement = document.createElement('li');
+
+        const percentage = choicePopularities[index] / totalPopularity * 100;
+        const percentageText = !Number.isNaN(percentage) ? percentage.toFixed(0) + '%' : '';
+        
+        let choiceHtml = choiceTemplateElement.innerHTML;
+        choiceHtml = choiceHtml.replace('{{choiceId}}', choice.choiceId+'');
+        choiceHtml = choiceHtml.replace('{{choiceText}}', choice.text+'');
+        choiceHtml = choiceHtml.replace('{{choicePopularity}}', percentageText);
+        
+        choiceElement.innerHTML = choiceHtml;
+        
+        choicesListElement.appendChild(choiceElement);
+    }
+
+    quizPageElement.classList.remove('loading-hidden');
 }
 
+export function quizShowNext() {
+    const quizPageElement = document.querySelector('#quiz-page .question')!;
+    quizPageElement.classList.add('show-next');
+}
 
+export function quizShowAnswer() {
+    const questionElement = document.querySelector('#quiz-page .question')!;
+    questionElement.classList.add('show-answer');
 
+    const footerButtonElement = questionElement.querySelector('footer button') as HTMLInputElement;
+    footerButtonElement.disabled = true;
 
+    let totalPopularity = 0;
 
+    const choicePopularities: number[] = question.choices.map(choice => {
+        totalPopularity += choice.answerCount;
+        return choice.answerCount;
+    });
 
+    let mostPopular = 0;
+    let mostPopularIndex = -1;
 
+    for (const [index, popularity] of choicePopularities.entries()) {
+        if (popularity > mostPopular) {
+            mostPopular = popularity;
+            mostPopularIndex = index;
+        }
+    }
+    
+    const choices = [...document.querySelectorAll('#quiz-page .question label')] as HTMLInputElement[];
+
+    let answerIndex: number = -1;
+    let answerChoiceId: number = -1;
+
+    for (const [index, choice] of choices.entries()) {
+        const radioElement = choice.querySelector('input[type="radio"]')! as HTMLInputElement;
+
+        const choiceId = Number.parseInt(choice.id.replace('choice-', ''));
+        
+        radioElement.setAttribute('disabled', '');
+
+        if (radioElement.checked) {
+            answerIndex = index;
+            answerChoiceId = choiceId;
+        }
+
+        const popularityPercentage = (choicePopularities[index] / totalPopularity * 100).toFixed(0);
+
+        (choice.querySelector('.agreement') as HTMLDivElement).style.width = `${popularityPercentage}%`;
+    }
+
+    globalThis.questionAnswers.push({
+        questionId: question.questionId,
+        answerChoiceId: answerChoiceId,
+    });
+
+    if (mostPopularIndex == answerIndex) {
+        document.querySelector('#quiz-page .question footer p')!.innerHTML = 'Most respondents agree';
+    } else if (mostPopularIndex >= 0) {
+        document.querySelector('#quiz-page .question footer p')!.innerHTML = 'Most respondents disagree';
+    }
+
+    const nextButtonElement = document.createElement('button');
+    nextButtonElement.innerText = "Next";
+
+    nextButtonElement.addEventListener('click', () => {
+        SPA.navigatePage('quiz');
+    });
+
+    const footerElement = questionElement.querySelector('footer')! as HTMLDivElement;
+    footerElement.replaceChild(nextButtonElement, footerButtonElement);
+
+    // notify api of submission asynchronously, do nothing on failure
+    api.postAnswer(answerChoiceId);
+}

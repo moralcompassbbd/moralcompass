@@ -54,7 +54,7 @@ export default {
         try {
             result = await pool.query('select question_id from questions order by random() limit 1')
         } catch (error) {
-            //logger.error(error);
+            console.error(error);
             throw new ApiError();
         }
 
@@ -71,7 +71,7 @@ export default {
             // chose at random one question which the user has not answered in the last 12 hours.
             result = await pool.query("select * from questions where question_id not in (select question_id from questions natural join choices natural join answers where user_id = $1 and created_at > now() - interval '12 hours') order by random() limit 1", [userId])
         } catch (error) {
-            //logger.error(error);
+            console.error(error);
             throw new ApiError();
         }
 

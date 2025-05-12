@@ -10,11 +10,14 @@ export class SpaClient<T> {
     constructor(root: HTMLElement, pageTemplates: HTMLTemplateElement[], handlers: T, firstPage: string, firstPageProps?: pagePropType) {
         const pageTemplateMap = new Map<string, HTMLTemplateElement>();
 
-        pageTemplates.forEach(element => {
+        for (const element of pageTemplates) {
             const pageName = element.getAttribute('data-page');
-            if (!pageName) return;
+            
+            if (!pageName)
+                continue;
+            
             pageTemplateMap.set(pageName, element);
-        });
+        }
 
         this.navigatePage = (page: string, pageProps?: pagePropType) => {
             this.currentPage = page;

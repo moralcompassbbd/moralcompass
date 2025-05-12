@@ -1,6 +1,7 @@
 import { Express } from "express";
 import questionRepository from "../db/question-repository";
 import { ApiError, mapError } from "../error";
+import choiceRepository from "../db/choice-repository";
 
 export function registerQuestionRoutes(app: Express) {
     app.get('/questions', async (_, res) => {

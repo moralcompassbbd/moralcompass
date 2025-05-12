@@ -1,73 +1,39 @@
-<main id="results">
-  <!-- SSR_INCLUDE site_header -->
-  <article class="results-container">
-    <div>
-      <div class="container">
-        <p>Is it okay to break the law if it results in a greater good?</p> 
-        <ul class="list">
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-1"
-              id="choice-101"
-              value="Choice Text 1"
-              checked
-              disabled
-            />
-            <label for="choice-101" class="label">
-              Yes, breaking the law is justified if it leads to good
-            </label>
-          </li>
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-1"
-              id="choice-102"
-              value="Choice Text 2"
-              disabled
-            />
-            <label for="choice-102" class="label">
-              No, laws must be followed regardless of the outcome
-            </label>
-          </li>
-        </ul>
-      </div>     
-    </div>
-    <div>
-      <div class="container">
-        <p>Is it okay to break the law if it results in a greater good?</p> 
-        <ul class="list">
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-2"
-              id="choice-201"
-              value="Choice Text 1"
-              checked
-              disabled
-            />
-            <label for="choice-201" class="label">
-              Yes, breaking the law is justified if it leads to good
-            </label>
-          </li>
-          <li class="list__item">
-            <input
-              type="radio"
-              class="radio-btn"
-              name="question-2"
-              id="choice-202"
-              value="Choice Text 2"
-              disabled
-            />
-            <label for="choice-202" class="label">
-              No, laws must be followed regardless of the outcome
-            </label>
-          </li>
-        </ul>
-      </div> 
-    </div>
-  </article>
+<header>
+    <nav>
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <section class="header-buttons">
+            <!-- <button onclick="SPA.handlers.clearResults()">Clear Results</button> -->
+            <button class="exit-btn" onclick="SPA.navigatePage('quiz')">
+                <!-- SSR_INCLUDE times_icon -->
+            </button>
+        </section>
+    </nav>
+</header>
+<main id="results-page" class="loading-hidden">
+    <article>
+        <ol>
+            <template id="question-template">
+                <header>
+                    <h1>{{questionText}}</h1>
+                </header>
+                <section>
+                    <ul>
+                    </ul>
+                </section>
+            </template>
+            <template id="choice-template">
+                <label>
+                    <input
+                        type="radio"
+                        disabled
+                    />
+                    <div class="agreement" style="width: {{choicePopularity}}"></div>
+                    <h6>
+                        {{choiceText}}
+                        <small>{{choicePopularity}}</small>
+                    </h6>
+                </label>
+            </template>
+        </ol>
+    </article>
 </main>
