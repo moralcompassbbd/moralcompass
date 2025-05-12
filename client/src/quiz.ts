@@ -1,6 +1,6 @@
-import { api } from "./api";
+import { api } from "./api.js";
 import { Question, Choice } from "common/models";
-import { createButton, createQuestionContainer } from "./components";
+import { createButton, createQuestionContainer } from "./components.js";
 
 const renderQuestionContainer = (questions: Question[], currentQuestionIndex: number, userAnswers: any) => {
     const questionContainer = document.getElementById("question-container");
@@ -131,5 +131,5 @@ export const initQuiz = async () => {
 
 
 
- 
+
 

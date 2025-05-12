@@ -1,4 +1,4 @@
-import { createDetail } from "./components";
+import { createDetail } from "./components.js";
 
 
 export const initResults = () => {
