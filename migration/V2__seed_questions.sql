@@ -1,3 +1,4 @@
+INSERT INTO roles (role_name) VALUES ('Manager');
 
 INSERT INTO questions (question_id, question_text) VALUES
     (1, 'Is it ever morally acceptable to lie to protect someone’s feelings?'),

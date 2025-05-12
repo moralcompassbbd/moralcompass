@@ -3,7 +3,9 @@ CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     google_id VARCHAR(32) NOT NULL UNIQUE,
     email VARCHAR(128) NOT NULL,
-    user_name VARCHAR(128)
+    user_name VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
 );
 
 CREATE TABLE roles (
@@ -34,5 +36,3 @@ CREATE TABLE answers (
     choice_id INT NOT NULL REFERENCES choices(choice_id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
-INSERT INTO roles (role_name) VALUES ('question_manager');
