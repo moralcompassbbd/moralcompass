@@ -4,7 +4,7 @@ import { indexPage } from './templates';
 import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
-import { registerAuthRoutes } from './routes/auth-route';
+import { registerAuthRoutes } from './routes/auth-routes';
 import path from 'path';
 
 const app = express();

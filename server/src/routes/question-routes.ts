@@ -2,9 +2,10 @@ import { Express } from "express";
 import questionRepository from "../db/question-repository";
 import { ApiError, mapError } from "../error";
 import choiceRepository from "../db/choice-repository";
+import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
 
 export function registerQuestionRoutes(app: Express) {
-    app.get('/questions', async (_, res) => {
+    app.get('/questions', authenticationMiddleware, async (_, res) => {
         try {
             const questionModels = await questionRepository.getAll();
             res.json(questionModels);
@@ -14,7 +15,7 @@ export function registerQuestionRoutes(app: Express) {
         }
     });
 
-    app.get('/questions/next', async (req, res) => {
+    app.get('/questions/next', authenticationMiddleware, async (req, res) => {
         try {
             const question = await questionRepository.getNext(1);
             res.json(question);
@@ -24,7 +25,7 @@ export function registerQuestionRoutes(app: Express) {
         }
     });
     
-    app.get('/questions/:questionId', async (req, res) => {
+    app.get('/questions/:questionId', authenticationMiddleware, async (req, res) => {
         try {
             const questionId = parseInt(req.params.questionId);
             

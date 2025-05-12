@@ -1,17 +1,14 @@
 import { GoogleUser } from "common/models";
-import { Request, Response, NextFunction } from "express";
 import { extractBearerToken } from "../utils/auth-utils";
 import { mapError } from "../error";
+import { getCachedManagerStatus, setCachedManagerStatus } from "../cache/manager";
+import userRepository from "../db/user-repository";
 
-export async function verifyGoogleToken(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
+export async function authenticationMiddleware(req: any, res: any, next: any) {
     const idToken = extractBearerToken(req.headers.authorization);
 
     if (!idToken) {
-      return res.status(400).json({ error: 'Missing token' });
+        return res.status(400).json({ error: 'Missing token' });
     } else{
         try {
             const response = await fetch(`${process.env.GOOGLE_TOKEN_URL}?id_token=${idToken}`);
@@ -30,4 +27,27 @@ export async function verifyGoogleToken(
             res.status(status).json(apiError);
         }
     }
-  }
+}
+
+export async function authorizationMiddleware(req: any, res: any, next: any){
+    const googleUser: GoogleUser = res.locals.googleUser;
+
+    if(!googleUser){
+        res.status(500).json({ error: 'Missing user value' });
+    } else{
+        const cached = getCachedManagerStatus(googleUser.sub);
+        if (cached === true) {
+            next();
+        } else if(cached === false){
+            res.status(403).json({ error: 'Not a manager' });
+        } else {
+            const isManager = await userRepository.checkIfUserIsManager(googleUser.sub);
+            setCachedManagerStatus(googleUser.sub, isManager);
+            if (!isManager){ 
+                res.status(403).json({ error: 'Not an manager' });
+            } else{
+                next();
+            }
+        }
+    }
+}
