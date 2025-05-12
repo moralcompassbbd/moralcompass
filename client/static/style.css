@@ -1,3 +1,9 @@
+/* page size break points reference */
+/* sm: 32rem */
+/* md: 48rem */
+/* lg: 64rem */
+/* xl: 96rem */
+
 :root {
     --colour-primary: #4A3B74;
     --colour-bg-highlighted-soft: #ffffff0c;
@@ -26,6 +32,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     margin: 0;
+    text-wrap: balance;
 }
 
 p {
@@ -70,6 +77,16 @@ main {
         width: 100%;
         gap: 3rem;
 
+        @media (max-width: 48rem) {
+            padding: 1rem 1.5rem;
+            font-size: 75%;
+        }
+
+        @media (max-width: 32rem) {
+            padding: 0.5rem;
+            font-size: 65%;
+        }
+
         section, header, footer {
             display: flex;
             width: 100%;
@@ -94,7 +111,7 @@ button {
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     transition-duration: 150ms;
     cursor: pointer;
 
@@ -115,7 +132,7 @@ button {
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 1.5em;
+        gap: 2em;
         width: 100%;
 
         li {
@@ -144,7 +161,7 @@ button {
                     opacity: 0.25;
                     border-radius: 0.5em;
                     transition-property: width;
-                    transition-duration: 3s;
+                    transition-duration: 1.5s;
                 }
 
                 h6 {
@@ -166,13 +183,16 @@ button {
                     content: '';
                     width: 0.8em;
                     height: 0.8em;
+                    flex-shrink: 0;
                     border-radius: 100%;
                     outline: 0.1em solid white;
                     margin-bottom: 0.15em;
                 }
 
+                background-color: var(--colour-bg-highlighted-soft);
+
                 &:hover {
-                    background-color: var(--colour-bg-highlighted-soft);
+                    background-color: var(--colour-bg-highlighted);
                 }
                 
                 &:has(> input[type="radio"]:checked) {
@@ -198,6 +218,10 @@ button {
         justify-content: space-between;
         padding-left: 1.5em;
         box-sizing: border-box;
+
+        @media (max-width: 48rem) {
+            padding-left: 0.5em;
+        }
 
         p {
             transition-duration: 300ms;
@@ -233,24 +257,37 @@ button {
     }
 }
 
-#results-page .question {
-    font-size: 75%;
+#results-page {
+    ol {
+        padding: 0 1.5rem;
 
-    margin-bottom: 3rem;
-
-    gap: 1em;
-
-    header {
-        align-items: start;
-        
-        h1 {
-            font-size: 2.25em;
-            text-align: left;
+        @media (max-width: 48rem) {
+            padding: 0 1rem;
         }
-    }
 
-    &::marker {
-        font-size: 1.5em;
+        .question {
+            font-size: 75%;
+
+            margin-bottom: 3rem;
+
+            gap: 1em;
+
+            header {
+                align-items: start;
+
+                margin-bottom: 0.5rem;
+                
+                h1 {
+                    font-size: 2.25em;
+                    text-align: left;
+                }
+            }
+
+            &::marker {
+                font-size: 1.5em;
+                color: #bbb;
+            }
+        }
     }
 }
 
@@ -259,62 +296,17 @@ button {
     margin-bottom: 2em;
 }
 
-details {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1rem;
-    max-width: 37.5rem;
-    margin: 1rem auto;
-    background-color: #fafafa;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    font-family: system-ui, sans-serif;
-    transition: background-color 0.3s ease;
-}
-  
-details[open] {
-    background-color: #fff;
-}
-
-summary {
-    font-weight: 600;
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    position: relative;
-}
-  
-summary::marker {
-    display: none;
-}
-  
-summary::before {
-    content: '▸';
-    display: inline-block;
-    color: rebeccapurple;
-    font-size: 1.4rem;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-}
-
-details[open] summary::before {
-    transform: rotate(90deg);
-}
-
-
-.text-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;     
+#main-page article img {
+    width: 100%;
+    max-width: 16rem;
 }
 
 #g_id_signin {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;    
+    /* even though the element itself is obviously dark, the underlying
+    iframe is light and the background of the iframe will only be removed 
+    if the color-scheme of the iframe document and the iframe (or its 
+    parent) matches */
+    color-scheme: light;
 }
 
 .homepage-card-list {
@@ -368,51 +360,18 @@ details[open] summary::before {
     height: 13.125rem; 
 }
 
+#app-root > header {
+    padding: 1rem 2rem;
 
-@media screen and (max-width: 46rem) {
-    .main-page img {
-        max-width: 10rem;
+    @media (max-width: 48rem) {
+        padding: 0.5rem 1rem;
+        font-size: 75%;
     }
 
-    .image-page article {
-        flex-direction: column;
-        gap: 1rem;
+    @media (max-width: 32rem) {
+        padding: 0.25rem 0.5rem;
+        font-size: 50%;
     }
-
-    .image-page img {
-        max-width: 15rem;
-    }
-
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    .homepage-card-list {
-        flex-direction: column; 
-    }
-
-    .homepage-card-item {
-        flex: 1 1 100%; 
-        margin-bottom: 1rem;
-    }
-
-    .logo {
-        max-width: 5rem;
-        padding: 0;
-    }
-    .nav-header {
-        flex-direction: column;
-    }
-}
-
-@media screen and (max-width: 37rem) {
-    .homepage-card-item {
-        flex: 1 1 100%;
-    }
-}
-
-header {
-    padding: 0.5rem 1rem;
 
     nav {
         display: flex;
@@ -422,16 +381,28 @@ header {
 
         .logo {
             max-width: 10rem;
+
+            @media (max-width: 48rem) {
+                max-width: 8rem;
+            }
+            
+
+            @media (max-width: 32rem) {
+                max-width: 6rem;
+            }
         }
         
         .header-buttons {
             display: flex;
             gap: 1rem;
+            align-items: center;
 
             .exit-btn {
                 background-color: transparent;
                 border: none;
-                padding: 0.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                padding: 0;
                 cursor: pointer;
                 border-radius: 0.625rem; /* Rounded corners for the button */
                 display: flex;

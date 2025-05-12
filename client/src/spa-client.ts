@@ -2,12 +2,12 @@
 type pagePropType = { [key: string]: string };
 
 export class SpaClient<T> {
-    currentPage: string;
+    currentPage?: string;
     pageProps?: pagePropType;
     navigatePage: (page: string, pageProps?: pagePropType) => void;
     handlers: T;
 
-    constructor(root: HTMLElement, pageTemplates: HTMLTemplateElement[], handlers: T, firstPage: string, firstPageProps?: pagePropType) {
+    constructor(root: HTMLElement, pageTemplates: HTMLTemplateElement[], handlers: T) {
         const pageTemplateMap = new Map<string, HTMLTemplateElement>();
 
         for (const element of pageTemplates) {
@@ -33,8 +33,5 @@ export class SpaClient<T> {
         };
 
         this.handlers = handlers;
-
-        this.currentPage = firstPage;
-        this.navigatePage(firstPage, firstPageProps);
     }
 }
