@@ -5,6 +5,7 @@ import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
 import { registerAuthRoutes } from './routes/auth-route';
+import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 3000;
