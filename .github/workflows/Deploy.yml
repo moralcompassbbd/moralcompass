@@ -43,6 +43,11 @@ jobs:
         run: |
           docker push $IMAGE_URI
 
+      - name: Check client build output in Docker image
+        run: |
+          docker run --rm $ECR_REPOSITORY:latest ls -l /app/client/dist
+          docker run --rm $ECR_REPOSITORY:latest ls -l /app/client/static
+
       - name: Update ECS service
         run: |
           aws ecs update-service \
