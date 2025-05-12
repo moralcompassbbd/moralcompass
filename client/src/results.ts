@@ -39,7 +39,7 @@ export const initResults = async () => {
             const choiceElem = document.createElement('li');
 
             const popularity = (choice.answerCount / totalAnswers) * 100;
-            const popularityText = Number.isNaN(popularity) ? '' : `${popularity}%`;
+            const popularityText = Number.isNaN(popularity) ? '' : `${popularity.toFixed(0)}%`;
             
             let choiceHtml = choiceTemplateHtml.replace('{{choiceText}}', choice.text);
             choiceHtml = choiceHtml.replace(/{{choicePopularity}}/g, popularityText);

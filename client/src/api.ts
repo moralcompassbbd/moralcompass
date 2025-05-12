@@ -1,4 +1,4 @@
-import { Question } from "common/models";
+import { Answer, AnswerPostRequest, Question } from "common/models";
 
 export const api = {
     getQuestions: async () => {
@@ -25,4 +25,21 @@ export const api = {
             throw new Error();
         }
     },
+    postAnswer: async(choiceId: number) => {
+        const request: AnswerPostRequest = {
+            userId: 1, // todo: use actual user when auth ready
+            choiceId,
+        };
+
+        const resp = await fetch('/answers', {
+            method: 'POST',
+            body: JSON.stringify(request),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        if (resp.ok) {
+            return await resp.json() as Answer;
+        } else {
+            throw new Error();
+        }
+    }
 };

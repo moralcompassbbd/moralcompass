@@ -121,4 +121,7 @@ export function quizShowAnswer() {
 
     const footerElement = questionElement.querySelector('footer')! as HTMLDivElement;
     footerElement.replaceChild(nextButtonElement, footerButtonElement);
+
+    // notify api of submission asynchronously, do nothing on failure
+    api.postAnswer(answerChoiceId);
 }
