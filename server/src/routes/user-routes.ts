@@ -33,7 +33,7 @@ export function registerUserRoutes(app: Express){
     app.get('/users', authenticationMiddleware, authorizationMiddleware, async (req, res) => {
         try{
             const result = await userRepository.getAllUsers();
-            res.status(200).send(result);
+            res.status(200).json(result);
         } catch(error){
             const [apiError, status] = mapError(error);
             res.status(status).json(apiError);

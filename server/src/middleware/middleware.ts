@@ -44,7 +44,7 @@ export async function authorizationMiddleware(req: any, res: any, next: any){
             const isManager = await userRepository.checkIfUserIsManager(googleUser.sub);
             setCachedManagerStatus(googleUser.sub, isManager);
             if (!isManager){ 
-                res.status(403).json({ error: 'Not an manager' });
+                res.status(403).json({ error: 'Not a manager' });
             } else{
                 next();
             }

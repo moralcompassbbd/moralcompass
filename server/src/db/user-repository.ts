@@ -72,12 +72,12 @@ export default {
                 users.google_id AS "googleId", 
                 users.user_name AS "name", 
                 users.email,
-                roles.name,
+                roles.role_name
             FROM users
                 LEFT JOIN user_roles ON users.user_id = user_roles.user_id
                 INNER JOIN roles ON roles.role_id = user_roles.role_id
         `);
 
-        return userSelection.rows[0];
+        return userSelection.rows;
     }
 };
