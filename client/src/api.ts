@@ -8,5 +8,5 @@ export const api = {
         } else {
             throw new Error();
         }
-    },
+    }
 };

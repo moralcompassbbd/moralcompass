@@ -17,7 +17,7 @@ export type User = {
     userId: number,
     googleId: string,
     email: string,
-    name?: string,
+    name: string,
 };
 
 export type Question = {
@@ -43,3 +43,31 @@ export type AnswerPostRequest = {
     userId: number,
     choiceId: number,
 };
+
+export type ButtonOptions = {
+    text: string;
+    onClick: (e: MouseEvent) => void;
+    className?: string;
+    backgroundColor?: string;
+    textColor?: string;
+    type?: "button" | "submit" | "reset";
+};
+
+export type GoogleUser = {
+    iss: string,
+    azp: string,
+    aud: string,
+    sub: string,
+    email: string,
+    email_verified: string,
+    nbf: string,
+    name: string,
+    picture: string,
+    given_name: string,
+    iat: string,
+    exp: string,
+    jti: string,
+    alg: string,
+    kid: string,
+    typ: string
+}
