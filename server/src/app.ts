@@ -5,6 +5,7 @@ import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
 import { registerAuthRoutes } from './routes/auth-route';
+import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,10 +24,11 @@ registerAuthRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-app.use('/static', express.static('../client/static'));
-app.use('/dist', express.static('../client/dist', {
+const clientDistRoot = path.join(__dirname, '../../client');
+app.use('/dist', express.static(path.join(clientDistRoot, 'dist'), {
     extensions: ['js']
 }));
+app.use('/static', express.static(path.join(clientDistRoot, 'static')));
 
 // 404
 app.all('*route', (_req, res) => {
