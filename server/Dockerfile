@@ -19,10 +19,6 @@ RUN npm install && npm run build
 WORKDIR /app/server
 RUN npm install && npm run build
 
-RUN mkdir -p dist/client && \
-    cp -r ../client/dist ./dist/client && \
-    cp -r ../client/static ./dist/client
-
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]

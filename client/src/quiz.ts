@@ -1,6 +1,6 @@
-import { api } from "./api.js";
+import { api } from "./api";
 import { Question, Choice } from "common/models";
-import { createButton, createQuestionContainer } from "./components.js";
+import { createButton, createQuestionContainer } from "./components";
 
 const renderQuestionContainer = (questions: Question[], currentQuestionIndex: number, userAnswers: any) => {
     const questionContainer = document.getElementById("question-container");

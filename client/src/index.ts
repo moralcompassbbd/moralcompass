@@ -1,8 +1,9 @@
-import { SpaClient } from './spa-client.js';
-import { beginQuiz, initHomePage } from './homepage.js';
-import { handleCredentialResponse } from './main.js';
-import { initQuiz } from './quiz.js';
-import { initResults } from './results.js';
+
+import { SpaClient } from './spa-client';
+import { beginQuiz, initHomePage } from './homepage';
+import { handleCredentialResponse } from './main';
+import { initQuiz } from './quiz';
+import { initResults } from './results';
 
 const rootElement = document.getElementById('app-root');
 if (!rootElement)
