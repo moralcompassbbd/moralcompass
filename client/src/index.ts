@@ -5,6 +5,20 @@ import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
 import { clearResults, initResults } from './results';
 
+const renderGoogleButton = () => {
+    window.google.accounts.id.renderButton(
+        document.getElementById('g_id_signin')!,
+        {
+            type: 'standard',
+            shape: 'pill',
+            theme: 'filled_black',
+            text: 'signin_with',
+            size: 'large',
+            logo_alignment: 'left',
+        }
+    );
+}
+
 const rootElement = document.getElementById('app-root');
 if (!rootElement)
     throw new Error('No root element.');
@@ -19,7 +33,8 @@ type Handlers = {
     quizShowAnswer: () => void,
     initResults: () => void,
     clearResults: () => void,
-    handleCredentialResponse: (response: any) => void
+    handleCredentialResponse: (response: any) => void,
+    renderGoogleButton: () => void,
 };
 
 const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateElements, {
@@ -30,8 +45,9 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateEl
     quizShowAnswer: quizShowAnswer,
     initResults: initResults,
     clearResults: clearResults,
-    handleCredentialResponse: handleCredentialResponse
-}, 'main');
+    handleCredentialResponse: handleCredentialResponse,
+    renderGoogleButton: renderGoogleButton,
+});
 
 declare global {
     var SPA: SpaClient<Handlers>;
@@ -42,31 +58,17 @@ declare global {
 
 globalThis.SPA = spaClient;
 
-window.onload = function () {
-    window.google.accounts.id.initialize({
-      client_id: '899857308635-vsmeap9pv8b4k01475mu2ref12g46lag.apps.googleusercontent.com',
-      callback: SPA.handlers.handleCredentialResponse
-    });
-
-    window.google.accounts.id.renderButton(
-        document.getElementById('g_id_signin')!,
-        {
-            type: 'standard',
-            shape: 'pill',
-            theme: 'filled_black',
-            text: 'signin_with',
-            size: 'large',
-            logo_alignment: 'left',
-        }
-    );
-};
-
 window.onerror = (message, source, lineno, colno, error) => {
     console.error(`${source}.js:${lineno}:${colno} - uncaught error: ${message}`, error);
     spaClient.navigatePage('error');
     return true;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
+    window.google.accounts.id.initialize({
+        client_id: '899857308635-vsmeap9pv8b4k01475mu2ref12g46lag.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+    });
+
     spaClient.navigatePage('main');
-});
+};
