@@ -85,4 +85,91 @@ export default {
             return await this.getRandom();
         }
     },
+    async delete(questionId: number): Promise<void> {
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+            
+            await client.query('DELETE FROM choices WHERE question_id = $1', [questionId]);
+            
+            await client.query('DELETE FROM questions WHERE question_id = $1', [questionId]);
+            
+            await client.query('COMMIT');
+        } catch (error) {
+            await client.query('ROLLBACK');
+            console.error('Failed to delete question:', error);
+            throw new ApiError({
+                errorCode: 'unknown_server_error',
+                detail: 'Failed to delete question',
+                data: undefined
+            });
+        } finally {
+            client.release();
+        }
+    },
+
+    async create(question: { text: string, choices: string[] }): Promise<Question> {
+        const client = await pool.connect();
+        try {
+            if (!question.text || question.text.trim().length === 0) {
+                throw new ApiError({
+                    errorCode: 'invalid_body',
+                    detail: 'Question text cannot be empty',
+                    data: undefined
+                });
+            }
+            if (!Array.isArray(question.choices) || question.choices.length < 2) {
+                throw new ApiError({
+                    errorCode: 'invalid_body',
+                    detail: 'At least two choices are required',
+                    data: undefined
+                });
+            }
+
+            await client.query('BEGIN');
+            
+            // Insert question
+            const questionResult = await client.query(
+                'INSERT INTO questions (question_text) VALUES ($1) RETURNING question_id',
+                [question.text]
+            );
+
+            const questionId = questionResult.rows[0].question_id;
+
+            // Insert all choices in parallel for better performance
+            await Promise.all(question.choices.map(choiceText => 
+                client.query(
+                    'INSERT INTO choices (question_id, choice_text) VALUES ($1, $2)',
+                    [questionId, choiceText]
+                )
+            ));
+
+            await client.query('COMMIT');
+
+            // Get the created question
+            const newQuestion = await this.get(questionId);
+            if (!newQuestion) {
+                throw new ApiError({
+                    errorCode: 'unknown_server_error',
+                    detail: 'Failed to retrieve created question',
+                    data: undefined
+                });
+            }
+
+            return newQuestion;
+        } catch (error) {
+            await client.query('ROLLBACK');
+            console.error('Failed to create question:', error);
+            if (error instanceof ApiError) {
+                throw error;
+            }
+            throw new ApiError({
+                errorCode: 'unknown_server_error',
+                detail: 'Failed to create question: ' + (error as Error).message,
+                data: undefined
+            });
+        } finally {
+            client.release();
+        }
+    }
 };

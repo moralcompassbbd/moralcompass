@@ -301,6 +301,60 @@ button {
     max-width: 16rem;
 }
 
+details {
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    max-width: 37.5rem;
+    margin: 1rem auto;
+    background-color: #fafafa;
+    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.05);
+    font-family: system-ui, sans-serif;
+    transition: background-color 0.3s ease;
+}
+  
+details[open] {
+    background-color: #fff;
+}
+
+summary {
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    position: relative;
+}
+  
+summary::marker {
+    display: none;
+}
+  
+summary::before {
+    content: '▸';
+    display: inline-block;
+    color: rebeccapurple;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#main-page article img {
+    width: 100%;
+    max-width: 16rem;
+}
+
 #g_id_signin {
     /* even though the element itself is obviously dark, the underlying
     iframe is light and the background of the iframe will only be removed 
@@ -424,4 +478,109 @@ button {
 
 .loading-hidden {
     display: none;
+}
+
+#manager-page {
+    padding: clamp(1rem, 5vw, 2rem);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.question-list {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.question-list ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.question-list li {
+    background: var(--surface-color);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
+}
+
+.question-list .error {
+    color: #ff4444;
+    text-align: center;
+    padding: 1rem;
+}
+
+.question-list .no-questions {
+    text-align: center;
+    padding: 1rem;
+    color: #666;
+}
+
+#add-question-dialog {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 0.5rem;
+    border: none;
+    max-width: 90vw;
+    width: 500px;
+}
+
+#add-question-form.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+#add-question-form button[type="submit"] {
+    min-width: 80px;
+}
+
+#add-question-form button[type="submit"].loading::after {
+    content: '...';
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+@media (max-width: 30rem) {
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+#delete-question-dialog {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 0.5rem;
+    border: none;
+    max-width: 90vw;
+    width: 400px;
+}
+
+#delete-question-dialog form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+button.danger {
+    background-color: #dc3545;
+}
+
+button.danger:hover {
+    background-color: #bb2d3b;
+}
+
+fieldset {
+    border: 0.0625rem solid var(--border-color);
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+
+input {
+    padding: 0.5rem;
+    border: 0.0625rem solid var(--border-color);
+    border-radius: 0.25rem;
 }

@@ -1,0 +1,58 @@
+<header>
+    <nav>
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <section class="header-buttons">
+            <button class="exit-btn" onclick="SPA.navigatePage('main')">
+                <!-- SSR_INCLUDE times_icon -->
+            </button>
+        </section>
+    </nav>
+</header>
+<main id="manager-page">
+    <section class="question-list">
+        <h2>Questions</h2>
+        <button onclick="SPA.handlers.showAddQuestionForm()">Add New Question</button>
+        <ul>
+        </ul>
+        <template id="question-template">
+            <li>
+                <h3>{{questionText}}</h3>
+                <ul class="choices">
+                    {{choices}}
+                </ul>
+                <button onclick="SPA.handlers.deleteQuestion('{{questionId}}')">Delete</button>
+            </li>
+        </template>
+    </section>
+
+    <dialog id="add-question-dialog">
+        <form id="add-question-form" novalidate method="POST" onsubmit="event.preventDefault(); SPA.handlers.submitQuestionForm(this)">
+            <h3>Add New Question</h3>
+            <fieldset>
+                <legend>Question Details</legend>
+                <label for="question-text">Question:</label>
+                <input type="text" id="question-text" required minlength="10" placeholder="Enter your question">
+            </fieldset>
+            <fieldset id="choices">
+                <legend>Answer Choices</legend>
+                <input type="text" name="choice" required placeholder="Choice 1" aria-label="Choice 1">
+                <input type="text" name="choice" required placeholder="Choice 2" aria-label="Choice 2">
+            </fieldset>
+            <footer class="form-actions">
+                <button type="button" onclick="this.closest('dialog').close()">Cancel</button>
+                <button type="submit">Add</button>
+            </footer>
+        </form>
+    </dialog>
+
+    <dialog id="delete-question-dialog">
+        <form method="dialog">
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to delete this question?</p>
+            <footer class="form-actions">
+                <button value="cancel">Cancel</button>
+                <button value="confirm" class="danger">Delete</button>
+            </footer>
+        </form>
+    </dialog>
+</main>

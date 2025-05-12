@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "moralcompass" {
         }
       ]
       environment = [
-        { name = "DB_HOST", value = aws_db_instance.mc_db_instance.endpoint },
+        { name = "DB_HOST", value = split(":", aws_db_instance.mc_db_instance.endpoint)[0] },
         { name = "DB_NAME", value = var.rds_db_name },
         { name = "DB_USER", value = var.rds_db_username },
         { name = "DB_PASSWORD", value = var.rds_db_password }
