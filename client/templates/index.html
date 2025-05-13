@@ -15,7 +15,7 @@
     <title>Moral Compass</title>
 
     <script src="https://accounts.google.com/gsi/client" defer></script>
-    <script src="/dist/client/src/index.js" defer type="module"></script>
+    <script src="/dist/index.js" defer type="module"></script>
 
 </head>
 <body>
@@ -25,6 +25,7 @@
         <button onclick="SPA.navigatePage('quiz')">quiz</button>
         <button onclick="SPA.navigatePage('results')">results</button>
         <button onclick="SPA.navigatePage('error')">error</button>
+        <button onclick="SPA.navigatePage('manager')">manager</button>
     </div>
 
     <template class="page-template" data-page="main" data-onmount="SPA.handlers.renderGoogleButton()"><!-- SSR_INCLUDE main --></template>
@@ -32,6 +33,7 @@
     <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()"><!-- SSR_INCLUDE quiz --></template>
     <template class="page-template" data-page="results" data-onmount="SPA.handlers.initResults()"><!-- SSR_INCLUDE results --></template>
     <template class="page-template" data-page="error"><!-- SSR_INCLUDE error --></template>
+    <template class="page-template" data-page="manager" data-onmount="SPA.handlers.initManager()"><!-- SSR_INCLUDE manager --></template>
     <div id="app-root" style="display: contents"></div>
 </body>
 </html>
