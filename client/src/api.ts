@@ -41,5 +41,46 @@ export const api = {
         } else {
             throw new Error();
         }
+    },
+    deleteQuestion: async (questionId: number) => {
+        try {
+            const resp = await fetch(`/questions/${questionId}`, {
+                method: 'DELETE'
+            });
+            
+            if (!resp.ok) {
+                const error = await resp.json();
+                console.error('Server error:', error);
+                throw new Error(error.detail || 'Failed to delete question');
+            }
+        } catch (error) {
+            console.error('Error deleting question:', error);
+            throw error;
+        }
+    },
+    createQuestion: async (questionText: string, choices: string[]) => {
+        try {
+            const resp = await fetch('/questions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    questionText,
+                    choices
+                })
+            });
+            
+            if (!resp.ok) {
+                const error = await resp.json();
+                console.error('Server error:', error);
+                throw new Error(error.detail || 'Failed to create question');
+            }
+            
+            return await resp.json() as Question;
+        } catch (error) {
+            console.error('Error creating question:', error);
+            throw error;
+        }
     }
 };
