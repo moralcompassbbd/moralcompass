@@ -2,7 +2,13 @@ import { Answer, AnswerPostRequest, Question } from "common/models";
 
 export const api = {
     getQuestions: async () => {
-        const resp = await fetch('/questions');
+        const jwt = localStorage.getItem("jwt");
+        const resp = await fetch('/questions', {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${jwt}`
+            },
+        });
         if (resp.ok) {
             return await resp.json() as Question[];
         } else {
@@ -10,7 +16,13 @@ export const api = {
         }
     },
     getQuestion: async (questionId: number) => {
-        const resp = await fetch(`/questions/${questionId}`);
+        const jwt = localStorage.getItem("jwt");
+        const resp = await fetch(`/questions/${questionId}`, {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${jwt}`
+             },
+        });
         if (resp.ok) {
             return await resp.json() as Question | null;
         } else {
@@ -18,7 +30,13 @@ export const api = {
         }
     },
     getQuestionNext: async () => {
-        const resp = await fetch('/questions/next');
+        const jwt = localStorage.getItem("jwt");
+        const resp = await fetch('/questions/next', {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${jwt}`
+            },
+        });
         if (resp.ok) {
             return await resp.json() as Question | null;
         } else {
@@ -26,6 +44,7 @@ export const api = {
         }
     },
     postAnswer: async(choiceId: number) => {
+        const jwt = localStorage.getItem("jwt");
         const request: AnswerPostRequest = {
             userId: 1, // todo: use actual user when auth ready
             choiceId,
@@ -34,7 +53,10 @@ export const api = {
         const resp = await fetch('/answers', {
             method: 'POST',
             body: JSON.stringify(request),
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+             },
         });
         if (resp.ok) {
             return await resp.json() as Answer;
@@ -44,8 +66,12 @@ export const api = {
     },
     deleteQuestion: async (questionId: number) => {
         try {
+            const jwt = localStorage.getItem("jwt");
             const resp = await fetch(`/questions/${questionId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { 
+                    'Authorization': `Bearer ${jwt}`
+                },
             });
             
             if (!resp.ok) {
@@ -60,10 +86,12 @@ export const api = {
     },
     createQuestion: async (questionText: string, choices: string[]) => {
         try {
+            const jwt = localStorage.getItem("jwt");
             const resp = await fetch('/questions', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
                 },
                 body: JSON.stringify({
                     questionText,
