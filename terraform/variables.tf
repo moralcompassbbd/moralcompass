@@ -47,3 +47,26 @@ variable "aws_account_id" {
   type        = string
   sensitive   = true
 }
+
+variable "google_client_id" {
+  description = "Google Client ID"
+  type        = string
+  default     = "534038687097-4ueh2o1b0d87ad38fpkgn3hi8mjeboga.apps.googleusercontent.com"
+}
+
+variable "google_token_url" {
+  description = "Google Token Url"
+  default     = "https://oauth2.googleapis.com/tokeninfo"
+}
+
+variable "port" {
+  description = "Port for the application"
+  type        = number
+  default     = 3000
+}
+
+variable "admin_cache_ttl_ms" {
+  description = "Cache TTL for admin data in milliseconds"
+  type        = number
+  default     = 60000
+}
