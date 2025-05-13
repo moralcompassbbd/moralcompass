@@ -55,7 +55,7 @@ export function registerQuestionRoutes(app: Express) {
                 });
             }
 
-            await questionRepository.delete(questionId);
+            await questionRepository.deleteQuestions(questionId);
             res.status(204).send();
         } catch (error) {
             const [apiError, status] = mapError(error);
@@ -65,7 +65,7 @@ export function registerQuestionRoutes(app: Express) {
 
     app.post('/questions', async (req: Request<any, any, unknown>, res) => {
         try {
-            if (!req.body || typeof req.body !== 'object' || !('questionText' in req.body) || !('choices' in req.body)) {
+            if (!req.body || typeof req.body !== 'object') {
                 throw new ApiError({
                     errorCode: 'invalid_body',
                     detail: 'Invalid question creation request.',
@@ -73,11 +73,27 @@ export function registerQuestionRoutes(app: Express) {
                 });
             }
 
-            const { questionText, choices } = req.body as { questionText: string, choices: string[] };
+            const body = req.body as Record<string, unknown>;
+            
+            if (typeof body.questionText !== 'string') {
+                throw new ApiError({
+                    errorCode: 'invalid_body',
+                    detail: 'Question text must be a string',
+                    data: undefined
+                });
+            }
 
-            const question = await questionRepository.create({
-                text: questionText,
-                choices: choices
+            if (!Array.isArray(body.choices) || !body.choices.every(choice => typeof choice === 'string')) {
+                throw new ApiError({
+                    errorCode: 'invalid_body',
+                    detail: 'Choices must be an array of strings',
+                    data: undefined
+                });
+            }
+
+            const question = await questionRepository.createQuestions({
+                text: body.questionText,
+                choices: body.choices
             });
             
             res.status(201).json(question);

@@ -1,7 +1,7 @@
 import { ApiError } from "../error";
 import choiceRepository from "./choice-repository";
 import pool from "./pool";
-import { Question } from 'common/models';
+import { Question, QuestionCreateRequest } from 'common/models';
 
 export default {
     async getAll(): Promise<Question[]> {
@@ -85,7 +85,7 @@ export default {
             return await this.getRandom();
         }
     },
-    async delete(questionId: number): Promise<void> {
+    async deleteQuestions(questionId: number): Promise<void> {
         const client = await pool.connect();
         try {
             await client.query('BEGIN');
@@ -108,7 +108,7 @@ export default {
         }
     },
 
-    async create(question: { text: string, choices: string[] }): Promise<Question> {
+    async createQuestions(question: QuestionCreateRequest): Promise<Question> {
         const client = await pool.connect();
         try {
             if (!question.text || question.text.trim().length === 0) {
@@ -128,7 +128,6 @@ export default {
 
             await client.query('BEGIN');
             
-            // Insert question
             const questionResult = await client.query(
                 'INSERT INTO questions (question_text) VALUES ($1) RETURNING question_id',
                 [question.text]
@@ -136,7 +135,6 @@ export default {
 
             const questionId = questionResult.rows[0].question_id;
 
-            // Insert all choices in parallel for better performance
             await Promise.all(question.choices.map(choiceText => 
                 client.query(
                     'INSERT INTO choices (question_id, choice_text) VALUES ($1, $2)',
@@ -146,7 +144,6 @@ export default {
 
             await client.query('COMMIT');
 
-            // Get the created question
             const newQuestion = await this.get(questionId);
             if (!newQuestion) {
                 throw new ApiError({

@@ -1,4 +1,3 @@
-
 export type ApiErrorCode = 'unknown_server_error' | 'invalid_route_parameter' | 'not_found' | 'invalid_body';
 
 export type ApiErrorType<C extends ApiErrorCode, T = undefined> = {
@@ -24,6 +23,11 @@ export type Question = {
     questionId: number,
     text: string,
     choices: Choice[],
+};
+
+export type QuestionCreateRequest = {
+    text: string;
+    choices: string[];
 };
 
 export type Choice = {
