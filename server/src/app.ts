@@ -4,8 +4,9 @@ import { indexPage } from './templates';
 import { ApiErrorResponse } from 'common/models';
 import { registerQuestionRoutes } from './routes/question-routes';
 import { registerAnswerRoutes } from './routes/answer-routes';
-import { registerAuthRoutes } from './routes/auth-route';
+import { registerAuthRoutes } from './routes/auth-routes';
 import path from 'path';
+import { registerUserRoutes } from './routes/user-routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.get('/health', (_, res) => {
 });
 
 registerAuthRoutes(app);
+registerUserRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 

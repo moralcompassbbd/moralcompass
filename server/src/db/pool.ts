@@ -5,9 +5,7 @@ const pool = new pg.Pool({
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    ssl: process.env.NODE_ENV === 'production' 
-    ? { rejectUnauthorized: false } // Allow self-signed certs in production
-    : false // Disable SSL in development
+    ssl: { rejectUnauthorized: false }
 });
 
 export default pool;

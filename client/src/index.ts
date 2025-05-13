@@ -74,7 +74,7 @@ window.onerror = (message, source, lineno, colno, error) => {
 
 window.onload = () => {
     window.google.accounts.id.initialize({
-        client_id: '899857308635-vsmeap9pv8b4k01475mu2ref12g46lag.apps.googleusercontent.com',
+        client_id: '534038687097-4ueh2o1b0d87ad38fpkgn3hi8mjeboga.apps.googleusercontent.com',
         callback: handleCredentialResponse,
     });
 

@@ -1,9 +1,10 @@
 import { Express, Request } from "express";
 import answerRepository from "../db/answer-repository";
 import { ApiError, mapError } from "../error";
+import { authenticationMiddleware } from "../middleware/middleware";
 
 export function registerAnswerRoutes(app: Express) {
-    app.post('/answers', async (req: Request<any, any, unknown>, res) => {
+    app.post('/answers', authenticationMiddleware, async (req: Request<any, any, unknown>, res) => {
         try {
             if (req.body && typeof req.body === 'object' && 'userId' in req.body && 'choiceId' in req.body && typeof req.body.userId === 'number' && typeof req.body.choiceId === 'number') {
                 const answer = await answerRepository.insert({
