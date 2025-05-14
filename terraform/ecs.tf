@@ -25,7 +25,11 @@ resource "aws_ecs_task_definition" "moralcompass" {
         { name = "DB_HOST", value = split(":", aws_db_instance.mc_db_instance.endpoint)[0] },
         { name = "DB_NAME", value = var.rds_db_name },
         { name = "DB_USER", value = var.rds_db_username },
-        { name = "DB_PASSWORD", value = var.rds_db_password }
+        { name = "DB_PASSWORD", value = var.rds_db_password },
+        { name = "GOOGLE_TOKEN_URL", value = var.google_token_url },
+        { name = "CLIENT_ID", value = var.google_client_id },
+        { name = "PORT", value = tostring(var.port) },
+        { name = "ADMIN_CACHE_TTL_MS", value = tostring(var.admin_cache_ttl_ms) }
       ]
     }
   ])
