@@ -11,9 +11,9 @@ export function initHomePage() {
     if (welcomeHeaderElement) {
         const user = SPA.pageProps?.name;
         if (user) {
-        welcomeHeaderElement.innerHTML = `Welcome, ${user}!`;
+            welcomeHeaderElement.innerText = `Welcome, ${user}!`;
         } else {
-            welcomeHeaderElement.innerHTML = "Welcome!";
+            welcomeHeaderElement.innerText = "Welcome!";
         } 
     }
 }

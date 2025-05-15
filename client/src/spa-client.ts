@@ -23,8 +23,13 @@ export class SpaClient<T> {
             this.currentPage = page;
             this.pageProps = pageProps;
             const element = pageTemplateMap.get(`${page}`);
-            const content = element?.innerHTML ?? '404 Page Not Found';
-            root.innerHTML = content;
+            const content = element?.content?.cloneNode(true);
+            
+            if (content) {
+                root.replaceChildren(content);
+            } else {
+                root.replaceChildren('404 Page Not Found');
+            }
             
             const onmountScript = element?.getAttribute('data-onmount');
             if (onmountScript) {

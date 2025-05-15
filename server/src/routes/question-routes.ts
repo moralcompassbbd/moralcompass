@@ -3,6 +3,7 @@ import questionRepository from "../db/question-repository";
 import { ApiError, mapError } from "../error";
 import choiceRepository from "../db/choice-repository";
 import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
+import { QuestionCreateRequest } from "common/models";
 
 export function registerQuestionRoutes(app: Express) {
         app.get('/questions', authenticationMiddleware, async (_, res) => {
@@ -37,8 +38,17 @@ export function registerQuestionRoutes(app: Express) {
                     });
                 }
         
-                const questionModels = await questionRepository.get(questionId);
-                res.json(questionModels);
+                const questionModel = await questionRepository.get(questionId);
+
+                if (!questionModel) {
+                    throw new ApiError({
+                        errorCode: 'not_found',
+                        detail: `Question with ID ${questionId} could not be found.`,
+                        data: undefined,
+                    });
+                }
+
+                res.json(questionModel);
             } catch (error) {
                 const [apiError, status] = mapError(error);
                 res.status(status).json(apiError);
@@ -53,6 +63,15 @@ export function registerQuestionRoutes(app: Express) {
                     throw new ApiError({
                         errorCode: 'invalid_route_parameter',
                         detail: 'Question ID is not an integer.',
+                        data: undefined,
+                    });
+                }
+
+                let existingQuestion = await questionRepository.get(questionId);
+                if (!existingQuestion) {
+                    throw new ApiError({
+                        errorCode: 'not_found',
+                        detail: `Question with ID ${questionId} could not be found.`,
                         data: undefined,
                     });
                 }
@@ -93,10 +112,36 @@ export function registerQuestionRoutes(app: Express) {
                     });
                 }
 
-                const question = await questionRepository.createQuestions({
-                    text: body.questionText,
-                    choices: body.choices
-                });
+                const createQuestionReq: QuestionCreateRequest = {
+                    text: body.questionText.trim(),
+                    choices: body.choices.map(choice => choice.trim()),
+                };
+
+                if (!createQuestionReq.text) {
+                    throw new ApiError({
+                        errorCode: 'invalid_body',
+                        detail: 'Question text cannot be empty.',
+                        data: undefined
+                    });
+                }
+
+                if (createQuestionReq.choices.length < 2) {
+                    throw new ApiError({
+                        errorCode: 'invalid_body',
+                        detail: 'Question must have at least 2 choices.',
+                        data: undefined
+                    });
+                }
+
+                if (!createQuestionReq.choices.every(choice => choice.length > 0)) {
+                    throw new ApiError({
+                        errorCode: 'invalid_body',
+                        detail: 'No choice may be empty.',
+                        data: undefined
+                    });
+                }
+
+                const question = await questionRepository.createQuestions(createQuestionReq);
                 
                 res.status(201).json(question);
             } catch (error) {
