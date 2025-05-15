@@ -2,7 +2,8 @@ import { Express, Request } from "express";
 import questionRepository from "../db/question-repository";
 import { ApiError, mapError } from "../error";
 import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
-import { QuestionCreateRequest } from "common/models";
+import { GoogleUser, QuestionCreateRequest } from "common/models";
+import userRepository from "../db/user-repository";
 
 export function registerQuestionRoutes(app: Express) {
         app.get('/questions', authenticationMiddleware, async (_, res) => {
@@ -17,7 +18,14 @@ export function registerQuestionRoutes(app: Express) {
 
         app.get('/questions/next', authenticationMiddleware, async (req, res) => {
             try {
-                const question = await questionRepository.getNext(1);
+                const jwt: GoogleUser = res.locals.googleUser;
+                const user = await userRepository.getUserByGoogleId(jwt.sub);
+
+                if (!user) {
+                    throw new Error();
+                }
+
+                const question = await questionRepository.getNext(user.userId);
                 res.json(question);
             } catch (error) {
                 const [apiError, status] = mapError(error);

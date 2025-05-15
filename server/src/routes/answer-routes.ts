@@ -30,6 +30,10 @@ export function registerAnswerRoutes(app: Express) {
                 });
             }
         } catch (error) {
+            if (!(error instanceof ApiError)) {
+                console.error(error);
+            }
+
             const [apiError, status] = mapError(error);
             res.status(status).json(apiError);
         }
