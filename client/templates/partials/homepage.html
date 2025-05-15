@@ -1,5 +1,8 @@
 <main id="home-page">
   <article>
+    <button class="logout" onclick="SPA.handlers.displayConfirmLogoutModal()">
+      logout
+    </button>
     <section class="homepage-cards">
       <h1 id="welcome-heading"></h1>
       <p>Choose a path to begin…</p>
@@ -18,14 +21,6 @@
           <img src="/static/community-gen.png" aria-hidden="true">
           <h2>What Others Chose</h2>
           <p>Compare with community stats</p>
-        </li>
-        <li id="card-manager" class="bg-pastel-purple" onclick="SPA.navigatePage('manager')">
-          <img src="/static/manager.png" aria-hidden="true">
-          <h2>Manage Questions</h2>
-        </li>
-        <li id="card-users" class="bg-pastel-purple" onclick="SPA.navigatePage('user_tables')">
-          <img src="/static/manager.png" aria-hidden="true">
-          <h2>Manage Users</h2>
         </li>
       </ul>
     </section>

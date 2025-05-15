@@ -1,10 +1,12 @@
+import { getLocalStorageItem } from "./storage";
 import { api } from "./api";
+import { User } from "common/models";
 
 export function initHomePage() {
     let welcomeHeaderElement = document.getElementById("welcome-heading");
-    let user = JSON.parse(localStorage.getItem('user') || 'null');
+    let user = getLocalStorageItem<User>("user");
     if (welcomeHeaderElement) {
-        if (user !== 'null') {
+        if (user) {
         welcomeHeaderElement.innerHTML = `Welcome, ${user.name}!`;
         } else {
             welcomeHeaderElement.innerText = "Welcome!";
@@ -39,8 +41,6 @@ async function addManagerCards(){
             questionCardItem.appendChild(h2_questions);
             questionCardItem.appendChild(p_questions);
 
-            //
-
             const h2_users = document.createElement('h2');
             h2_users.textContent = "🙋 Users";
             
@@ -52,7 +52,7 @@ async function addManagerCards(){
             userCardItem.className = "bg-pastel-purple";
             userCardItem.onclick = () => SPA.navigatePage('user_tables');
 
-            userCardItem.appendChild(img);
+            userCardItem.appendChild(img.cloneNode());
             userCardItem.appendChild(h2_users);
             userCardItem.appendChild(p_users);
             

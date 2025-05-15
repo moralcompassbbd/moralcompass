@@ -1,3 +1,4 @@
+import { User } from 'common/models';
 import { deleteLocalStorageItem, storeLocalStorageItem } from './storage';
 
 export function handleCredentialResponse(response: any) {
@@ -8,8 +9,8 @@ export function handleCredentialResponse(response: any) {
     })
     .then(res => res.json())
     .then((data) => {
-        storeLocalStorageItem("user", JSON.stringify(data.user));
-        storeLocalStorageItem("jwt", data.jwt);
+        storeLocalStorageItem<User>("user", data.user);
+        storeLocalStorageItem<string>("jwt", data.jwt);
         SPA.navigatePage('homepage', { name: data.user.name});
     })
     .catch(error => alert(error));

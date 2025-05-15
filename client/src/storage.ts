@@ -1,18 +1,16 @@
-export function getLocalStorageItem(key: string): any{
-    let result;
+export function getLocalStorageItem<T>(key: string): T | undefined {
     try {
         const stored = localStorage.getItem(key);
-        result = stored ? JSON.parse(stored) : undefined;
+        return stored ? (JSON.parse(stored) as T) : undefined;
     } catch {
-        result = undefined;
+        return undefined;
     }
-    return result;
 }
 
-export function storeLocalStorageItem(key: string, item: any){
+export function storeLocalStorageItem<T>(key: string, item: T): void {
     localStorage.setItem(key, JSON.stringify(item));
 }
 
-export function deleteLocalStorageItem(key: string){
+export function deleteLocalStorageItem(key: string): void {
     localStorage.removeItem(key);
 }

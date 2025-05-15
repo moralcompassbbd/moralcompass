@@ -3,7 +3,7 @@ import { getLocalStorageItem } from './storage';
 
 export const api = {
     getQuestions: async () => {
-        const jwt = getLocalStorageItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch('/questions', {
             method: 'GET',
             headers: { 
@@ -17,7 +17,7 @@ export const api = {
         }
     },
     getQuestion: async (questionId: number) => {
-        const jwt = getLocalStorageItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch(`/questions/${questionId}`, {
             method: 'GET',
             headers: { 
@@ -31,7 +31,7 @@ export const api = {
         }
     },
     getQuestionNext: async () => {
-        const jwt = getLocalStorageItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch('/questions/next', {
             method: 'GET',
             headers: { 
@@ -45,7 +45,7 @@ export const api = {
         }
     },
     postAnswer: async(choiceId: number) => {
-        const jwt = getLocalStorageItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const request: AnswerPostRequest = {
             userId: 1, // todo: use actual user when auth ready
             choiceId,
@@ -67,7 +67,7 @@ export const api = {
     },
     deleteQuestion: async (questionId: number) => {
         try {
-            const jwt = getLocalStorageItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch(`/questions/${questionId}`, {
                 method: 'DELETE',
                 headers: { 
@@ -87,7 +87,7 @@ export const api = {
     },
     createQuestion: async (questionText: string, choices: string[]) => {
         try {
-            const jwt = getLocalStorageItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch('/questions', {
                 method: 'POST',
                 headers: {
@@ -114,7 +114,7 @@ export const api = {
     },
     isAuthenticated: async () => {
         try {
-            const jwt = getLocalStorageItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch('/authenticated', {
                 method: 'GET',
                 headers: {
@@ -130,7 +130,7 @@ export const api = {
     },
     isAuthorized: async () => {
         try {
-            const jwt = getLocalStorageItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch('/authorized', {
                 method: 'GET',
                 headers: {
@@ -145,22 +145,27 @@ export const api = {
         }
     },
     getUsers: async () => {
-        const jwt = localStorage.getItem("jwt");
-        const resp = await fetch(`/users`, {
-            method: 'GET',
-            headers: { 
-                'Authorization': `Bearer ${jwt}`
-             },
-        });
-        if (resp.ok) {
-            return await resp.json() as User[];
-        } else {
-            throw new Error();
+        try{
+            const jwt = getLocalStorageItem<string>("jwt");
+            const resp = await fetch(`/users`, {
+                method: 'GET',
+                headers: { 
+                    'Authorization': `Bearer ${jwt}`
+                 },
+            });
+            if (resp.ok) {
+                return await resp.json() as User[];
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.error('Network or unexpected error:', error);
+            return [];
         }
     },
    updateManagerStatus: async (userId: number, makeManager: boolean): Promise<boolean> => {
         try {
-            const jwt = localStorage.getItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const response = await fetch(`/manager-status/${userId}?makeManager=${makeManager}`, {
             method: 'PATCH',
             headers: {

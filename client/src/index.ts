@@ -91,8 +91,8 @@ window.onload = () => {
 
     api.isAuthenticated().then((isAuthenticated) => {
         if(isAuthenticated){
-            const user: User = getLocalStorageItem("user");
-            spaClient.navigatePage('homepage', { name: user.name});
+            const user = getLocalStorageItem<User>("user");
+            spaClient.navigatePage('homepage', { name: user ? user.name : ""});
         } else{
             spaClient.navigatePage('main');
             deleteLocalStorageItem("jwt");
