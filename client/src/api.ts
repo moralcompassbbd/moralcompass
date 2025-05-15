@@ -1,8 +1,9 @@
-import { Answer, AnswerCreateRequest, Question } from "common/models";
+import { Answer, AnswerCreateRequest, Question, User } from "common/models";
+import { getLocalStorageItem } from './storage';
 
 export const api = {
     getQuestions: async () => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch('/questions', {
             method: 'GET',
             headers: { 
@@ -16,7 +17,7 @@ export const api = {
         }
     },
     getQuestion: async (questionId: number) => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch(`/questions/${questionId}`, {
             method: 'GET',
             headers: { 
@@ -30,7 +31,7 @@ export const api = {
         }
     },
     getQuestionNext: async () => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const resp = await fetch('/questions/next', {
             method: 'GET',
             headers: { 
@@ -65,7 +66,7 @@ export const api = {
     },
     deleteQuestion: async (questionId: number) => {
         try {
-            const jwt = localStorage.getItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch(`/questions/${questionId}`, {
                 method: 'DELETE',
                 headers: { 
@@ -85,7 +86,7 @@ export const api = {
     },
     createQuestion: async (questionText: string, choices: string[]) => {
         try {
-            const jwt = localStorage.getItem("jwt");
+            const jwt = getLocalStorageItem<string>("jwt");
             const resp = await fetch('/questions', {
                 method: 'POST',
                 headers: {
@@ -108,6 +109,82 @@ export const api = {
         } catch (error) {
             console.error('Error creating question:', error);
             throw error;
+        }
+    },
+    isAuthenticated: async () => {
+        try {
+            const jwt = getLocalStorageItem<string>("jwt");
+            const resp = await fetch('/authenticated', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
+            
+            return resp.ok;
+        } catch (error) {
+            return false;
+        }
+    },
+    isAuthorized: async () => {
+        try {
+            const jwt = getLocalStorageItem<string>("jwt");
+            const resp = await fetch('/authorized', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
+            
+            return resp.ok;
+        } catch (error) {
+          return false;
+        }
+    },
+    getUsers: async () => {
+        try{
+            const jwt = getLocalStorageItem<string>("jwt");
+            const resp = await fetch(`/users`, {
+                method: 'GET',
+                headers: { 
+                    'Authorization': `Bearer ${jwt}`
+                 },
+            });
+            if (resp.ok) {
+                return await resp.json() as User[];
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.error('Network or unexpected error:', error);
+            return [];
+        }
+    },
+   updateManagerStatus: async (userId: number, makeManager: boolean): Promise<boolean> => {
+        try {
+            const jwt = getLocalStorageItem<string>("jwt");
+            const response = await fetch(`/manager-status/${userId}?makeManager=${makeManager}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+            });
+
+            if (response.status === 201 || response.status === 200) {
+                return true;
+            } else if (response.status === 204) {
+                return false;
+            } else {
+                const errorData = await response.json();
+                console.error('API Error:', errorData);
+                return false;
+            }
+        } catch (error) {
+            console.error('Network or unexpected error:', error);
+            return false;
         }
     }
 };

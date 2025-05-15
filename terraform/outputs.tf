@@ -5,5 +5,5 @@ output "rds_endpoint" {
 
 output "website_url" {
   description = "URL to access the deployed website"
-  value       = "http://${aws_lb.mc_app_alb.dns_name}"
+  value       = "https://${aws_cloudfront_distribution.mc_distribution.domain_name}"
 }

@@ -1,3 +1,5 @@
+import { User } from 'common/models';
+import { deleteLocalStorageItem, storeLocalStorageItem } from './storage';
 
 export function handleCredentialResponse(response: any) {
     fetch('/login', {
@@ -7,9 +9,28 @@ export function handleCredentialResponse(response: any) {
     })
     .then(res => res.json())
     .then((data) => {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("jwt", data.jwt);
+        storeLocalStorageItem<User>("user", data.user);
+        storeLocalStorageItem<string>("jwt", data.jwt);
         SPA.navigatePage('homepage', { name: data.user.name});
     })
     .catch(error => alert(error));
+}
+
+export const displayConfirmLogoutModal = async() => {
+  const dialog = document.getElementById('logout-confirmation-dialog') as HTMLDialogElement;
+      
+  dialog.showModal();
+  const result = await new Promise<string>((resolve) => {
+      dialog.addEventListener('close', () => {
+          resolve(dialog.returnValue);
+      }, { once: true });
+  });
+
+  if (result === 'confirm') {
+    SPA.navigatePage('main');
+    deleteLocalStorageItem("jwt");
+    deleteLocalStorageItem("user");
+  } else{
+    // don't logout
+  }
 }
