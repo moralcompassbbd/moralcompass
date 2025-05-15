@@ -22,7 +22,12 @@ function populateTable(users: User[]) {
   const headers  = Object.keys(users[0]) as (keyof User)[];
   headers.forEach((key:string) => {
     const th = document.createElement("th");
-    th.textContent = key[0].toUpperCase() + key.slice(1);
+    if (key === 'role_name') {
+      let role = key.split('_');
+      th.textContent = role[0].charAt(0).toUpperCase() + role[0].slice(1);
+    } else {
+      th.textContent = key[0].toUpperCase() + key.slice(1);
+    }
     headerRow.appendChild(th);
   });
 
@@ -33,7 +38,6 @@ function populateTable(users: User[]) {
 
   users.forEach((user: User) => {
     const tr = document.createElement("tr");
-    console.log(user)
     headers.forEach((key: string) => {
       const td = document.createElement("td");
       if (key === 'role_name') {
