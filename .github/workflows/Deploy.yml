@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [master]
+    branches: [lerato/deployment-fix]
   workflow_dispatch:
 
 env:
