@@ -80,13 +80,13 @@ export default {
         return userSelection.rows;
     },
     async getGoogleSub(userId: string): Promise<string>{
-        const userSelection = await pool.query(`
+        const googleSubSelection = await pool.query(`
             SELECT 
                 google_id AS "googleId"
             FROM users
                 WHERE user_id = $1 
         `, [userId]);
 
-        return userSelection.rows[0]?.googleId;
+        return googleSubSelection.rows.length > 0 ? googleSubSelection.rows[0].googleId : "";
     }
 };

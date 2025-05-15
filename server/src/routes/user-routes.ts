@@ -3,6 +3,7 @@ import { mapError } from "../error";
 import userRepository from "../db/user-repository";
 import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
 import { setCachedManagerStatus } from "../cache/manager";
+import { GoogleUser } from "common/models";
 
 export function registerUserRoutes(app: Express){
 
@@ -10,9 +11,13 @@ export function registerUserRoutes(app: Express){
         try{
             const userId = req.params.userId;
             const makeManager = req.query.makeManager === 'true';
-            if(makeManager){
+            const sub = await userRepository.getGoogleSub(userId);
+            const googleUser: GoogleUser = res.locals.googleUser;
+            
+            if(googleUser.sub === sub){
+                res.status(400).json({error: "You cannot change your own manager status"})
+            } else if(makeManager){
                 const result = await userRepository.makeUserManager(userId);
-                const sub = await userRepository.getGoogleSub(userId);
                 setCachedManagerStatus(sub, true);
                 if(result){
                     res.status(201).send();
