@@ -1,16 +1,19 @@
 <header>
     <nav>
-        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo" onclick="SPA.navigatePage('homepage')">
         <section class="header-buttons">
-            <!-- <button onclick="SPA.handlers.clearResults()">Clear Results</button> -->
             <button class="exit-btn" onclick="SPA.navigatePage('quiz')">
                 <!-- SSR_INCLUDE times_icon -->
             </button>
         </section>
     </nav>
 </header>
-<main id="results-page" class="loading-hidden">
-    <article>
+<main id="results-page">
+    <section class="loading-container">
+        <h2 class="loading-text">Loading Results...</h2>
+        <div class="loading-bar"></div>
+    </section>
+    <article class="loading-hidden">
         <ol>
             <template id="question-template">
                 <header>

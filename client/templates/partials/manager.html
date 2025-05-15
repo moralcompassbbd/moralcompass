@@ -1,6 +1,6 @@
 <header>
     <nav>
-        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo" onclick="SPA.navigatePage('homepage')">
         <section class="header-buttons">
             <button class="exit-btn" onclick="SPA.navigatePage('main')">
                 <!-- SSR_INCLUDE times_icon -->
@@ -9,11 +9,14 @@
     </nav>
 </header>
 <main id="manager-page">
-    <section class="question-list">
+    <section class="loading-container">
+        <h2 class="loading-text">Loading Manager Screen...</h2>
+        <div class="loading-bar"></div>
+    </section>
+    <section class="question-list loading-hidden">
         <h2>Questions</h2>
         <button onclick="SPA.handlers.showAddQuestionForm()">Add New Question</button>
-        <ul>
-        </ul>
+        <ul></ul>
         <template id="question-template">
             <li>
                 <h3>{{questionText}}</h3>

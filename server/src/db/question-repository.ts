@@ -102,7 +102,7 @@ export default {
             console.error('Failed to delete question:', error);
             throw new ApiError({
                 errorCode: 'unknown_server_error',
-                detail: 'Failed to delete question: ' + (error as Error).message,
+                detail: 'Failed to delete question',
                 data: undefined
             });
         } finally {

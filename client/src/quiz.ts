@@ -15,40 +15,51 @@ globalThis.questionAnswers = [];
 let question: Question;
 
 export const initQuiz = async () => {
-    question = (await api.getQuestionNext())!;
-
     const quizPageElement = document.getElementById('quiz-page')!;
+    const loadingContainer = quizPageElement.querySelector('.loading-container')!;
+    const questionElement = quizPageElement.querySelector('.question')!;
 
-    quizPageElement.innerHTML = quizPageElement.innerHTML.replace('{{questionText}}', question.text);
-
-    const choicesListElement = quizPageElement.querySelector('.question ul')!;
-    const choiceTemplateElement = choicesListElement.querySelector('template')!;
-
-    let totalPopularity = 0;
-
-    const choicePopularities: number[] = question.choices.map(choice => {
-        totalPopularity += choice.answerCount;
-        return choice.answerCount;
-    });
-
-    for (const [index, choice] of question.choices.entries()) {
-        const choiceElement = document.createElement('li');
-
-        const percentage = choicePopularities[index] / totalPopularity * 100;
-        const percentageText = !Number.isNaN(percentage) ? percentage.toFixed(0) + '%' : '';
+    try {
+        // Show loading state
+        loadingContainer.classList.add('active');
+        questionElement.classList.add('loading-hidden');
         
-        let choiceHtml = choiceTemplateElement.innerHTML;
-        choiceHtml = choiceHtml.replace('{{choiceId}}', choice.choiceId+'');
-        choiceHtml = choiceHtml.replace('{{choiceText}}', choice.text+'');
-        choiceHtml = choiceHtml.replace('{{choicePopularity}}', percentageText);
+        question = (await api.getQuestionNext())!;
         
-        choiceElement.innerHTML = choiceHtml;
-        
-        choicesListElement.appendChild(choiceElement);
+        questionElement.innerHTML = questionElement.innerHTML.replace('{{questionText}}', question.text);
+
+        const choicesListElement = questionElement.querySelector('ul')!;
+        const choiceTemplateElement = choicesListElement.querySelector('template')!;
+
+        let totalPopularity = 0;
+        const choicePopularities: number[] = question.choices.map(choice => {
+            totalPopularity += choice.answerCount;
+            return choice.answerCount;
+        });
+
+        for (const [index, choice] of question.choices.entries()) {
+            const choiceElement = document.createElement('li');
+            const percentage = choicePopularities[index] / totalPopularity * 100;
+            const percentageText = !Number.isNaN(percentage) ? percentage.toFixed(0) + '%' : '';
+            
+            let choiceHtml = choiceTemplateElement.innerHTML;
+            choiceHtml = choiceHtml.replace('{{choiceId}}', choice.choiceId+'');
+            choiceHtml = choiceHtml.replace('{{choiceText}}', choice.text+'');
+            choiceHtml = choiceHtml.replace('{{choicePopularity}}', percentageText);
+            
+            choiceElement.innerHTML = choiceHtml;
+            choicesListElement.appendChild(choiceElement);
+        }
+
+        // Hide loading, show question
+        questionElement.classList.remove('loading-hidden');
+    } catch (error) {
+        console.error('Failed to load question:', error);
+    } finally {
+        // Always hide loading container
+        loadingContainer.classList.remove('active');
     }
-
-    quizPageElement.classList.remove('loading-hidden');
-}
+};
 
 export function quizShowNext() {
     const quizPageElement = document.querySelector('#quiz-page .question')!;

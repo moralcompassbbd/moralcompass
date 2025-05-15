@@ -2,41 +2,46 @@ import { api } from "./api";
 
 export const initManager = async () => {
     const managerPage = document.getElementById('manager-page')!;
-    const questionList = managerPage.querySelector('.question-list ul')!;
+    const questionList = managerPage.querySelector('.question-list')! as HTMLElement;
+    const questionListContainer = questionList.querySelector('ul')!;
     const questionTemplate = managerPage.querySelector('#question-template') as HTMLTemplateElement;
-
-    if (!questionTemplate) {
-        console.error('Question template not found');
-        return;
-    }
+    const loadingContainer = managerPage.querySelector('.loading-container')!;
 
     try {
+        // Show loading state
+        loadingContainer.classList.add('active');
+        questionList.classList.add('loading-hidden');
+        
         const questions = await api.getQuestions();
         
-        questionList.innerHTML = '';
+        questionListContainer.innerHTML = '';
 
         if (questions.length === 0) {
-            questionList.innerHTML = '<li class="no-questions">No questions available</li>';
-            return;
+            questionListContainer.innerHTML = '<li class="no-questions">No questions available</li>';
+        } else {
+            for (const question of questions) {
+                const questionElement = document.createElement('li');
+                let html = questionTemplate.innerHTML.replace('{{questionText}}', question.text);
+                html = html.replace('{{questionId}}', question.questionId.toString());
+                
+                const choicesHtml = question.choices
+                    .map(choice => `<li>${choice.text}</li>`)
+                    .join('');
+                
+                html = html.replace('{{choices}}', choicesHtml);
+                
+                questionElement.innerHTML = html;
+                questionListContainer.appendChild(questionElement);
+            }
         }
 
-        for (const question of questions) {
-            const questionElement = document.createElement('li');
-            let html = questionTemplate.innerHTML.replace('{{questionText}}', question.text);
-            html = html.replace('{{questionId}}', question.questionId.toString());
-            
-            const choicesHtml = question.choices
-                .map(choice => `<li>${choice.text}</li>`)
-                .join('');
-            
-            html = html.replace('{{choices}}', choicesHtml);
-            
-            questionElement.innerHTML = html;
-            questionList.appendChild(questionElement);
-        }
+        // Show content after loading
+        questionList.classList.remove('loading-hidden');
     } catch (error) {
         console.error('Failed to load questions:', error);
-        questionList.innerHTML = '<li class="error">Failed to load questions</li>';
+        questionListContainer.innerHTML = '<li class="error">Failed to load questions</li>';
+    } finally {
+        loadingContainer.classList.remove('active');
     }
 };
 
