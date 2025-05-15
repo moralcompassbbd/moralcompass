@@ -2,6 +2,11 @@ resource "aws_ecs_cluster" "moralcompass" {
   name = "moralcompass-cluster"
 }
 
+resource "aws_cloudwatch_log_group" "moralcompass" {
+  name              = "/ecs/moralcompass"
+  retention_in_days = 30
+}
+
 resource "aws_ecs_task_definition" "moralcompass" {
   family                   = "moralcompass-task"
   network_mode             = "awsvpc"
@@ -31,6 +36,14 @@ resource "aws_ecs_task_definition" "moralcompass" {
         { name = "PORT", value = tostring(var.port) },
         { name = "ADMIN_CACHE_TTL_MS", value = tostring(var.admin_cache_ttl_ms) }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.moralcompass.name
+          "awslogs-region"        = "af-south-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
     }
   ])
 }
