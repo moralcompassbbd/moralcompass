@@ -26,11 +26,10 @@ registerUserRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-const clientDistRoot = path.join(__dirname, '../../../client');
-app.use('/dist', express.static(path.join(clientDistRoot, 'dist'), {
+app.use('/dist', express.static('../client/dist', {
     extensions: ['js']
 }));
-app.use('/static', express.static(path.join(clientDistRoot, 'static')));
+app.use('/static', express.static('../client/static'));
 
 // 404
 app.all('*route', (_req, res) => {
