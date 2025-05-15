@@ -7,11 +7,10 @@ export function beginQuiz() {
 
 export function initHomePage() {
     let welcomeHeaderElement = document.getElementById("welcome-heading");
-   
+    let user = JSON.parse(localStorage.getItem('user') || 'null');
     if (welcomeHeaderElement) {
-        const user = SPA.pageProps?.name;
-        if (user) {
-        welcomeHeaderElement.innerHTML = `Welcome, ${user}!`;
+        if (user !== 'null') {
+        welcomeHeaderElement.innerHTML = `Welcome, ${user.name}!`;
         } else {
             welcomeHeaderElement.innerHTML = "Welcome!";
         } 

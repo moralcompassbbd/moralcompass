@@ -672,3 +672,81 @@ input {
         font-size: 0.875rem;
     }
 }
+
+
+#userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  thead tr {
+    background-color: #007BFF; 
+    color: white;
+    text-align: left;
+  }
+
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+
+  tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.25rem 0.25rem;
+  }
+}
+
+.table-container {
+  overflow-y: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd; 
+  box-shadow: 0 6px 18px rgba(104, 79, 163, 0.15);
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.user-table thead {
+    background-color: #8a5cf5; 
+    color: white;
+}
+
+.user-table th {
+    padding: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.user-table td {
+    color: #000;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+ .edit-btn {
+    background-color: #8a5cf5;
+    color: #FFF;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 300;
+    font-size: 0.9rem;
+}
+
+.edit-btn:hover {
+    background-color: #7146dd;
+    box-shadow: 0 2px 8px rgba(138, 92, 245, 0.4);
+} 
+
+

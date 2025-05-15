@@ -4,6 +4,8 @@ import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
 import { clearResults, initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
+import { initUserTable, showEditUserStatusForm } from './user-tables';
+import { User } from 'common/models';
 
 const renderGoogleButton = () => {
     window.google.accounts.id.renderButton(
@@ -38,7 +40,9 @@ type Handlers = {
     initManager: () => void,
     showAddQuestionForm: () => void,
     deleteQuestion: (questionId: number) => void,
-    submitQuestionForm: (form: HTMLFormElement) => void
+    submitQuestionForm: (form: HTMLFormElement) => void,
+    initUserTable: () => void,
+    showEditUserStatusForm: (user: User) => void,
 };
 
 const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateElements, {
@@ -54,7 +58,9 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateEl
     initManager,
     showAddQuestionForm,
     deleteQuestion,
-    submitQuestionForm
+    submitQuestionForm,
+    initUserTable: initUserTable,
+    showEditUserStatusForm: showEditUserStatusForm
 });
 
 declare global {

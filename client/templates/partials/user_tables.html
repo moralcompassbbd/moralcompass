@@ -1,0 +1,46 @@
+<header>
+    <nav>
+        <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+        <section class="header-buttons">
+            <button class="exit-btn" onclick="SPA.navigatePage('homepage')">
+                <!-- SSR_INCLUDE times_icon -->
+            </button>
+        </section>
+    </nav>
+</header>
+<main id="user-table-page">
+    <article>
+        <section class="table-container">
+            <table id="user-table" class="user-table">
+            <thead>
+                
+            </thead>
+            <tbody>
+                <!-- User Row -->
+            </tbody>
+            </table>
+        </section>
+
+        <dialog id="edit-user-status-dialog">
+        <form id="edit-user-status-form" novalidate method="POST" onsubmit="event.preventDefault();">
+            <h3>Edit Manager Status</h3>
+            <p id="user-name-display"></p>
+            <fieldset>
+                <label for="manager-yes" style="display: block;">
+                    <input type="radio" id="manager-yes" name="is-manager" value="true" required>
+                    Promote to manager
+                </label>
+
+                <label for="manager-no" style="display: block;">
+                    <input type="radio" id="manager-no" name="is-manager" value="false">
+                    Keep current status
+                </label>
+            </fieldset>
+            <footer class="form-actions">
+                <button type="submit">Complete</button>
+                <button type="button" onclick="this.closest('dialog').close()">Close</button>
+            </footer>
+        </form>
+    </dialog>
+    </article>
+</main>
