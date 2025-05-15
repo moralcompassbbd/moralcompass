@@ -2,7 +2,7 @@ import pool from "./pool";
 import { User } from 'common/models';
 
 export default {
-     async insertAndRetrieveUser(googleId: string, name: string, email: string): Promise<User> {
+    async insertAndRetrieveUser(googleId: string, name: string, email: string): Promise<User> {
         const userSelection = await pool.query(`
             WITH insertedUser AS (
                 INSERT INTO users (google_id, user_name, email)
@@ -29,8 +29,7 @@ export default {
         `, [googleId, name, email]);
 
         return userSelection.rows[0];
-    }
-    ,
+    },
     async checkIfUserIsManager(googleId: string): Promise<boolean>{
         const userSelection = await pool.query(`
             SELECT EXISTS (
@@ -46,8 +45,7 @@ export default {
         `, [googleId]);
 
         return userSelection.rows[0].user_exists;
-    }
-    ,
+    },
     async makeUserManager(userId: string): Promise<boolean>{
         const userSelection = await pool.query(`
             INSERT INTO user_roles (user_id, role_id)
@@ -57,14 +55,12 @@ export default {
         `, [userId]);
 
         return userSelection.rowCount ? userSelection.rowCount > 0 : false;
-    }
-    ,
+    },
     async demoteUserManagerStatus(userId: string): Promise<boolean>{
         const userSelection = await pool.query(`DELETE FROM user_roles WHERE user_id = $1;`, [userId]);
 
         return userSelection.rowCount ? userSelection.rowCount > 0 : false;
-    }
-    ,
+    },
     async getAllUsers(): Promise<any[]>{
         const userSelection = await pool.query(`
             SELECT 
@@ -79,5 +75,24 @@ export default {
         `);
 
         return userSelection.rows;
-    }
+    },
+    async getUserByGoogleId(googleId: string): Promise<User | null>{
+        const result = await pool.query(
+            'SELECT user_id, google_id, email, user_name FROM users WHERE google_id = $1 LIMIT 1',
+            [googleId],
+        );
+
+        const row = result.rows.at(0);
+
+        if (!row) {
+            return null;
+        }
+
+        return {
+            userId: row.user_id,
+            googleId: row.google_id,
+            email: row.email,
+            name: row.user_name,
+        };
+    },
 };

@@ -1,4 +1,4 @@
-import { Answer, AnswerPostRequest, Question } from "common/models";
+import { Answer, AnswerCreateRequest, Question } from "common/models";
 
 export const api = {
     getQuestions: async () => {
@@ -45,8 +45,7 @@ export const api = {
     },
     postAnswer: async(choiceId: number) => {
         const jwt = localStorage.getItem("jwt");
-        const request: AnswerPostRequest = {
-            userId: 1, // todo: use actual user when auth ready
+        const request: AnswerCreateRequest = {
             choiceId,
         };
 
