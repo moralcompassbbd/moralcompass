@@ -52,7 +52,6 @@ export default {
         const userSelection = await pool.query(`
             INSERT INTO user_roles (user_id, role_id)
             VALUES ($1, (SELECT role_id FROM roles WHERE role_name = 'Manager'))
-            ON CONFLICT (user_id) DO NOTHING
             RETURNING *;
         `, [userId]);
 
@@ -79,5 +78,15 @@ export default {
         `);
 
         return userSelection.rows;
+    },
+    async getGoogleSub(userId: string): Promise<string>{
+        const userSelection = await pool.query(`
+            SELECT 
+                google_id AS "googleId"
+            FROM users
+                WHERE user_id = $1 
+        `, [userId]);
+
+        return userSelection.rows[0]?.googleId;
     }
 };
