@@ -1,7 +1,6 @@
 import { Express, Request } from "express";
 import questionRepository from "../db/question-repository";
 import { ApiError, mapError } from "../error";
-import choiceRepository from "../db/choice-repository";
 import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
 import { QuestionCreateRequest } from "common/models";
 
@@ -55,7 +54,7 @@ export function registerQuestionRoutes(app: Express) {
             }
         });
 
-        app.delete('/questions/:questionId', authenticationMiddleware, async (req, res) => {
+        app.delete('/questions/:questionId', authorizationMiddleware, async (req, res) => {
             try {
                 const questionId = parseInt(req.params.questionId);
                 
@@ -84,7 +83,7 @@ export function registerQuestionRoutes(app: Express) {
             }
         });
 
-        app.post('/questions', authenticationMiddleware, async (req: Request<any, any, unknown>, res) => {
+        app.post('/questions', authorizationMiddleware, async (req: Request<any, any, unknown>, res) => {
             try {
                 if (!req.body || typeof req.body !== 'object') {
                     throw new ApiError({

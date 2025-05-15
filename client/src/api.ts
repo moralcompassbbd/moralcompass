@@ -45,7 +45,7 @@ export const api = {
         }
     },
     postAnswer: async(choiceId: number) => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem<string>("jwt");
         const request: AnswerCreateRequest = {
             choiceId,
         };
