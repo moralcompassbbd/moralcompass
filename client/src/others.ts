@@ -17,7 +17,7 @@ export const initOthers = async () => {
     const questionTemplate = (questionContainer.querySelector('#question-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
     const choiceTemplate = (questionContainer.querySelector('#choice-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
 
-    for (const [questionIndex, question] of questions.entries()) {
+    for (const question of questions) {
         const questionElement = questionTemplate.cloneNode(true) as HTMLLIElement;
         (questionElement.querySelector('.question-text') as HTMLHeadingElement).innerText = question.text;
 

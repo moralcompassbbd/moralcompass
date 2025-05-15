@@ -1,42 +1,51 @@
 import { api } from "./api";
 
 export const initManager = async () => {
-    const managerPage = document.getElementById('manager-page')!;
-    const questionList = managerPage.querySelector('.question-list ul')!;
-    const questionTemplate = managerPage.querySelector('#question-template') as HTMLTemplateElement;
+    const managerPage = document.getElementById('manager-page') as HTMLDivElement;
+    const questionList = managerPage.querySelector('ol.question-list') as HTMLOListElement;
+    const questionTemplate = (managerPage.querySelector('template#question-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
+    const choiceTemplate = (managerPage.querySelector('template#choice-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
 
-    if (!questionTemplate) {
-        console.error('Question template not found');
+    const questions = await api.getQuestions();
+    
+    if (questions.length === 0) {
+        const noQuestions = document.createElement('li');
+        noQuestions.classList.add('no-answers');
+        noQuestions.innerText = 'No questions available';
+
+        questionList.appendChild(noQuestions);
         return;
     }
 
-    try {
-        const questions = await api.getQuestions();
-        
-        questionList.innerHTML = '';
+    for (const question of questions) {
+        const questionElement = questionTemplate.cloneNode(true) as HTMLLIElement;
+        (questionElement.querySelector('.question-text') as HTMLHeadingElement).innerText = question.text;
+        (questionElement.querySelector('.question-delete') as HTMLButtonElement).onclick = () => SPA.handlers.deleteQuestion(question.questionId);
 
-        if (questions.length === 0) {
-            questionList.innerHTML = '<li class="no-questions">No questions available</li>';
-            return;
+        const choiceContainer = questionElement.querySelector('ul')!;
+
+        let totalAnswers = 0;
+
+        for (const choice of question.choices) {
+            totalAnswers += choice.answerCount;
         }
 
-        for (const question of questions) {
-            const questionElement = document.createElement('li');
-            let html = questionTemplate.innerHTML.replace('{{questionText}}', question.text);
-            html = html.replace('{{questionId}}', question.questionId.toString());
+        for (const choice of question.choices) {
+            const popularity = (choice.answerCount / totalAnswers) * 100;
+            const popularityText = Number.isNaN(popularity) ? '' : `${popularity.toFixed(0)}%`;
+
+            const choiceElement = choiceTemplate.cloneNode(true) as HTMLLIElement;
+            (choiceElement.querySelector('.choice-text') as HTMLHeadingElement).innerText = choice.text;
+            (choiceElement.querySelector('.choice-popularity') as HTMLSpanElement).innerText = popularityText;
             
-            const choicesHtml = question.choices
-                .map(choice => `<li>${choice.text}</li>`)
-                .join('');
-            
-            html = html.replace('{{choices}}', choicesHtml);
-            
-            questionElement.innerHTML = html;
-            questionList.appendChild(questionElement);
+            if (popularityText) {
+                (choiceElement.querySelector('.agreement') as HTMLDivElement).style.width = popularityText;
+            }
+
+            choiceContainer.appendChild(choiceElement);
         }
-    } catch (error) {
-        console.error('Failed to load questions:', error);
-        questionList.innerHTML = '<li class="error">Failed to load questions</li>';
+
+        questionList.appendChild(questionElement);
     }
 };
 
