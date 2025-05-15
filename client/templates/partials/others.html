@@ -1,15 +1,15 @@
 <header>
     <nav>
     <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo" onclick="SPA.navigatePage('homepage')">
-        <h3 class="header-title">Your Results</h3>
+        <h3 class="header-title">What are others saying?</h3>
         <section class="header-buttons">
-            <button class="exit-btn" onclick="SPA.navigatePage('quiz')" title="Back to quiz page">
+            <button class="exit-btn" onclick="SPA.navigatePage('homepage')" title="Back to home page">
                 <!-- SSR_INCLUDE times_icon -->
             </button>
         </section>
     </nav>
 </header>
-<main id="results-page">
+<main id="others-page">
     <article>
         <ol>
             <template id="question-template">
@@ -26,10 +26,6 @@
             <template id="choice-template">
                 <li>
                     <label>
-                        <input
-                            type="radio"
-                            disabled
-                        />
                         <div class="agreement"></div>
                         <h6 class="choice-text">{{choiceText}}</h6>
                         <small class="choice-popularity">{{choicePopularity}}</small>

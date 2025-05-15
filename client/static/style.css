@@ -10,6 +10,7 @@
     --colour-bg-highlighted-soft: #ffffff0c;
     --colour-bg-highlighted: #ffffff19;
     --colour-bg-highlighted-bright: #ffffff32;
+    --colour-bright-white: #eef;
 }
 
 html {
@@ -83,12 +84,12 @@ main {
         gap: 3rem;
 
         @media (max-width: 48rem) {
-            padding: 1rem 1.5rem;
+            padding: 1.5rem;
             font-size: 75%;
         }
 
         @media (max-width: 32rem) {
-            padding: 0.5rem;
+            padding: 1.5rem 0.5rem;
             font-size: 65%;
         }
 
@@ -182,21 +183,23 @@ button {
                     display: none;
                 }
 
-                &::before {
-                    display: inline-block;
-                    content: '';
-                    width: 0.8em;
-                    height: 0.8em;
-                    flex-shrink: 0;
-                    border-radius: 100%;
-                    outline: 0.1em solid white;
-                    margin-bottom: 0.15em;
-                }
-
                 background-color: var(--colour-bg-highlighted-soft);
 
                 &:hover {
                     background-color: var(--colour-bg-highlighted);
+                }
+                
+                &:has(> input[type="radio"]) {
+                    &::before {
+                        display: inline-block;
+                        content: '';
+                        width: 0.8em;
+                        height: 0.8em;
+                        flex-shrink: 0;
+                        border-radius: 100%;
+                        outline: 0.1em solid white;
+                        margin-bottom: 0.15em;
+                    }
                 }
                 
                 &:has(> input[type="radio"]:checked) {
@@ -258,7 +261,7 @@ button {
     }
 }
 
-#results-page {
+#results-page, #others-page {
     ol {
         padding: 0 1.5rem;
 
@@ -447,70 +450,175 @@ details[open] summary::before {
     grid-area: manager;
 }
 
-#app-root > header {
-    padding: 1rem 2rem;
+#app-root {
+    display: none;
 
-    @media (max-width: 48rem) {
+    &.active {
+        display: contents;
+    }
+
+    > header {
         padding: 0.5rem 1rem;
-        font-size: 75%;
-    }
 
-    @media (max-width: 32rem) {
-        padding: 0.25rem 0.5rem;
-        font-size: 50%;
-    }
+        background-color: #ffffff0f;
 
-    nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-
-        .logo {
-            max-width: 10rem;
-
-            @media (max-width: 48rem) {
-                max-width: 8rem;
-            }
-            
-
-            @media (max-width: 32rem) {
-                max-width: 6rem;
-            }
+        @media (max-width: 48rem) {
+            font-size: 75%;
         }
-        
-        .header-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
 
-            .exit-btn {
-                background-color: transparent;
-                border: none;
-                width: 2.5rem;
-                height: 2.5rem;
-                padding: 0;
+        @media (max-width: 32rem) {
+            padding: 0.25rem 0.5rem;
+            font-size: 50%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+
+            .logo {
+                max-width: 8rem;
                 cursor: pointer;
-                border-radius: 0.625rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                transition: transform 0.3s ease;
 
                 &:hover {
-                    background-color: rgba(0, 0, 0, 0.1); 
+                    transform: scale(1.025);
                 }
 
-                svg {
-                    width: 1.5rem;
-                    height: 1.5rem;
+                @media (max-width: 48rem) {
+                    max-width: 8rem;
+                }
+                
+
+                @media (max-width: 32rem) {
+                    max-width: 6rem;
+                }
+            }
+
+            .header-title {
+                opacity: 75%;
+                margin-top: 0.5rem;
+            }
+            
+            .header-buttons {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+
+                .exit-btn {
+                    background-color: transparent;
+                    border: none;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    padding: 0;
+                    cursor: pointer;
+                    border-radius: 0.625rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.1); 
+                    }
+
+                    svg {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
                 }
             }
         }
     }
 }
 
-.loading-hidden {
+#app-loading {
     display: none;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem;
+
+    &.active {
+        display: flex;
+    }
+}
+
+.loading-bar {
+    width: 100%;
+    max-width: 10rem;
+    height: 0.25rem;
+    border-radius: calc(infinity * 1rem);
+    overflow: hidden;
+    position: relative;
+    margin: 0.5rem 0;
+
+    &::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background-color: var(--colour-bright-white);
+        animation: loading_after 0.75s linear infinite;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background-color: var(--colour-bright-white);
+        animation: loading_before 0.75s linear infinite;
+    }
+}
+
+@keyframes loading_after {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes loading_before {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+.loading-text {
+    color: transparent;
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 10rem;
+
+    &::after {
+        color: var(--colour-bright-white);
+        display: block;
+        content: '';
+        animation: loading_text 0.75s linear infinite;
+    }
+}
+
+@keyframes loading_text {
+    0% {
+        content: "Loading";
+    }
+    33% {
+        content: "Loading.";
+    }
+    66% {
+        content: "Loading..";
+    }
+    100% {
+        content: "Loading...";
+    }
 }
 
 #manager-page {

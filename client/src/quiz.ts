@@ -43,8 +43,6 @@ export const initQuiz = async () => {
         
         choicesListElement.appendChild(choiceContents);
     }
-
-    quizPageElement.classList.remove('loading-hidden');
 }
 
 export function quizShowNext() {
