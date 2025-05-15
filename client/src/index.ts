@@ -1,9 +1,12 @@
 import { SpaClient } from './spa-client';
+import { displayConfirmLogoutModal, handleCredentialResponse } from './main';
 import { initHomePage } from './homepage';
-import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
 import { initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
+import { deleteLocalStorageItem, getLocalStorageItem } from './storage';
+import { User } from 'common/models';
+import { api } from './api';
 import { initUserTable } from './user-tables';
 
 import { initOthers } from './others';
@@ -61,6 +64,7 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, loadingElement
     showAddQuestionForm,
     deleteQuestion,
     submitQuestionForm,
+    displayConfirmLogoutModal,
     initUserTable: initUserTable,
 });
 
@@ -85,5 +89,14 @@ window.onload = () => {
         callback: handleCredentialResponse,
     });
 
-    spaClient.navigatePage('main');
+    api.isAuthenticated().then((isAuthenticated) => {
+        if(isAuthenticated){
+            const user = getLocalStorageItem<User>("user");
+            spaClient.navigatePage('homepage', { name: user ? user.name : ""});
+        } else{
+            spaClient.navigatePage('main');
+            deleteLocalStorageItem("jwt");
+            deleteLocalStorageItem("user");
+        }
+    })
 };
