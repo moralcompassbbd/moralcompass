@@ -28,12 +28,17 @@
         <button onclick="SPA.navigatePage('manager')">manager</button>
     </div>
 
+    <!--
+        while there is mention of SSR_INCLUDE, this app is still an SPA, after the initial
+        page load, there no further requests to the server for HTML
+    -->
     <template class="page-template" data-page="main" data-onmount="SPA.handlers.renderGoogleButton()"><!-- SSR_INCLUDE main --></template>
     <template class="page-template" data-page="homepage" data-onmount="SPA.handlers.initHomePage()"><!-- SSR_INCLUDE homepage --></template>
     <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()"><!-- SSR_INCLUDE quiz --></template>
     <template class="page-template" data-page="results" data-onmount="SPA.handlers.initResults()"><!-- SSR_INCLUDE results --></template>
     <template class="page-template" data-page="error"><!-- SSR_INCLUDE error --></template>
     <template class="page-template" data-page="manager" data-onmount="SPA.handlers.initManager()"><!-- SSR_INCLUDE manager --></template>
+    <!-- this element has no semantic meaning -->
     <div id="app-root" style="display: contents"></div>
 </body>
 </html>

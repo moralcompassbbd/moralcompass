@@ -12,24 +12,24 @@
 <main id="quiz-page" class="loading-hidden">
     <article class="question">
         <header>
-            <h1>{{questionText}}</h1>
+            <h1 class="question-text">{{questionText}}</h1>
         </header>
         <section>
             <ul>
                 <template>
-                    <label id="choice-{{choiceId}}">
-                        <input
-                            type="radio"
-                            name="choice"
-                            value="{{choiceId}}"
-                            onchange="SPA.handlers.quizShowNext()"
-                        />
-                        <div class="agreement"></div>
-                        <h6>
-                            {{choiceText}}
-                            <small>{{choicePopularity}}</small>
-                        </h6>
-                    </label>
+                    <li>
+                        <label id="choice-{{choiceId}}">
+                            <input
+                                type="radio"
+                                name="choice"
+                                value="{{choiceId}}"
+                                onchange="SPA.handlers.quizShowNext()"
+                            />
+                            <div class="agreement"></div>
+                            <h6 class="choice-text">{{choiceText}}</h6>
+                            <small class="choice-popularity">{{choicePopularity}}</small>
+                        </label>
+                    </li>
                 </template>
             </ul>
         </section>

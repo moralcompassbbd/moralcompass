@@ -19,7 +19,7 @@ export const initQuiz = async () => {
 
     const quizPageElement = document.getElementById('quiz-page')!;
 
-    quizPageElement.innerHTML = quizPageElement.innerHTML.replace('{{questionText}}', question.text);
+    (quizPageElement.querySelector('.question-text') as HTMLHeadingElement).innerText = question.text;
 
     const choicesListElement = quizPageElement.querySelector('.question ul')!;
     const choiceTemplateElement = choicesListElement.querySelector('template')!;
@@ -32,19 +32,16 @@ export const initQuiz = async () => {
     });
 
     for (const [index, choice] of question.choices.entries()) {
-        const choiceElement = document.createElement('li');
-
         const percentage = choicePopularities[index] / totalPopularity * 100;
         const percentageText = !Number.isNaN(percentage) ? percentage.toFixed(0) + '%' : '';
         
-        let choiceHtml = choiceTemplateElement.innerHTML;
-        choiceHtml = choiceHtml.replace('{{choiceId}}', choice.choiceId+'');
-        choiceHtml = choiceHtml.replace('{{choiceText}}', choice.text+'');
-        choiceHtml = choiceHtml.replace('{{choicePopularity}}', percentageText);
+        let choiceContents = choiceTemplateElement.content.cloneNode(true) as HTMLLIElement;
+        choiceContents.querySelector('label')!.id = `choice-${choice.choiceId}`;
+        choiceContents.querySelector('input')!.value = choice.choiceId+'';
+        (choiceContents.querySelector('.choice-text') as HTMLHeadingElement).innerText = choice.text;
+        (choiceContents.querySelector('.choice-popularity') as HTMLSpanElement).innerText = percentageText;
         
-        choiceElement.innerHTML = choiceHtml;
-        
-        choicesListElement.appendChild(choiceElement);
+        choicesListElement.appendChild(choiceContents);
     }
 
     quizPageElement.classList.remove('loading-hidden');
@@ -107,9 +104,9 @@ export function quizShowAnswer() {
     });
 
     if (mostPopularIndex == answerIndex) {
-        document.querySelector('#quiz-page .question footer p')!.innerHTML = 'Most respondents agree';
+        (document.querySelector('#quiz-page .question footer p') as HTMLParagraphElement).innerText = 'Most respondents agree';
     } else if (mostPopularIndex >= 0) {
-        document.querySelector('#quiz-page .question footer p')!.innerHTML = 'Most respondents disagree';
+        (document.querySelector('#quiz-page .question footer p') as HTMLParagraphElement).innerText = 'Most respondents disagree';
     }
 
     const nextButtonElement = document.createElement('button');

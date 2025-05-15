@@ -172,10 +172,10 @@ button {
                     display: flex;
                     justify-content: space-between;
                     flex-grow: 1;
+                }
 
-                    small {
-                        opacity: 0;
-                    }
+                .choice-popularity {
+                    opacity: 0;
                 }
 
                 input[type="radio"] {
@@ -205,8 +205,6 @@ button {
                     &::before {
                         display: inline-block;
                         background-color: white;
-                        width: calc(0.8em - 0.4em);
-                        height: calc(0.8em - 0.4em);
                         border: 0.2em solid var(--colour-primary);
                     }
                 }
@@ -243,7 +241,7 @@ button {
         ul li label {
             background-color: var(--colour-bg-highlighted);
 
-            small {
+            .choice-popularity {
                 opacity: 0.5;
             }
         }
