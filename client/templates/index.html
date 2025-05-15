@@ -28,6 +28,7 @@
         <a href="javascript:void(0)" onclick="SPA.navigatePage('others')">others</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('error')">error</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('manager')">manager</a>
+        <a href="javascript:void(0)" onclick="SPA.navigatePage('user_tables')">user table</a>
     </div>
 
     <!--
@@ -41,6 +42,7 @@
     <template class="page-template" data-page="others" data-onmount="SPA.handlers.initOthers()"><!-- SSR_INCLUDE others --></template>
     <template class="page-template" data-page="error"><!-- SSR_INCLUDE error --></template>
     <template class="page-template" data-page="manager" data-onmount="SPA.handlers.initManager()"><!-- SSR_INCLUDE manager --></template>
+    <template class="page-template" data-page="user_tables" data-onmount="SPA.handlers.initUserTable()"><!-- SSR_INCLUDE user_tables --></template>
     <!-- this element has no semantic meaning, so its a div as there may only be one main element per page -->
     <div id="app-root"></div>
     <div id="app-loading">
