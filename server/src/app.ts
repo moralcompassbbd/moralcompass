@@ -26,7 +26,7 @@ registerUserRoutes(app);
 registerQuestionRoutes(app);
 registerAnswerRoutes(app);
 
-const clientDistRoot = path.join(__dirname, '../client');
+const clientDistRoot = path.join(__dirname, '../../../client');
 app.use('/dist', express.static(path.join(clientDistRoot, 'dist'), {
     extensions: ['js']
 }));
