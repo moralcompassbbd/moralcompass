@@ -1,6 +1,7 @@
 <header>
     <nav>
         <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo" onclick="SPA.navigatePage('homepage')">
+        <h3 class="header-title">Question Manager</h3>
         <section class="header-buttons">
             <button class="exit-btn" onclick="SPA.navigatePage('homepage')">
                 <!-- SSR_INCLUDE times_icon -->
@@ -9,28 +10,48 @@
     </nav>
 </header>
 <main id="manager-page">
-    <section class="question-list">
-        <h2>Questions</h2>
-        <button onclick="SPA.handlers.showAddQuestionForm()">Add New Question</button>
-        <ul>
-        </ul>
-        <template id="question-template">
-            <li>
-                <h3>{{questionText}}</h3>
-                <ul class="choices">
-                    {{choices}}
-                </ul>
-                <button onclick="SPA.handlers.deleteQuestion('{{questionId}}')">Delete</button>
-            </li>
-        </template>
-    </section>
+    <article>
+        <section>
+            <button class="question-new-btn" onclick="SPA.handlers.showAddQuestionForm()">
+                <!-- SSR_INCLUDE plus_icon -->
+                New Question
+            </button>
+            <ol class="question-list">
+                <template id="question-template">
+                    <li class="question show-answer">
+                        <header>
+                            <h1 class="question-text">
+                                <!-- question -->
+                            </h1>
+                            <button class="question-delete danger">
+                                <!-- SSR_INCLUDE trash_icon -->
+                            </button>
+                        </header>
+                        <section>
+                            <ul>
+                                <!-- choices -->
+                            </ul>
+                        </section>
+                    </li>
+                </template>
+                <template id="choice-template">
+                    <li>
+                        <label>
+                            <div class="agreement"></div>
+                            <h6 class="choice-text">{{choiceText}}</h6>
+                            <small class="choice-popularity">{{choicePopularity}}</small>
+                        </label>
+                    </li>
+                </template>
+            </ol>
+        </section>
+    </article>
 
     <dialog id="add-question-dialog">
         <form id="add-question-form" novalidate method="POST" onsubmit="event.preventDefault(); SPA.handlers.submitQuestionForm(this)">
             <h3>Add New Question</h3>
             <fieldset>
-                <legend>Question Details</legend>
-                <label for="question-text">Question:</label>
+                <legend>Question</legend>
                 <input type="text" id="question-text" required minlength="10" placeholder="Enter your question">
             </fieldset>
             <fieldset id="choices">

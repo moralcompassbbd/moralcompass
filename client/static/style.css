@@ -39,7 +39,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     margin: 0;
-    text-wrap: balance;
 }
 
 p {
@@ -111,7 +110,8 @@ main {
 }
 
 button {
-    background-color: var(--colour-bg-highlighted);
+    background-color: var(--colour-bg-highlighted-bright);
+    opacity: 50;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -153,7 +153,6 @@ button {
                 padding: 1em;
                 padding-bottom: 0.75em;
                 color: white;
-                cursor: pointer;
                 transition-duration: 300ms;
 
                 .agreement {
@@ -190,6 +189,8 @@ button {
                 }
                 
                 &:has(> input[type="radio"]) {
+                    cursor: pointer;
+                    
                     &::before {
                         display: inline-block;
                         content: '';
@@ -211,6 +212,31 @@ button {
                         border: 0.2em solid var(--colour-primary);
                     }
                 }
+            }
+        }
+    }
+
+    header {
+        flex-direction: row;
+        gap: 1rem;
+
+        h1 {
+            flex: 1;
+        }
+
+        .question-delete {
+            margin-bottom: 1rem;
+            
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
             }
         }
     }
@@ -261,8 +287,8 @@ button {
     }
 }
 
-#results-page, #others-page {
-    ol {
+#results-page, #others-page, #manager-page {
+    ol.question-list, ul.question-list {
         padding: 0 1.5rem;
 
         @media (max-width: 48rem) {
@@ -293,11 +319,33 @@ button {
             }
         }
     }
+
+    ol li.question::marker {
+        font-size: 1.5em;
+        color: #bbb;
+    }
+
+    ul {
+        list-style: none;
+    }
 }
 
 .no-answers {
     opacity: 0.5;
     margin-bottom: 2em;
+}
+
+.question-delete {
+    float: right;
+}
+
+.question-new-btn {
+    font-size: 1.25rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    place-self: end;
+    margin: 0 1.5rem 1rem 1.5rem;
 }
 
 #main-page article img {
@@ -619,44 +667,6 @@ details[open] summary::before {
     100% {
         content: "Loading...";
     }
-}
-
-#manager-page {
-    padding: clamp(1rem, 5vw, 2rem);
-    max-width: 75rem; 
-    margin: 0 auto;
-}
-
-.question-list {
-    width: 100%;
-    max-width: 50rem;  
-    margin: 0 auto;
-}
-
-.question-list ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 1rem;
-}
-
-.question-list li {
-    background: var(--surface-color);
-    padding: clamp(1rem, 3vw, 1.5rem);
-    border-radius: 0.5rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
-}
-
-.question-list .error {
-    color: #ff4444;
-    text-align: center;
-    padding: 1rem;
-}
-
-.question-list .no-questions {
-    text-align: center;
-    padding: 1rem;
-    color: #666;
 }
 
 #add-question-dialog {

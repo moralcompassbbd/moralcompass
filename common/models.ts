@@ -45,8 +45,7 @@ export type Answer = {
     createdAt: Date,
 };
 
-export type AnswerPostRequest = {
-    userId: number,
+export type AnswerCreateRequest = {
     choiceId: number,
 };
 
