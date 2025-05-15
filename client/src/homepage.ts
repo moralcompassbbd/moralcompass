@@ -7,9 +7,9 @@ export function initHomePage() {
     let user = getLocalStorageItem<User>("user");
     if (welcomeHeaderElement) {
         if (user) {
-        welcomeHeaderElement.innerHTML = `Welcome, ${user.name}!`;
+        welcomeHeaderElement.textContent = `Welcome, ${user.name}!`;
         } else {
-            welcomeHeaderElement.innerText = "Welcome!";
+            welcomeHeaderElement.textContent = "Welcome!";
         } 
     }
 
