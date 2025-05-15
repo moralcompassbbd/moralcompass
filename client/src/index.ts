@@ -2,8 +2,9 @@ import { SpaClient } from './spa-client';
 import { beginQuiz, initHomePage } from './homepage';
 import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
-import { clearResults, initResults } from './results';
+import { initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
+import { initOthers } from './others';
 
 const renderGoogleButton = () => {
     window.google.accounts.id.renderButton(
@@ -36,7 +37,7 @@ type Handlers = {
     quizShowNext: () => void,
     quizShowAnswer: () => void,
     initResults: () => void,
-    clearResults: () => void,
+    initOthers: () => void,
     handleCredentialResponse: (response: any) => void,
     renderGoogleButton: () => void,
     initManager: () => void,
@@ -52,7 +53,7 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, loadingElement
     quizShowNext: quizShowNext,
     quizShowAnswer: quizShowAnswer,
     initResults: initResults,
-    clearResults: clearResults,
+    initOthers: initOthers,
     handleCredentialResponse: handleCredentialResponse,
     renderGoogleButton: renderGoogleButton,
     initManager,

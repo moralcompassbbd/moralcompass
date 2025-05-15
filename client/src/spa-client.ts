@@ -20,8 +20,8 @@ export class SpaClient<T> {
         }
 
         this.navigatePage = async (page: string, pageProps?: pagePropType) => {
-            loading.style.display = 'flex';
-            root.style.display = 'none';
+            loading.classList.add('active');
+            root.classList.remove('active');
             
             this.currentPage = page;
             this.pageProps = pageProps;
@@ -42,8 +42,8 @@ export class SpaClient<T> {
                 }
             }
 
-            loading.style.display = 'none';
-            root.style.display = 'contents';
+            loading.classList.remove('active');
+            root.classList.add('active');
         };
 
         this.handlers = handlers;

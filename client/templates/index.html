@@ -25,6 +25,7 @@
         <a href="javascript:void(0)" onclick="SPA.navigatePage('homepage')">homepage</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('quiz')">quiz</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('results')">results</a>
+        <a href="javascript:void(0)" onclick="SPA.navigatePage('others')">others</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('error')">error</a>
         <a href="javascript:void(0)" onclick="SPA.navigatePage('manager')">manager</a>
     </div>
@@ -37,11 +38,12 @@
     <template class="page-template" data-page="homepage" data-onmount="SPA.handlers.initHomePage()"><!-- SSR_INCLUDE homepage --></template>
     <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()"><!-- SSR_INCLUDE quiz --></template>
     <template class="page-template" data-page="results" data-onmount="SPA.handlers.initResults()"><!-- SSR_INCLUDE results --></template>
+    <template class="page-template" data-page="others" data-onmount="SPA.handlers.initOthers()"><!-- SSR_INCLUDE others --></template>
     <template class="page-template" data-page="error"><!-- SSR_INCLUDE error --></template>
     <template class="page-template" data-page="manager" data-onmount="SPA.handlers.initManager()"><!-- SSR_INCLUDE manager --></template>
     <!-- this element has no semantic meaning, so its a div as there may only be one main element per page -->
-    <div id="app-root" style="display: contents"></div>
-    <div id="app-loading" class="loading-container">
+    <div id="app-root"></div>
+    <div id="app-loading">
         <p class="loading-text">Loading...</p>
         <div class="loading-bar"></div>
     </div>
