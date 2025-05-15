@@ -67,7 +67,7 @@ export default {
                 users.google_id AS "googleId", 
                 users.user_name AS "name", 
                 users.email,
-                roles.role_name
+                roles.role_name AS "roleName"
             FROM users
                 LEFT JOIN user_roles ON users.user_id = user_roles.user_id
                 LEFT JOIN roles ON roles.role_id = user_roles.role_id
@@ -92,6 +92,7 @@ export default {
             googleId: row.google_id,
             email: row.email,
             name: row.user_name,
+            roleName: row
         };
     },
     async getGoogleSub(userId: string): Promise<string>{
