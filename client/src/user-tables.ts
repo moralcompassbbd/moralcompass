@@ -22,7 +22,7 @@ function populateTable(users: User[]) {
   const headers  = Object.keys(users[0]) as (keyof User)[];
   headers.forEach((key:string) => {
     const th = document.createElement("th");
-    if (key === 'role_name') {
+    if (key === 'roleName') {
       let role = key.split('_');
       th.textContent = role[0].charAt(0).toUpperCase() + role[0].slice(1);
     } else {
@@ -41,7 +41,7 @@ function populateTable(users: User[]) {
     const tr = document.createElement("tr");
     headers.forEach((key: string) => {
       const td = document.createElement("td");
-      if (key === 'role_name') {
+      if (key === 'roleName') {
         if (user[key as keyof User] === null) {
           td.textContent = 'User';
         } else {
@@ -56,12 +56,12 @@ function populateTable(users: User[]) {
     const actionsTd = document.createElement("td");
     if (currentUser.googleId !== user.googleId) {
         const btn = document.createElement("button");
-        btn.textContent = user.role_name === 'Manager' ? "Demote": 'Promote';
-        btn.style.backgroundColor =  user.role_name === 'Manager' ? "#EF4444": '#10B981';
+        btn.textContent = user.roleName === 'Manager' ? "Demote": 'Promote';
+        btn.style.backgroundColor =  user.roleName === 'Manager' ? "#EF4444": '#10B981';
         btn.className = "edit-btn";
         btn.onclick = async (event: any) => {
           const button = event.currentTarget as HTMLButtonElement;
-          const roleIndex = headers.indexOf('role_name');
+          const roleIndex = headers.indexOf('roleName');
           const roleTd = tr.children[roleIndex] as HTMLTableCellElement;
       
           const isDemote = button.textContent === 'Demote';
