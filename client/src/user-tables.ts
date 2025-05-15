@@ -82,7 +82,6 @@ function populateTable(users: User[]) {
   });
 
   const container = document.getElementById("table-container")!;
-  container.innerHTML = ""; 
   container.appendChild(clone);
 }
 
