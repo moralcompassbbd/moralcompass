@@ -68,7 +68,7 @@ export const deleteQuestion = async (questionId: number) => {
     if (result === 'confirm') {
         try {
             await api.deleteQuestion(questionId);
-            await initManager();
+            SPA.navigatePage('manager');
         } catch (error) {
             console.error('Failed to delete question:', error);
             alert('Failed to delete question. Please try again.');
@@ -99,8 +99,8 @@ export const submitQuestionForm = async (form: HTMLFormElement) => {
 
         await api.createQuestion(questionText, choices);
         (form.closest('dialog') as HTMLDialogElement).close();
-        await initManager();
         form.reset();
+        SPA.navigatePage('manager');
     } catch (error) {
         console.error('Failed to add question:', error);
         alert(error instanceof Error ? error.message : 'Failed to add question. Please try again.');
