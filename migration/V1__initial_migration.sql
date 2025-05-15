@@ -2,9 +2,7 @@ CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     google_id VARCHAR(32) NOT NULL UNIQUE,
     email VARCHAR(128) NOT NULL,
-    user_name VARCHAR(128) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    user_name VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE roles (
