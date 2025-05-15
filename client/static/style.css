@@ -17,7 +17,6 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-size: 16px;
     box-sizing: border-box;
 }
 
@@ -728,7 +727,7 @@ details[open] summary::before {
 }
 
 #add-question-form button[type="submit"] {
-    min-width: 80px;
+    min-width: 5rem;
 }
 
 #add-question-form button[type="submit"].loading::after {
@@ -841,7 +840,7 @@ input {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
 
   thead tr {
     background-color: #007BFF; 
@@ -850,8 +849,8 @@ input {
   }
 
   th, td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
+    padding: 0.75rem 0.9375rem;
+    border: 0.0625rem solid #ddd;
   }
 
   tbody tr:hover {
@@ -866,11 +865,13 @@ input {
 }
 
 #user-table-page {
-    width: 100%;
-    padding: 1rem;
-    max-width: 75rem;
-    margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+  max-width: 75rem;
+  margin: 0 auto;
 }
+
+
 
 .table-container {
     background-color: #ffffff;
@@ -917,8 +918,8 @@ input {
     background-color: #8a5cf5;
     color: #FFF;
     border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
     cursor: pointer;
     font-weight: 300;
     font-size: 0.9rem;
@@ -926,8 +927,9 @@ input {
 
 .edit-btn:hover {
     background-color: #7146dd;
-    box-shadow: 0 2px 8px rgba(138, 92, 245, 0.4);
-} 
+    box-shadow: 0 0.125rem 0.5rem rgba(138, 92, 245, 0.4);
+}
+
 
 .logout {
     display: flex;
