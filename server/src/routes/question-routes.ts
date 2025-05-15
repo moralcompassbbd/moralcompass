@@ -54,7 +54,7 @@ export function registerQuestionRoutes(app: Express) {
             }
         });
 
-        app.delete('/questions/:questionId', authorizationMiddleware, async (req, res) => {
+        app.delete('/questions/:questionId', authenticationMiddleware, authorizationMiddleware, async (req, res) => {
             try {
                 const questionId = parseInt(req.params.questionId);
                 
@@ -83,7 +83,7 @@ export function registerQuestionRoutes(app: Express) {
             }
         });
 
-        app.post('/questions', authorizationMiddleware, async (req: Request<any, any, unknown>, res) => {
+        app.post('/questions', authenticationMiddleware, authorizationMiddleware, async (req: Request<any, any, unknown>, res) => {
             try {
                 if (!req.body || typeof req.body !== 'object') {
                     throw new ApiError({
