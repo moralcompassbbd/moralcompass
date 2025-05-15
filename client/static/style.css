@@ -718,7 +718,7 @@ details[open] summary::before {
 }
 
 #add-question-form button[type="submit"] {
-    min-width: 80px;
+    min-width: 5rem;
 }
 
 #add-question-form button[type="submit"].loading::after {
@@ -827,31 +827,31 @@ input {
 
 
 #userTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
 
-  thead tr {
-    background-color: #007BFF; 
-    color: white;
-    text-align: left;
-  }
+    thead tr {
+        background-color: #007BFF; 
+        color: white;
+        text-align: left;
+    }
 
-  th, td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-  }
+    th, td {
+    padding: 0.75rem 0.9375rem;
+    border: 0.0625rem solid #ddd;
+    }
 
-  tbody tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-  }
+    tbody tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
 
-  button {
-    font-size: 1rem;
-    padding: 0.25rem 0.25rem;
-  }
+    button {
+        font-size: 1rem;
+        padding: 0.25rem 0.25rem;
+    }
 }
 
 #user-table-page {
@@ -906,8 +906,8 @@ input {
     background-color: #8a5cf5;
     color: #FFF;
     border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
     cursor: pointer;
     font-weight: 300;
     font-size: 0.9rem;
@@ -915,7 +915,8 @@ input {
 
 .edit-btn:hover {
     background-color: #7146dd;
-    box-shadow: 0 2px 8px rgba(138, 92, 245, 0.4);
-} 
+    box-shadow: 0 0.125rem 0.5rem rgba(138, 92, 245, 0.4);
+}
+
 
 
