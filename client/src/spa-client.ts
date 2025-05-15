@@ -4,10 +4,10 @@ type pagePropType = { [key: string]: string };
 export class SpaClient<T> {
     currentPage?: string;
     pageProps?: pagePropType;
-    navigatePage: (page: string, pageProps?: pagePropType) => void;
+    navigatePage: (page: string, pageProps?: pagePropType) => Promise<void>;
     handlers: T;
 
-    constructor(root: HTMLElement, pageTemplates: HTMLTemplateElement[], handlers: T) {
+    constructor(root: HTMLElement, loading: HTMLElement, pageTemplates: HTMLTemplateElement[], handlers: T) {
         const pageTemplateMap = new Map<string, HTMLTemplateElement>();
 
         for (const element of pageTemplates) {
@@ -19,7 +19,10 @@ export class SpaClient<T> {
             pageTemplateMap.set(pageName, element);
         }
 
-        this.navigatePage = (page: string, pageProps?: pagePropType) => {
+        this.navigatePage = async (page: string, pageProps?: pagePropType) => {
+            loading.classList.add('active');
+            root.classList.remove('active');
+            
             this.currentPage = page;
             this.pageProps = pageProps;
             const element = pageTemplateMap.get(`${page}`);
@@ -33,8 +36,14 @@ export class SpaClient<T> {
             
             const onmountScript = element?.getAttribute('data-onmount');
             if (onmountScript) {
-                eval(onmountScript);
+                let scriptResult = eval(onmountScript);
+                if (scriptResult instanceof Promise) {
+                    await scriptResult;
+                }
             }
+
+            loading.classList.remove('active');
+            root.classList.add('active');
         };
 
         this.handlers = handlers;

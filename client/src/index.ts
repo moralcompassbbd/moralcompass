@@ -2,10 +2,11 @@ import { SpaClient } from './spa-client';
 import { initHomePage } from './homepage';
 import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
-import { clearResults, initResults } from './results';
+import { initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
 import { initUserTable } from './user-tables';
 
+import { initOthers } from './others';
 
 const renderGoogleButton = () => {
     window.google.accounts.id.renderButton(
@@ -25,6 +26,10 @@ const rootElement = document.getElementById('app-root');
 if (!rootElement)
     throw new Error('No root element.');
 
+const loadingElement = document.getElementById('app-loading');
+if (!loadingElement)
+    throw new Error('No loading element.');
+
 const pageTemplateElements = Array.from(document.querySelectorAll('template.page-template')) as HTMLTemplateElement[];
 
 type Handlers = {
@@ -33,7 +38,7 @@ type Handlers = {
     quizShowNext: () => void,
     quizShowAnswer: () => void,
     initResults: () => void,
-    clearResults: () => void,
+    initOthers: () => void,
     handleCredentialResponse: (response: any) => void,
     renderGoogleButton: () => void,
     initManager: () => void,
@@ -43,13 +48,14 @@ type Handlers = {
     initUserTable: () => void,
 };
 
-const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateElements, {
+const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, loadingElement, pageTemplateElements, {
+    beginQuiz: beginQuiz,
     initHomePage: initHomePage,
     initQuiz: initQuiz,
     quizShowNext: quizShowNext,
     quizShowAnswer: quizShowAnswer,
     initResults: initResults,
-    clearResults: clearResults,
+    initOthers: initOthers,
     handleCredentialResponse: handleCredentialResponse,
     renderGoogleButton: renderGoogleButton,
     initManager,
