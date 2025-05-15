@@ -13,8 +13,8 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE user_roles (
-    user_id INT NOT NULL REFERENCES users(user_id),
-    role_id INT NOT NULL REFERENCES roles(role_id),
+    user_id INT NOT NULL REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    role_id INT NOT NULL REFERENCES roles(role_id) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (user_id, role_id)
 );
 
@@ -25,13 +25,13 @@ CREATE TABLE questions (
 
 CREATE TABLE choices (
     choice_id SERIAL PRIMARY KEY,
-    question_id INT NOT NULL REFERENCES questions(question_id),
+    question_id INT NOT NULL REFERENCES questions(question_id) ON UPDATE CASCADE ON DELETE CASCADE,
     choice_text VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE answers (
     answer_id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL REFERENCES users(user_id),
-    choice_id INT NOT NULL REFERENCES choices(choice_id),
+    user_id INT NOT NULL REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    choice_id INT NOT NULL REFERENCES choices(choice_id) ON UPDATE CASCADE ON DELETE CASCADE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
