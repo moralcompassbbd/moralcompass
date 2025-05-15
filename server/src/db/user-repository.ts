@@ -75,7 +75,7 @@ export default {
                 roles.role_name
             FROM users
                 LEFT JOIN user_roles ON users.user_id = user_roles.user_id
-                INNER JOIN roles ON roles.role_id = user_roles.role_id
+                LEFT JOIN roles ON roles.role_id = user_roles.role_id
         `);
 
         return userSelection.rows;

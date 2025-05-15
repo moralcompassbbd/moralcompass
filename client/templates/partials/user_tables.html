@@ -9,38 +9,15 @@
     </nav>
 </header>
 <main id="user-table-page">
-    <article>
-        <section class="table-container">
-            <table id="user-table" class="user-table">
-            <thead>
-                
-            </thead>
-            <tbody>
-                <!-- User Row -->
-            </tbody>
-            </table>
+   <section id="table-container" class="table-container">
+             <template id="user-table-template">
+                <table id="user-table" class="user-table">
+                <thead>
+                </thead>
+                <tbody>
+                    <!-- User Row -->
+                </tbody>
+                </table>
+            </template>
         </section>
-
-        <dialog id="edit-user-status-dialog">
-        <form id="edit-user-status-form" novalidate method="POST" onsubmit="event.preventDefault();">
-            <h3>Edit Manager Status</h3>
-            <p id="user-name-display"></p>
-            <fieldset>
-                <label for="manager-yes" style="display: block;">
-                    <input type="radio" id="manager-yes" name="is-manager" value="true" required>
-                    Promote to manager
-                </label>
-
-                <label for="manager-no" style="display: block;">
-                    <input type="radio" id="manager-no" name="is-manager" value="false">
-                    Keep current status
-                </label>
-            </fieldset>
-            <footer class="form-actions">
-                <button type="submit">Complete</button>
-                <button type="button" onclick="this.closest('dialog').close()">Close</button>
-            </footer>
-        </form>
-    </dialog>
-    </article>
 </main>

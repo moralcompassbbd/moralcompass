@@ -17,6 +17,7 @@ export type User = {
     googleId: string,
     email: string,
     name: string,
+    role_name: string,
 };
 
 export type Question = {
