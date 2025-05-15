@@ -29,6 +29,10 @@
         <button onclick="SPA.navigatePage('user_tables')">tables</button>
     </div>
 
+    <!--
+        while there is mention of SSR_INCLUDE, this app is still an SPA, after the initial
+        page load, there no further requests to the server for HTML
+    -->
     <template class="page-template" data-page="main" data-onmount="SPA.handlers.renderGoogleButton()"><!-- SSR_INCLUDE main --></template>
     <template class="page-template" data-page="homepage" data-onmount="SPA.handlers.initHomePage()"><!-- SSR_INCLUDE homepage --></template>
     <template class="page-template" data-page="quiz" data-onmount="SPA.handlers.initQuiz()"><!-- SSR_INCLUDE quiz --></template>

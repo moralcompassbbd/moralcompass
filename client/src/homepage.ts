@@ -12,7 +12,7 @@ export function initHomePage() {
         if (user !== 'null') {
         welcomeHeaderElement.innerHTML = `Welcome, ${user.name}!`;
         } else {
-            welcomeHeaderElement.innerHTML = "Welcome!";
+            welcomeHeaderElement.innerText = "Welcome!";
         } 
     }
 }

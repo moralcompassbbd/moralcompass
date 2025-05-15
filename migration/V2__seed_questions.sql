@@ -12,6 +12,9 @@ INSERT INTO questions (question_id, question_text) VALUES
     (9, 'Should parents have the right to genetically modify their unborn children?'),
     (10, 'Is it okay to break the law if it results in a greater good?');
 
+-- since we are inserting with specific question ids, we need to update the sequence to match
+SELECT setval(pg_get_serial_sequence('questions', 'question_id'), (SELECT MAX(question_id) FROM questions) + 1);
+
 INSERT INTO choices (question_id, choice_text) VALUES
     (1, 'Yes, kindness sometimes requires a lie'),
     (1, 'No, honesty is always the best policy');

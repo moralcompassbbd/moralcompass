@@ -1,47 +1,30 @@
 <main id="home-page">
   <article>
-    <section>
+    <section class="homepage-cards">
       <h1 id="welcome-heading"></h1>
-      <section class="homepage-card">
-        <p>Choose a path to begin…</p>
-        <nav aria-label="Main menu">
-          <ul class="homepage-card-list">
-            <li class="homepage-card-item" style="background-color: #90cade;">
-                <article class="card-link" onclick="SPA.navigatePage('quiz')">
-                <img src="/static/new-dilemma-gen.png" alt="new-dilemma-img">
-                <h2>🌀 New Dilemma</h2>
-                <p>Face a new moral quiz!</p>
-                </article>
-            </li>
-            <li class="homepage-card-item" style="background-color: #eec9da;">
-                <article class="card-link" onclick="">
-                <img src="/static/user-stats-gen.png" alt="decisions-img">
-                <h2>📊 See Your Decisions</h2>
-                <p>Review past choices and outcomes</p>
-                </article>
-            </li>
-            <li class="homepage-card-item" style="background-color: #a3d7bd;">
-                <article class="card-link" onclick="">
-                <img src="/static/community-gen.png" alt="community-img">
-                <h2>🌍 What Others Chose</h2>
-                <p>Compare with community stats</p>
-                </article>
-            </li>
-            <li class="homepage-card-item" style="background-color: #a3d7bd;">
-                <article class="card-link" onclick="SPA.navigatePage('manager')">
-                    <img src="/static/manager.png" alt="manager-img">
-                    <h2>⚙️ Manage quiz questions</h2>
-                </article>
-            </li>
-            <li class="homepage-card-item" style="background-color: #a3d7bd;">
-                <article class="card-link" onclick="SPA.navigatePage('user_tables')">
-                    <img src="/static/manager.png" alt="manager-img">
-                    <h2>⚙️ Manage users</h2>
-                </article>
-            </li>
-          </ul>
-        </nav>
-      </section>
+      <p>Choose a path to begin…</p>
+      <ul>
+        <li id="card-quiz" class="bg-pastel-blue" onclick="SPA.navigatePage('quiz')">
+          <img src="/static/new-dilemma-gen.png" aria-hidden="true">
+          <h2>New Dilemma</h2>
+          <p>Face a new moral quiz!</p>
+        </li>
+        <li id="card-results" class="bg-pastel-pink" onclick="SPA.navigatePage('results')">
+          <img src="/static/user-stats-gen.png" aria-hidden="true">
+          <h2>See Your Decisions</h2>
+          <p>Review your choices from this session</p>
+        </li>
+        <li id="card-others" class="bg-pastel-green" onclick="">
+          <img src="/static/community-gen.png" aria-hidden="true">
+          <h2>What Others Chose</h2>
+          <p>Compare with community stats</p>
+        </li>
+        <li id="card-manager" class="bg-pastel-purple" onclick="SPA.navigatePage('manager')">
+          <img src="/static/manager.png" aria-hidden="true">
+          <h2>Question Manager</h2>
+          <p>Manage quiz questions</p>
+        </li>
+      </ul>
     </section>
   </article>
 </main>
