@@ -1,4 +1,4 @@
-import { api } from "api";
+import { api } from "./api";
 
 export function beginQuiz() {
     console.log('Begin quiz clicked!');

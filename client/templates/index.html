@@ -35,5 +35,16 @@
     <template class="page-template" data-page="error"><!-- SSR_INCLUDE error --></template>
     <template class="page-template" data-page="manager" data-onmount="SPA.handlers.initManager()"><!-- SSR_INCLUDE manager --></template>
     <div id="app-root" style="display: contents"></div>
+
+    <dialog id="logout-confirmation-dialog">
+        <form method="dialog">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout</p>
+            <footer class="form-actions">
+                <button value="cancel">No, take me back</button>
+                <button value="confirm" class="danger">Logout</button>
+            </footer>
+        </form>
+    </dialog>
 </body>
 </html>

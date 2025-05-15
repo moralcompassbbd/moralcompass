@@ -1,4 +1,4 @@
-import { storeLocalStorageItem } from "storage";
+import { deleteLocalStorageItem, storeLocalStorageItem } from './storage';
 
 export function handleCredentialResponse(response: any) {
     fetch('/login', {
@@ -13,4 +13,23 @@ export function handleCredentialResponse(response: any) {
         SPA.navigatePage('homepage', { name: data.user.name});
     })
     .catch(error => alert(error));
+}
+
+export const displayConfirmLogoutModal = async() => {
+  const dialog = document.getElementById('logout-confirmation-dialog') as HTMLDialogElement;
+      
+  dialog.showModal();
+  const result = await new Promise<string>((resolve) => {
+      dialog.addEventListener('close', () => {
+          resolve(dialog.returnValue);
+      }, { once: true });
+  });
+
+  if (result === 'confirm') {
+    SPA.navigatePage('main');
+    deleteLocalStorageItem("jwt");
+    deleteLocalStorageItem("user");
+  } else{
+    // don't logout
+  }
 }

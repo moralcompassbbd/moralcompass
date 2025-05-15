@@ -1,12 +1,12 @@
 import { SpaClient } from './spa-client';
 import { beginQuiz, initHomePage } from './homepage';
-import { handleCredentialResponse } from './main';
+import { displayConfirmLogoutModal, handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
 import { clearResults, initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
-import { getLocalStorageItem } from 'storage';
+import { deleteLocalStorageItem, getLocalStorageItem } from './storage';
 import { User } from 'common/models';
-import { api } from 'api';
+import { api } from './api';
 
 const renderGoogleButton = () => {
     window.google.accounts.id.renderButton(
@@ -57,7 +57,8 @@ const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateEl
     initManager,
     showAddQuestionForm,
     deleteQuestion,
-    submitQuestionForm
+    submitQuestionForm,
+    displayConfirmLogoutModal
 });
 
 declare global {
@@ -87,6 +88,8 @@ window.onload = () => {
             spaClient.navigatePage('homepage', { name: user.name});
         } else{
             spaClient.navigatePage('main');
+            deleteLocalStorageItem("jwt");
+            deleteLocalStorageItem("user");
         }
     })
 };

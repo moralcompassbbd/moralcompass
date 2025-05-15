@@ -1,5 +1,5 @@
 import { Answer, AnswerPostRequest, Question } from "common/models";
-import { getLocalStorageItem } from "storage";
+import { getLocalStorageItem } from './storage';
 
 export const api = {
     getQuestions: async () => {
