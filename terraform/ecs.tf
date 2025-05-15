@@ -70,28 +70,9 @@ resource "aws_lb_listener" "http_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "redirect"
-    
-    redirect {
-      port = "443"
-      protocol = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-}
-
-resource "aws_lb_listener" "https_listener" {
-load_balancer_arn = aws_lb.mc_app_alb.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.mc_cert.arn
-
-  default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.mc_app_alb_target_group.arn
   }
-
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
@@ -166,18 +147,4 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_s3" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
   role       = aws_iam_role.ecs_task_execution_role.name
-}
-
-resource "aws_acm_certificate" "mc_cert" {
-  domain_name       = var.domain_name
-  validation_method = "DNS"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-  
-}
-
-resource "aws_acm_certificate_validation" "mc_cert_validation" {
-  certificate_arn = aws_acm_certificate.mc_cert.arn
 }
