@@ -14,8 +14,8 @@ export const initResults = async () => {
         return;
     }
 
-    const questionTemplateHtml = questionContainer.querySelector('#question-template')!.innerHTML;
-    const choiceTemplateHtml = questionContainer.querySelector('#choice-template')!.innerHTML;
+    const questionTemplate = (questionContainer.querySelector('#question-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
+    const choiceTemplate = (questionContainer.querySelector('#choice-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
 
     const allQuestions = await api.getQuestions();
 
@@ -23,11 +23,10 @@ export const initResults = async () => {
         const question = allQuestions.find(question => question.questionId == questionAnswer.questionId);
         if (!question) continue;
 
-        const questionElem = document.createElement('li');
-        questionElem.classList.add('question', 'show-answer');
-        questionElem.innerHTML = questionTemplateHtml.replace('{{questionText}}', question.text);
+        const questionElement = questionTemplate.cloneNode(true) as HTMLLIElement;
+        (questionElement.querySelector('.question-text') as HTMLHeadingElement).innerText = question.text;
 
-        const choiceContainer = questionElem.querySelector('ul')!;
+        const choiceContainer = questionElement.querySelector('ul')!;
 
         let totalAnswers = 0;
 
@@ -36,17 +35,14 @@ export const initResults = async () => {
         }
 
         for (const choice of question.choices) {
-            const choiceElem = document.createElement('li');
-
             const popularity = (choice.answerCount / totalAnswers) * 100;
             const popularityText = Number.isNaN(popularity) ? '' : `${popularity.toFixed(0)}%`;
+
+            const choiceElement = choiceTemplate.cloneNode(true) as HTMLLIElement;
+            (choiceElement.querySelector('.choice-text') as HTMLHeadingElement).innerText = choice.text;
+            (choiceElement.querySelector('.choice-popularity') as HTMLSpanElement).innerText = popularityText;
             
-            let choiceHtml = choiceTemplateHtml.replace('{{choiceText}}', choice.text);
-            choiceHtml = choiceHtml.replace(/{{choicePopularity}}/g, popularityText);
-
-            choiceElem.innerHTML = choiceHtml;
-
-            const inputElem = choiceElem.querySelector('input')!;
+            const inputElem = choiceElement.querySelector('input')!;
             inputElem.name = `question-${questionIndex}`;
 
             if (questionAnswer.answerChoiceId == choice.choiceId) {
@@ -54,13 +50,13 @@ export const initResults = async () => {
             }
 
             if (popularityText) {
-                (choiceElem.querySelector('.agreement') as HTMLDivElement).style.width = popularityText;
+                (choiceElement.querySelector('.agreement') as HTMLDivElement).style.width = popularityText;
             }
 
-            choiceContainer.appendChild(choiceElem);
+            choiceContainer.appendChild(choiceElement);
         }
 
-        questionContainer.appendChild(questionElem);
+        questionContainer.appendChild(questionElement);
     }
 
     pageElement.classList.remove('loading-hidden');

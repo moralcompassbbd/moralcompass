@@ -13,26 +13,28 @@
     <article>
         <ol>
             <template id="question-template">
-                <header>
-                    <h1>{{questionText}}</h1>
-                </header>
-                <section>
-                    <ul>
-                    </ul>
-                </section>
+                <li class="question show-answer">
+                    <header>
+                        <h1 class="question-text">{{questionText}}</h1>
+                    </header>
+                    <section>
+                        <ul>
+                        </ul>
+                    </section>
+                </li>
             </template>
             <template id="choice-template">
-                <label>
-                    <input
-                        type="radio"
-                        disabled
-                    />
-                    <div class="agreement" style="width: {{choicePopularity}}"></div>
-                    <h6>
-                        {{choiceText}}
-                        <small>{{choicePopularity}}</small>
-                    </h6>
-                </label>
+                <li>
+                    <label>
+                        <input
+                            type="radio"
+                            disabled
+                        />
+                        <div class="agreement"></div>
+                        <h6 class="choice-text">{{choiceText}}</h6>
+                        <small class="choice-popularity">{{choicePopularity}}</small>
+                    </label>
+                </li>
             </template>
         </ol>
     </article>
