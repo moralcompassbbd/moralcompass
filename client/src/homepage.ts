@@ -24,12 +24,12 @@ export function initHomePage() {
 async function addManagerCards(){
     const isAuthorized = await api.isAuthorized();
     if(isAuthorized){
-        const homepageCardList = document.querySelector(".homepage-card-list");
+        const homepageCardList = document.querySelector(".homepage-cards ul");
 
         if(homepageCardList){
             const img = document.createElement('img');
             img.src = "/static/manager.png";
-            img.alt = "manager-img";
+            img.ariaHidden = "true";
     
             const h2 = document.createElement('h2');
             h2.textContent = "⚙️ Question Manager";
@@ -37,19 +37,14 @@ async function addManagerCards(){
             const p = document.createElement('p');
             p.textContent = "Manage quiz questions"; 
             
-            const cardLink = document.createElement('article');
-            cardLink.className = "card-link";
-            cardLink.onclick = () => SPA.navigatePage('manager');
-    
-            cardLink.appendChild(img);
-            cardLink.appendChild(h2);
-            cardLink.appendChild(p);
-    
             const homepageCardItem = document.createElement('li');
-            homepageCardItem.className = "homepage-card-item";
-            homepageCardItem.style.backgroundColor = "#a3d7bd";
-    
-            homepageCardItem.appendChild(cardLink);
+            homepageCardItem.id = "card-manager"
+            homepageCardItem.className = "bg-pastel-purple";
+            homepageCardItem.onclick = () => SPA.navigatePage('manager');
+            
+            homepageCardItem.appendChild(img);
+            homepageCardItem.appendChild(h2);
+            homepageCardItem.appendChild(p);
     
             homepageCardList.appendChild(homepageCardItem);
         } else{
