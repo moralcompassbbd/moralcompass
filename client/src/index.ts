@@ -75,17 +75,18 @@ window.onerror = (message, source, lineno, colno, error) => {
     return true;
 };
 
-window.onload = async () => {
+window.onload = () => {
     window.google.accounts.id.initialize({
         client_id: '534038687097-4ueh2o1b0d87ad38fpkgn3hi8mjeboga.apps.googleusercontent.com',
         callback: handleCredentialResponse,
     });
 
-    const isAuthenticated = await api.isAuthenticated();
-    if(isAuthenticated){
-        const user: User = getLocalStorageItem("user");
-        spaClient.navigatePage('homepage', { name: user.name});
-    } else{
-        spaClient.navigatePage('main');
-    }
+    api.isAuthenticated().then((isAuthenticated) => {
+        if(isAuthenticated){
+            const user: User = getLocalStorageItem("user");
+            spaClient.navigatePage('homepage', { name: user.name});
+        } else{
+            spaClient.navigatePage('main');
+        }
+    })
 };
