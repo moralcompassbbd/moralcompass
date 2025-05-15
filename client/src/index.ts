@@ -23,6 +23,10 @@ const rootElement = document.getElementById('app-root');
 if (!rootElement)
     throw new Error('No root element.');
 
+const loadingElement = document.getElementById('app-loading');
+if (!loadingElement)
+    throw new Error('No loading element.');
+
 const pageTemplateElements = Array.from(document.querySelectorAll('template.page-template')) as HTMLTemplateElement[];
 
 type Handlers = {
@@ -41,7 +45,7 @@ type Handlers = {
     submitQuestionForm: (form: HTMLFormElement) => void
 };
 
-const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, pageTemplateElements, {
+const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, loadingElement, pageTemplateElements, {
     beginQuiz: beginQuiz,
     initHomePage: initHomePage,
     initQuiz: initQuiz,

@@ -1,6 +1,6 @@
 <header>
   <nav>
-    <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo">
+    <img class="logo" src="/static/logo-2.png" alt="Moral Compass Logo" onclick="SPA.navigatePage('homepage')">
     <section class="header-buttons">
       <button onclick="SPA.navigatePage('results')">Results</button>
       <button class="exit-btn" onclick="SPA.navigatePage('main')">
@@ -9,7 +9,7 @@
     </section>
   </nav>
 </header>
-<main id="quiz-page" class="loading-hidden">
+<main id="quiz-page">
     <article class="question">
         <header>
             <h1 class="question-text">{{questionText}}</h1>

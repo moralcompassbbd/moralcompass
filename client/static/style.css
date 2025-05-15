@@ -10,6 +10,7 @@
     --colour-bg-highlighted-soft: #ffffff0c;
     --colour-bg-highlighted: #ffffff19;
     --colour-bg-highlighted-bright: #ffffff32;
+    --colour-bright-white: #eef;
 }
 
 html {
@@ -468,6 +469,12 @@ details[open] summary::before {
 
         .logo {
             max-width: 10rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.025);
+            }
 
             @media (max-width: 48rem) {
                 max-width: 8rem;
@@ -509,8 +516,89 @@ details[open] summary::before {
     }
 }
 
-.loading-hidden {
-    display: none;
+.loading-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem;
+}
+
+.loading-bar {
+    width: 100%;
+    max-width: 10rem;
+    height: 0.25rem;
+    border-radius: calc(infinity * 1rem);
+    overflow: hidden;
+    position: relative;
+    margin: 0.5rem 0;
+
+    &::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background-color: var(--colour-bright-white);
+        animation: loading_after 0.75s linear infinite;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background-color: var(--colour-bright-white);
+        animation: loading_before 0.75s linear infinite;
+    }
+}
+
+@keyframes loading_after {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes loading_before {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+.loading-text {
+    color: transparent;
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 10rem;
+
+    &::after {
+        color: var(--colour-bright-white);
+        display: block;
+        content: '';
+        animation: loading_text 0.75s linear infinite;
+    }
+}
+
+@keyframes loading_text {
+    0% {
+        content: "Loading";
+    }
+    33% {
+        content: "Loading.";
+    }
+    66% {
+        content: "Loading..";
+    }
+    100% {
+        content: "Loading...";
+    }
 }
 
 #manager-page {

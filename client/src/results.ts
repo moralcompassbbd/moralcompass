@@ -9,8 +9,6 @@ export const initResults = async () => {
         noAnswersElement.classList.add('no-answers');
         noAnswersElement.innerText = 'You have not answered any questions';
         pageElement.querySelector('article')!.replaceChild(noAnswersElement, questionContainer);
-
-        pageElement.classList.remove('loading-hidden');
         return;
     }
 
@@ -58,8 +56,6 @@ export const initResults = async () => {
 
         questionContainer.appendChild(questionElement);
     }
-
-    pageElement.classList.remove('loading-hidden');
 }
 
 export function clearResults() {
