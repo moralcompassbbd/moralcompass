@@ -35,7 +35,8 @@ function populateTable(users: User[]) {
   actionTh.textContent = "Actions";
   headerRow.appendChild(actionTh);
   thead.appendChild(headerRow);
-
+  
+  let currentUser = JSON.parse(localStorage.getItem('user') || 'null');
   users.forEach((user: User) => {
     const tr = document.createElement("tr");
     headers.forEach((key: string) => {
@@ -53,30 +54,30 @@ function populateTable(users: User[]) {
     });
 
     const actionsTd = document.createElement("td");
-    const btn = document.createElement("button");
+    if (currentUser.googleId !== user.googleId) {
+        const btn = document.createElement("button");
+        btn.textContent = user.role_name === 'Manager' ? "Demote": 'Promote';
+        btn.style.backgroundColor =  user.role_name === 'Manager' ? "#EF4444": '#10B981';
+        btn.className = "edit-btn";
+        btn.onclick = async (event: any) => {
+          const button = event.currentTarget as HTMLButtonElement;
+          const roleIndex = headers.indexOf('role_name');
+          const roleTd = tr.children[roleIndex] as HTMLTableCellElement;
+      
+          const isDemote = button.textContent === 'Demote';
+          const makeManager = !isDemote;
 
-    btn.textContent = user.role_name === 'Manager' ? "Demote": 'Promote';
-    btn.style.backgroundColor =  user.role_name === 'Manager' ? "#EF4444": '#10B981';
-    btn.className = "edit-btn";
-    btn.onclick = async (event: any) => {
-      const button = event.currentTarget as HTMLButtonElement;
-      const roleIndex = headers.indexOf('role_name');
-      const roleTd = tr.children[roleIndex] as HTMLTableCellElement;
-  
-      const isDemote = button.textContent === 'Demote';
-      const makeManager = !isDemote;
-
-      const successfulUpdate = await api.updateManagerStatus(user.userId, makeManager);
-      if (successfulUpdate) {
-        button.textContent = makeManager ? 'Demote' : 'Promote';
-        button.style.backgroundColor = makeManager ? '#EF4444' : '#10B981';
-        roleTd.textContent = makeManager ? 'Manager' : 'User';
-      }
-
-    };
-    actionsTd.appendChild(btn);
-    tr.appendChild(actionsTd);
-
+          const successfulUpdate = await api.updateManagerStatus(user.userId, makeManager);
+          if (successfulUpdate) {
+            button.textContent = makeManager ? 'Demote' : 'Promote';
+            button.style.backgroundColor = makeManager ? '#EF4444' : '#10B981';
+            roleTd.textContent = makeManager ? 'Manager' : 'User';
+          }
+        }; 
+        actionsTd.appendChild(btn);
+        tr.appendChild(actionsTd);
+    }
+    
     tbody.appendChild(tr);
   });
 
