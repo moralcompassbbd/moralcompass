@@ -49,7 +49,6 @@ type Handlers = {
 };
 
 const spaClient: SpaClient<Handlers> = new SpaClient(rootElement, loadingElement, pageTemplateElements, {
-    beginQuiz: beginQuiz,
     initHomePage: initHomePage,
     initQuiz: initQuiz,
     quizShowNext: quizShowNext,
