@@ -1,13 +1,15 @@
 import { api } from "./api";
 
-export const initResults = async () => {
-    const pageElement = document.getElementById('results-page')!;
+export const initOthers = async () => {
+    const pageElement = document.getElementById('others-page')!;
     const questionContainer = pageElement.querySelector('article ol')!;
 
-    if (globalThis.questionAnswers.length === 0) {
+    const questions = await api.getQuestions();
+
+    if (questions.length === 0) {
         const noAnswersElement = document.createElement('h2');
         noAnswersElement.classList.add('no-answers');
-        noAnswersElement.innerText = 'You have not answered any questions';
+        noAnswersElement.innerText = 'No questions found';
         pageElement.querySelector('article')!.replaceChild(noAnswersElement, questionContainer);
         return;
     }
@@ -15,12 +17,7 @@ export const initResults = async () => {
     const questionTemplate = (questionContainer.querySelector('#question-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
     const choiceTemplate = (questionContainer.querySelector('#choice-template') as HTMLTemplateElement).content.cloneNode(true) as HTMLLIElement;
 
-    const allQuestions = await api.getQuestions();
-
-    for (const [questionIndex, questionAnswer] of globalThis.questionAnswers.entries()) {
-        const question = allQuestions.find(question => question.questionId == questionAnswer.questionId);
-        if (!question) continue;
-
+    for (const [questionIndex, question] of questions.entries()) {
         const questionElement = questionTemplate.cloneNode(true) as HTMLLIElement;
         (questionElement.querySelector('.question-text') as HTMLHeadingElement).innerText = question.text;
 
@@ -40,13 +37,6 @@ export const initResults = async () => {
             (choiceElement.querySelector('.choice-text') as HTMLHeadingElement).innerText = choice.text;
             (choiceElement.querySelector('.choice-popularity') as HTMLSpanElement).innerText = popularityText;
             
-            const inputElem = choiceElement.querySelector('input')!;
-            inputElem.name = `question-${questionIndex}`;
-
-            if (questionAnswer.answerChoiceId == choice.choiceId) {
-                inputElem.checked = true;
-            }
-
             if (popularityText) {
                 (choiceElement.querySelector('.agreement') as HTMLDivElement).style.width = popularityText;
             }

@@ -70,3 +70,4 @@ variable "admin_cache_ttl_ms" {
   type        = number
   default     = 60000
 }
+

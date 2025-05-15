@@ -1,18 +1,11 @@
 import { api } from "./api";
 
-export function beginQuiz() {
-    console.log('Begin quiz clicked!');
-    SPA.navigatePage('quiz');
-}
-
-
 export function initHomePage() {
     let welcomeHeaderElement = document.getElementById("welcome-heading");
-   
+    let user = JSON.parse(localStorage.getItem('user') || 'null');
     if (welcomeHeaderElement) {
-        const user = SPA.pageProps?.name;
-        if (user) {
-            welcomeHeaderElement.innerText = `Welcome, ${user}!`;
+        if (user !== 'null') {
+        welcomeHeaderElement.innerHTML = `Welcome, ${user.name}!`;
         } else {
             welcomeHeaderElement.innerText = "Welcome!";
         } 

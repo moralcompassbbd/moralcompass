@@ -1,4 +1,4 @@
-import { Answer, AnswerPostRequest, Question } from "common/models";
+import { Answer, AnswerPostRequest, Question, User } from "common/models";
 import { getLocalStorageItem } from './storage';
 
 export const api = {
@@ -141,6 +141,45 @@ export const api = {
             
             return resp.ok;
         } catch (error) {
+          return false;
+        }
+    },
+    getUsers: async () => {
+        const jwt = localStorage.getItem("jwt");
+        const resp = await fetch(`/users`, {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${jwt}`
+             },
+        });
+        if (resp.ok) {
+            return await resp.json() as User[];
+        } else {
+            throw new Error();
+        }
+    },
+   updateManagerStatus: async (userId: number, makeManager: boolean): Promise<boolean> => {
+        try {
+            const jwt = localStorage.getItem("jwt");
+            const response = await fetch(`/manager-status/${userId}?makeManager=${makeManager}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+            });
+
+            if (response.status === 201 || response.status === 200) {
+                return true;
+            } else if (response.status === 204) {
+                return false;
+            } else {
+                const errorData = await response.json();
+                console.error('API Error:', errorData);
+                return false;
+            }
+        } catch (error) {
+            console.error('Network or unexpected error:', error);
             return false;
         }
     }

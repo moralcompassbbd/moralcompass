@@ -52,7 +52,6 @@ export default {
         const userSelection = await pool.query(`
             INSERT INTO user_roles (user_id, role_id)
             VALUES ($1, (SELECT role_id FROM roles WHERE role_name = 'Manager'))
-            ON CONFLICT (user_id) DO NOTHING
             RETURNING *;
         `, [userId]);
 
@@ -75,9 +74,19 @@ export default {
                 roles.role_name
             FROM users
                 LEFT JOIN user_roles ON users.user_id = user_roles.user_id
-                INNER JOIN roles ON roles.role_id = user_roles.role_id
+                LEFT JOIN roles ON roles.role_id = user_roles.role_id
         `);
 
         return userSelection.rows;
+    },
+    async getGoogleSub(userId: string): Promise<string>{
+        const googleSubSelection = await pool.query(`
+            SELECT 
+                google_id AS "googleId"
+            FROM users
+                WHERE user_id = $1 
+        `, [userId]);
+
+        return googleSubSelection.rows.length > 0 ? googleSubSelection.rows[0].googleId : "";
     }
 };
