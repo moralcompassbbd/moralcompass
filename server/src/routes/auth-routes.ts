@@ -2,6 +2,7 @@ import { Express } from "express";
 import { ApiError, mapError } from "../error";
 import { GoogleUser } from "common/models";
 import userRepository from "../db/user-repository";
+import { authenticationMiddleware, authorizationMiddleware } from "../middleware/middleware";
 
 export function registerAuthRoutes(app: Express){
 
@@ -28,5 +29,13 @@ export function registerAuthRoutes(app: Express){
             const [apiError, status] = mapError(error);
             res.status(status).json(apiError);
         }
+    });
+
+    app.get('/authenticated', authenticationMiddleware, async (_, res) => {
+        res.status(200).send();
+    });
+
+    app.get('/authorized', authenticationMiddleware, authorizationMiddleware, async (_, res) => {
+        res.status(200).send();
     });
 }

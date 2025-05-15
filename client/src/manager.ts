@@ -1,6 +1,7 @@
 import { api } from "./api";
 
 export const initManager = async () => {
+    
     const managerPage = document.getElementById('manager-page')!;
     const questionList = managerPage.querySelector('.question-list ul')!;
     const questionTemplate = managerPage.querySelector('#question-template') as HTMLTemplateElement;

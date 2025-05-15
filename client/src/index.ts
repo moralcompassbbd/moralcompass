@@ -4,6 +4,8 @@ import { handleCredentialResponse } from './main';
 import { initQuiz, quizShowNext, quizShowAnswer } from './quiz';
 import { clearResults, initResults } from './results';
 import { initManager, showAddQuestionForm, deleteQuestion, submitQuestionForm } from './manager';
+import { getLocalStorageItem } from 'storage';
+import { User } from 'common/models';
 
 const renderGoogleButton = () => {
     window.google.accounts.id.renderButton(
@@ -78,5 +80,11 @@ window.onload = () => {
         callback: handleCredentialResponse,
     });
 
-    spaClient.navigatePage('main');
+    const jwt: string = getLocalStorageItem("jwt");
+    const user: User = getLocalStorageItem("user");
+    if(jwt && user){
+        spaClient.navigatePage('homepage', { name: user.name});
+    } else{
+        spaClient.navigatePage('main');
+    }
 };

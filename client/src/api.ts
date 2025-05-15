@@ -1,8 +1,9 @@
 import { Answer, AnswerPostRequest, Question } from "common/models";
+import { getLocalStorageItem } from "storage";
 
 export const api = {
     getQuestions: async () => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem("jwt");
         const resp = await fetch('/questions', {
             method: 'GET',
             headers: { 
@@ -16,7 +17,7 @@ export const api = {
         }
     },
     getQuestion: async (questionId: number) => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem("jwt");
         const resp = await fetch(`/questions/${questionId}`, {
             method: 'GET',
             headers: { 
@@ -30,7 +31,7 @@ export const api = {
         }
     },
     getQuestionNext: async () => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem("jwt");
         const resp = await fetch('/questions/next', {
             method: 'GET',
             headers: { 
@@ -44,7 +45,7 @@ export const api = {
         }
     },
     postAnswer: async(choiceId: number) => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = getLocalStorageItem("jwt");
         const request: AnswerPostRequest = {
             userId: 1, // todo: use actual user when auth ready
             choiceId,
@@ -66,7 +67,7 @@ export const api = {
     },
     deleteQuestion: async (questionId: number) => {
         try {
-            const jwt = localStorage.getItem("jwt");
+            const jwt = getLocalStorageItem("jwt");
             const resp = await fetch(`/questions/${questionId}`, {
                 method: 'DELETE',
                 headers: { 
@@ -86,7 +87,7 @@ export const api = {
     },
     createQuestion: async (questionText: string, choices: string[]) => {
         try {
-            const jwt = localStorage.getItem("jwt");
+            const jwt = getLocalStorageItem("jwt");
             const resp = await fetch('/questions', {
                 method: 'POST',
                 headers: {
@@ -109,6 +110,38 @@ export const api = {
         } catch (error) {
             console.error('Error creating question:', error);
             throw error;
+        }
+    },
+    isAuthenticated: async () => {
+        try {
+            const jwt = getLocalStorageItem("jwt");
+            const resp = await fetch('/authenticated', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
+            
+            return resp.ok;
+        } catch (error) {
+            return false;
+        }
+    },
+    isAuthorized: async () => {
+        try {
+            const jwt = getLocalStorageItem("jwt");
+            const resp = await fetch('/authorized', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
+            
+            return resp.ok;
+        } catch (error) {
+            return false;
         }
     }
 };

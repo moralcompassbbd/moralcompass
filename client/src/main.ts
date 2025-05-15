@@ -1,3 +1,4 @@
+import { storeLocalStorageItem } from "storage";
 
 export function handleCredentialResponse(response: any) {
     fetch('/login', {
@@ -7,8 +8,8 @@ export function handleCredentialResponse(response: any) {
     })
     .then(res => res.json())
     .then((data) => {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("jwt", data.jwt);
+        storeLocalStorageItem("user", JSON.stringify(data.user));
+        storeLocalStorageItem("jwt", data.jwt);
         SPA.navigatePage('homepage', { name: data.user.name});
     })
     .catch(error => alert(error));
